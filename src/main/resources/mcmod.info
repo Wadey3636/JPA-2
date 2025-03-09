@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "${modid}",
+    "name": "Example Mod",
+    "description": "An Example Mod made by Wadey3636",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "Wadey3636"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

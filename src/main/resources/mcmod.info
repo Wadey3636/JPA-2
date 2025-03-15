@@ -1,7 +1,7 @@
 [
   {
     "modid": "${modid}",
-    "name": "Example Mod",
+    "name": "Jaquavious Pringleton Addons",
     "description": "An Example Mod made by Wadey3636",
     "version": "${version}",
     "mcversion": "${mcversion}",

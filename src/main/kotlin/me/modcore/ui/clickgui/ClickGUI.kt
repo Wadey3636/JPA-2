@@ -21,7 +21,6 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.input.Mouse
 import kotlin.math.sign
-import me.modcore.Core.logger
 import me.modcore.ui.clickgui.util.ColorUtil.moduleButtonColorAlpha
 
 /**
@@ -46,19 +45,12 @@ object ClickGUI : Screen() {
         for (category in Category.entries) {
             panels.add(Panel(category))
         }
-        panels.forEach{
-            logger.info(it.moduleButtons)
-            logger.info(it.displayName)
-            logger.info(it.x)
-            logger.info(it.y)
-            logger.info(it.category)
-        }
+
 
 
     }
 
     override fun draw() {
-
         GlStateManager.pushMatrix()
         translate(0f, 0f, 200f)
         if (anim.isAnimating()) {
@@ -77,7 +69,7 @@ object ClickGUI : Screen() {
         desc.render()
 
         if (anim.isAnimating()) {
-            ColorUtil.moduleButtonColor.alpha = 1f
+            ColorUtil.moduleButtonColor.alpha = moduleButtonColorAlpha
             ColorUtil.clickGUIColor.alpha = 1f
             Color.WHITE.alpha = 1f
         }
@@ -125,7 +117,7 @@ object ClickGUI : Screen() {
 
     override fun initGui() {
         open = true
-        anim.start(true)
+        //anim.start(true)
 
         if (OpenGlHelper.shadersSupported && mc.renderViewEntity is EntityPlayer && ClickGUIModule.blur) {
             mc.entityRenderer.stopUseShader()

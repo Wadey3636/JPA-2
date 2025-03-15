@@ -1,5 +1,8 @@
 package me.modcore.features
 
 enum class Category {
-    RENDER
+    RENDER,
+    DUNGEONS,
+    FLOOR7,
+    MISC
 }

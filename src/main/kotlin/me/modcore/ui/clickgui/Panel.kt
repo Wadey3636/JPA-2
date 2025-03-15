@@ -84,7 +84,10 @@ class Panel(
                 additionalOffset = 4.0
                 drawDynamicTexture(renderIcon, x + WIDTH * 0.08 - imageSize / 2 + additionalOffset, y + HEIGHT / 2 - imageSize / 2 - 2, imageSize, imageSize)
             }
-
+            Category.FLOOR7 -> {
+                additionalOffset = 4.0
+                drawDynamicTexture(floor7Icon, x + WIDTH * 0.08  - imageSize / 2 + additionalOffset, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
+            }
             else -> {
 
             }

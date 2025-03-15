@@ -29,7 +29,7 @@ public class MixinNetworkManager {
     }
 }*/
 
-package com.github.wadey3636.examplemod.mixin;
+package com.github.wadey3636.jpa.mixin;
 
 import io.netty.channel.ChannelHandlerContext;
 import me.modcore.events.impl.PacketEvent;

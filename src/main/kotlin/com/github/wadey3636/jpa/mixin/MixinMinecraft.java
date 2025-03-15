@@ -1,4 +1,4 @@
-package com.github.wadey3636.examplemod.mixin;
+package com.github.wadey3636.jpa.mixin;
 
 import me.modcore.events.impl.ClickEvent;
 import me.modcore.events.impl.InputEvent;

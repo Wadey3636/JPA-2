@@ -1,7 +1,7 @@
 package me.modcore
 
 
-import com.github.wadey3636.examplemod.MODID
+import com.github.wadey3636.jpa.MODID
 import kotlinx.coroutines.*
 
 import me.modcore.config.Config

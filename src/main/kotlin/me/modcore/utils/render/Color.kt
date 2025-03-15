@@ -71,6 +71,15 @@ class Color(hue: Float, saturation: Float, brightness: Float, alpha: Float = 1f)
             return field
         }
 
+    var argb: Int = 0
+        get() {
+            if (needsUpdate) {
+                field = (HSBtoRGB(hue, saturation, brightness) and 0X00FFFFFF) or ((alpha * 255).toInt() shl 24)
+                needsUpdate = false
+            }
+            return field
+        }
+
     inline val r get() = rgba.red
     inline val g get() = rgba.green
     inline val b get() = rgba.blue
@@ -163,7 +172,7 @@ class Color(hue: Float, saturation: Float, brightness: Float, alpha: Float = 1f)
         val CYAN = Color(0, 170, 170)
 
         @JvmField
-        val MAGENTA = Color(170, 0, 170)
+        val MAGENTA = Color(135, 0, 200)
        
         inline val Int.red get() = this shr 16 and 0xFF
         inline val Int.green get() = this shr 8 and 0xFF

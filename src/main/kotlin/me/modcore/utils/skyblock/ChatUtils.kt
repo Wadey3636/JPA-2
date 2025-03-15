@@ -1,6 +1,7 @@
 package me.modcore.utils.skyblock
 
 import me.modcore.Core.mc
+import me.modcore.features.impl.render.ClickGUIModule
 
 import me.modcore.utils.noControlCodes
 import me.modcore.utils.runOnMCThread
@@ -36,7 +37,34 @@ fun sendChatMessage(message: Any) {
  * @param prefix If `true`, adds a prefix to the message.
  * @param chatStyle Optional chat style to be applied to the message.
  */
-fun modMessage(message: Any?, prefix: String = "§8§l-<§r§aExample Mod§r§8§l>-§r ", chatStyle: ChatStyle? = null) {
+fun modMessage(message: Any?, prefix: String = "§0§l[§r§9JPA§r§0§l]§r ", chatStyle: ChatStyle? = null) {
+    val chatComponent = ChatComponentText("$prefix$message")
+    chatStyle?.let { chatComponent.setChatStyle(it) } // Set chat style using setChatStyle method
+    runOnMCThread { mc.thePlayer?.addChatMessage(chatComponent) }
+}
+
+/**
+ * Sends a client-side message with an optional prefix.
+ *
+ * @param message Message to be sent.
+ * @param prefix If `true`, adds a prefix to the message.
+ * @param chatStyle Optional chat style to be applied to the message.
+ */
+fun devMessage(message: Any?, prefix: String = "§0§l[§r§9JPA DEV§r§0§l]§r ", chatStyle: ChatStyle? = null) {
+    if (!ClickGUIModule.devMode) return
+    val chatComponent = ChatComponentText("$prefix$message")
+    chatStyle?.let { chatComponent.setChatStyle(it) } // Set chat style using setChatStyle method
+    runOnMCThread { mc.thePlayer?.addChatMessage(chatComponent) }
+}
+
+/**
+ * Sends a client-side message with an optional prefix.
+ *
+ * @param message Message to be sent.
+ * @param prefix If `true`, adds a prefix to the message.
+ * @param chatStyle Optional chat style to be applied to the message.
+ */
+fun modError(message: Any?, prefix: String = "§8§l-<§r§aJPA§r§8§l>-§c ", chatStyle: ChatStyle? = null) {
     val chatComponent = ChatComponentText("$prefix$message")
     chatStyle?.let { chatComponent.setChatStyle(it) } // Set chat style using setChatStyle method
     runOnMCThread { mc.thePlayer?.addChatMessage(chatComponent) }

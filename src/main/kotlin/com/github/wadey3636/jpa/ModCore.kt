@@ -1,6 +1,7 @@
-package com.github.wadey3636.examplemod
+package com.github.wadey3636.jpa
 
-import com.github.wadey3636.examplemod.commands.ModCommand
+import com.github.wadey3636.jpa.commands.ModCommand
+import com.github.wadey3636.jpa.utils.TitleRenderer
 import me.modcore.Core
 import me.modcore.Core.mc
 import me.modcore.features.ModuleManager
@@ -22,7 +23,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import java.io.File
 
 
-const val MODID = "examplemod"
+const val MODID = "jpa"
 
 @Mod(modid = MODID, useMetadata = true)
 class NoobRoutes {
@@ -49,16 +50,17 @@ class NoobRoutes {
         println("Dirt: ${Blocks.dirt.unlocalizedName}")
 	    // Below is a demonstration of an access-transformed class access.
 	    println("Color State: " + GlStateManager.Color());
-        val Modules = listOf(
+        val modules = listOf(
             Core,
             ModuleManager,
             Executor,
             Renderer,
             RenderUtils2D,
             RenderUtils,
-            ClickGUI
+            ClickGUI,
+            TitleRenderer
         )
-        Modules.forEach {
+        modules.forEach {
             MinecraftForge.EVENT_BUS.register(it)
         }
         FontRenderer.init()
@@ -70,7 +72,7 @@ class NoobRoutes {
 
     @Mod.EventHandler
     fun loadComplete(event: FMLLoadCompleteEvent) {
-        File(mc.mcDataDir, "config/noobroutes").takeIf { !it.exists() }?.mkdirs()
+        File(mc.mcDataDir, "config/jpa").takeIf { !it.exists() }?.mkdirs()
         Core.loadComplete()
         ModuleManager.addModules()
 

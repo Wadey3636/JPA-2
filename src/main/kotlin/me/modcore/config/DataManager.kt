@@ -7,7 +7,7 @@ import java.io.IOException
 
 object DataManager {
     fun saveDataToFile(fileName: String, dataList: JsonArray) {
-        val path = File(mc.mcDataDir, "config/noobroutes/$fileName.json")
+        val path = File(mc.mcDataDir, "config/jpa/$fileName.json")
         try {
             path.parentFile?.mkdirs() ?: throw IOException("Failed to create directories")
 
@@ -27,7 +27,7 @@ object DataManager {
     }
 
     fun loadDataFromFile(fileName: String): List<JsonObject> {
-        val path = File(mc.mcDataDir, "config/noobroutes/$fileName.json")
+        val path = File(mc.mcDataDir, "config/jpa/$fileName.json")
         return try {
             path.bufferedReader().use { reader ->
                 val jsonContent = reader.readText()

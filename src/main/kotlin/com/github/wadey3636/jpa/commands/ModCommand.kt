@@ -1,4 +1,4 @@
-package com.github.wadey3636.examplemod.commands
+package com.github.wadey3636.jpa.commands
 
 import me.modcore.Core
 import net.minecraft.command.CommandBase
@@ -9,7 +9,7 @@ import org.apache.logging.log4j.LogManager
 
 class ModCommand : CommandBase() {
     override fun getCommandName(): String {
-        return "examplemod"
+        return "jpa"
     }
 
     override fun getCommandUsage(sender: ICommandSender?): String {
@@ -25,7 +25,7 @@ class ModCommand : CommandBase() {
         return true
     }
     override fun getCommandAliases(): List<String> {
-        return listOf("em")
+        return listOf("jp", "jpp", "jpenis")
     }
 
 }

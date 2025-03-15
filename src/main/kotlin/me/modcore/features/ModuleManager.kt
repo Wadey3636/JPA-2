@@ -1,5 +1,10 @@
 package me.modcore.features
 
+import com.github.wadey3636.jpa.features.dungeonfeatures.*
+import com.github.wadey3636.jpa.features.dungeonfeatures.icefillsolver.IceFillSolver
+import com.github.wadey3636.jpa.features.misc.PestFarmingKeybind
+import com.github.wadey3636.jpa.features.misc.InventoryLogger
+import com.github.wadey3636.jpa.features.render.PlayerRenderer
 import me.modcore.Core.mc
 import me.modcore.events.impl.ChatPacketEvent
 import me.modcore.events.impl.InputEvent
@@ -40,7 +45,19 @@ object ModuleManager {
     val huds = arrayListOf<HudElement>()
 
     val modules: ArrayList<Module> = arrayListOf(
-        ClickGUIModule
+        ClickGUIModule,
+        GfsKeybinds,
+        P3StartTimer,
+        PadTimer,
+        PositionalMessages,
+        PositionDetectors,
+        ProfitTracker,
+        TerminalWaypoints,
+        WishNotification,
+        IceFillSolver,
+        PestFarmingKeybind,
+        InventoryLogger,
+        PlayerRenderer
     )
 
     init {

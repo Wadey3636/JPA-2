@@ -1,4 +1,5 @@
 import org.apache.commons.lang3.SystemUtils
+import org.jetbrains.kotlin.ir.backend.js.compile
 
 plugins {
     idea
@@ -38,6 +39,7 @@ loom {
             if (SystemUtils.IS_OS_MAC_OSX) {
                 // This argument causes a crash on macOS
                 vmArgs.remove("-XstartOnFirstThread")
+
             }
         }
         remove(getByName("server"))
@@ -56,6 +58,7 @@ loom {
         defaultRefmapName.set("mixins.$modid.refmap.json")
     }
 }
+
 
 tasks.compileJava {
     dependsOn(tasks.processResources)
@@ -85,7 +88,11 @@ val shadowImpl: Configuration by configurations.creating {
 
 dependencies {
     // Move these from implementation to shadowImpl to ensure they're included in the final jar
-    shadowImpl("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
+
+
+    shadowImpl("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
     shadowImpl("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
 
     // Keep your existing shadowImpl
@@ -93,6 +100,11 @@ dependencies {
 
     // Keep the rest of your dependencies as they are
     compileOnly("com.github.NotEnoughUpdates:NotEnoughUpdates:2.4.0:all")
+    implementation("gg.essential:loader-launchwrapper:1.1.3")
+    implementation("com.mojang:brigadier:1.2.9")
+    implementation("com.github.Stivais:Commodore:bea320fe0a")
+    compileOnly("gg.essential:essential-1.8.9-forge:12132+g6e2bf4dc5")
+
     shadowImpl("gg.essential:loader-launchwrapper:1.1.3")
     shadowImpl("gg.essential:essential-1.8.9-forge:12132+g6e2bf4dc5")
     shadowImpl("com.mojang:brigadier:1.2.9")
@@ -108,10 +120,8 @@ dependencies {
     annotationProcessor("org.spongepowered:mixin:0.8.5-SNAPSHOT")
 
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.2.1")
-}
 
-//implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-//implementation("gg.essential:essential-universal:0.10.0.+")
+}
 
 
 // Tasks:

@@ -10,8 +10,6 @@ Alternatively, read here for a basic overview on how to use this repository.
 
 To get started, [Use this template](https://github.com/new?template_name=Forge1.8.9Template&template_owner=nea89o).
 
-> [!WARNING]
-> Do not Fork or Clone or Download ZIP this template. If you "use" this template a custom mod id will be generated. You can do that manually using the `make-my-own` script, if you are on linux. If not, just click the use this template button. If you want to use kotlin or make a 1.12 mod check the "Include all branches" and change the default branch in https://github.com/yourname/yourreponame/branches
 
 Please note that Mixins should be kept in their own package, and should exclusively be written in Java, since older versions
 of Mixin don't play well with Kotlin.

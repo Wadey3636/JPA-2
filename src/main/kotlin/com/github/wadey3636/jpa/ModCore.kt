@@ -1,6 +1,10 @@
 package com.github.wadey3636.jpa
 
 import com.github.wadey3636.jpa.commands.ModCommand
+import com.github.wadey3636.jpa.commands.PlayerCustomizerGuiCommand
+import com.github.wadey3636.jpa.events.FireEvents
+import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.DungeonScanner
+import com.github.wadey3636.jpa.utils.location.LocationUtils
 import com.github.wadey3636.jpa.utils.TitleRenderer
 import me.modcore.Core
 import me.modcore.Core.mc
@@ -47,6 +51,7 @@ class NoobRoutes {
             throw java.lang.RuntimeException(e)
         }
         ClientCommandHandler.instance.registerCommand(ModCommand())
+        ClientCommandHandler.instance.registerCommand(PlayerCustomizerGuiCommand())
         println("Dirt: ${Blocks.dirt.unlocalizedName}")
 	    // Below is a demonstration of an access-transformed class access.
 	    println("Color State: " + GlStateManager.Color());
@@ -58,7 +63,10 @@ class NoobRoutes {
             RenderUtils2D,
             RenderUtils,
             ClickGUI,
-            TitleRenderer
+            TitleRenderer,
+            LocationUtils,
+            DungeonScanner(),
+            FireEvents()
         )
         modules.forEach {
             MinecraftForge.EVENT_BUS.register(it)
@@ -73,6 +81,7 @@ class NoobRoutes {
     @Mod.EventHandler
     fun loadComplete(event: FMLLoadCompleteEvent) {
         File(mc.mcDataDir, "config/jpa").takeIf { !it.exists() }?.mkdirs()
+        File(mc.mcDataDir, "config/jpa/textures").takeIf { !it.exists() }?.mkdirs()
         Core.loadComplete()
         ModuleManager.addModules()
 

@@ -36,14 +36,15 @@ import net.minecraft.client.renderer.GlStateManager.scale
 import net.minecraft.client.renderer.GlStateManager.translate
 import net.minecraft.util.ResourceLocation
 import me.modcore.Core.display
+import me.modcore.Core.logger
 import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI
+import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.client.renderer.texture.DynamicTexture
+import net.minecraft.entity.EntityLivingBase
+import java.io.File
+import javax.imageio.ImageIO
 
-val playerEntries: MutableList<PlayerEntry> = mutableListOf(
-    PlayerEntry("Wadey36", 1.0, 1.0, 1.0,
-    null, false, false, false, false, true, null),
-    PlayerEntry("FullTimeIronman", 1.0, 1.0, 1.0,
-        null, false, false, false, false, true, null)
-)
+var playerEntries: MutableList<PlayerEntry> = mutableListOf()
 
 object PlayerRenderer : Module(name = "Player Customizer", description = "The scale, skin, and armor of players") {
     private val openGUI by ActionSetting(
@@ -57,18 +58,57 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
      */
     fun preRenderCallbackScaleHook(entityLivingBaseIn: AbstractClientPlayer) {
         if (!enabled) return
-        val entry = playerEntries.firstOrNull { it.name == entityLivingBaseIn.name } ?: return
+        val entry = playerEntries.toList().firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() } ?: return
         if (entry.toggle) {
-            scale(entry.entryX, entry.entryY, entry.entryZ)
-            if (entry.entryY < 0) translate(0.0, entry.entryY * -2, 0.0)
+            if (entry.dinnerBone) {
+                scale(entry.entryX, -entry.entryY, entry.entryZ)
+                translate(0.0, 2.0, 0.0)
+            } else {
+                scale(entry.entryX, entry.entryY, entry.entryZ)
+            }
+
         }
     }
 
     fun injectCustomSkin(entityLivingBaseIn: AbstractClientPlayer): ResourceLocation?{
         if (!enabled) return entityLivingBaseIn.locationSkin
-        val entry = playerEntries.firstOrNull { it.name == entityLivingBaseIn.name } ?: return entityLivingBaseIn.locationSkin
-        if (entry.toggle && entry.texture != null) return entityLivingBaseIn.locationSkin
-        return entry.texture
+        val entry = playerEntries.firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() } ?: return entityLivingBaseIn.locationSkin
+        if (!entry.toggle || entry.texture == null || !entry.toggleTexture) return entityLivingBaseIn.locationSkin
+        val file = File(mc.mcDataDir, "config/jpa/textures/${entry.texture}")
+        if (!file.exists()) return entityLivingBaseIn.locationSkin
+        return try {
+            val bufferedImage = ImageIO.read(file)
+            val dynamicTexture = DynamicTexture(bufferedImage)
+            mc.textureManager.getDynamicTextureLocation("custom_skin", dynamicTexture)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
+
+    }
+    fun renderLayer(entityLivingBaseIn: EntityLivingBase, armorSlot: Int): Boolean {
+        if (!enabled) return false
+        val entry = playerEntries.toList().firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() } ?: return false
+        if (entry.toggle) {
+            when (armorSlot) {
+                4 -> {
+                    if (entry.hideHelmet) return true
+                }
+                3 -> {
+                    if (entry.hideChestplate) return true
+                }
+                2 -> {
+                    if (entry.hideLeggings) return true
+                }
+                1 -> {
+                    if (entry.hideBoots) return true
+                }
+
+            }
+
+        }
+
+        return false
     }
 
 
@@ -78,7 +118,9 @@ data class PlayerEntry(
     var entryX: Double,
     var entryY: Double,
     var entryZ: Double,
-    var texture: ResourceLocation?,
+    var toggleTexture: Boolean,
+    var texture: String?,
+    var dinnerBone: Boolean,
     var hideHelmet: Boolean,
     var hideChestplate: Boolean,
     var hideLeggings: Boolean,

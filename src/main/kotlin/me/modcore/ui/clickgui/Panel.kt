@@ -19,6 +19,7 @@ import me.modcore.utils.capitalizeFirst
 import me.modcore.utils.render.*
 import me.modcore.utils.render.RenderUtils.loadBufferedImage
 import me.modcore.utils.round
+import me.modcore.utils.skyblock.devMessage
 import net.minecraft.client.renderer.texture.DynamicTexture
 import kotlin.math.floor
 
@@ -161,6 +162,7 @@ class Panel(
     }
 
     fun mouseClicked(mouseButton: Int): Boolean {
+        devMessage("$displayName clicked at: ($mouseX, $mouseY), isHovered: $isHovered, state: $mouseButton")
         if (isHoveredOverExtendToggle) {
             extended = !extended
             return true

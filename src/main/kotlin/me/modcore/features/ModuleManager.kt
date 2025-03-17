@@ -17,6 +17,7 @@ import me.modcore.ui.hud.HudElement
 import me.modcore.utils.capitalizeFirst
 import me.modcore.utils.profile
 import me.modcore.utils.render.getTextWidth
+import me.modcore.utils.skyblock.modMessage
 import net.minecraft.network.Packet
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.event.world.WorldEvent
@@ -51,7 +52,7 @@ object ModuleManager {
         PadTimer,
         PositionalMessages,
         PositionDetectors,
-        ProfitTracker,
+        //ProfitTracker,
         TerminalWaypoints,
         WishNotification,
         IceFillSolver,
@@ -127,7 +128,6 @@ object ModuleManager {
 
     @SubscribeEvent
     fun activateModuleKeyBinds(event: InputEvent.Keyboard) {
-
         for (module in modules) {
             for (setting in module.settings) {
                 if (setting is KeybindSetting && setting.value.key == event.keycode) {

@@ -1,4 +1,4 @@
-/*package com.github.wadey3636.noobroutes.mixin;
+/*package com.github.wadey3636.core.mixin;
 
 import io.netty.channel.ChannelHandlerContext;
 import me.modcore.events.impl.PacketEvent;

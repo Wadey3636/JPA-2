@@ -203,6 +203,17 @@ fun drawArrow(xpos: Float, ypos: Float, rotation: Float = 90f, scale: Float = 1f
     GlStateManager.popMatrix()
 }
 
+fun drawX(x: Float, y: Float, scale: Float, color: Color) {
+    GlStateManager.pushMatrix()
+    GlStateManager.translate(x, y, 0f)
+    GlStateManager.rotate(45f, 0f, 0f, 1f)
+    GlStateManager.scale(scale, scale, 1f)
+    GlStateManager.translate(-x, -y, 0f)
+    roundedRectangle(x, y - 8.5, 3, 20, color)
+    roundedRectangle(x - 8.5, y, 20, 3, color)
+    GlStateManager.popMatrix()
+}
+
 fun drawDynamicTexture(dynamicTexture: DynamicTexture, x: Number, y: Number, w: Number, h: Number) {
 
     val isBlendEnabled = GL11.glIsEnabled(GL11.GL_BLEND)

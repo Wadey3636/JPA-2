@@ -7,6 +7,7 @@ import kotlinx.coroutines.*
 import me.modcore.config.Config
 import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.ClickGUI
+import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI
 import me.modcore.ui.util.shader.RoundedRect
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
@@ -47,8 +48,10 @@ object Core {
 
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {
+        PlayerCustomizerGUI.smoothScrollOffset()
         if (display == null) return
         mc.displayGuiScreen(display)
         display = null
+
     }
 }

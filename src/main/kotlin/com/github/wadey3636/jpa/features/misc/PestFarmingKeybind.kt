@@ -1,8 +1,10 @@
 package com.github.wadey3636.jpa.features.misc
 
 
-import com.github.wadey3636.jpa.utils.inGarden
+
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
+import com.github.wadey3636.jpa.utils.location.Island
+import com.github.wadey3636.jpa.utils.location.LocationUtils
 import me.modcore.features.Category
 import me.modcore.features.Module
 import me.modcore.ui.clickgui.ClickGUI
@@ -28,7 +30,7 @@ object PestFarmingKeybind : Module(
     }
 
     private fun pestFarmingKeybind() {
-        if (!inGarden || !enabled) return
+        if (LocationUtils.currentArea != Island.Garden || !enabled) return
 
         if (
             isBlock(

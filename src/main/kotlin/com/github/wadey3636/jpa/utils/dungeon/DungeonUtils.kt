@@ -1,9 +1,11 @@
-package com.github.wadey3636.jpa.utils
+package com.github.wadey3636.jpa.utils.dungeon
 
 
 
 import com.github.wadey3636.jpa.events.DungeonStartEvent
 import com.github.wadey3636.jpa.utils.WorldUtils.getSidebarLines
+import com.github.wadey3636.jpa.utils.location.Island
+import com.github.wadey3636.jpa.utils.location.LocationUtils
 import me.modcore.events.impl.ChatPacketEvent
 import me.modcore.utils.postAndCatch
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
@@ -11,15 +13,13 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 var scoreboard: Array<String> = arrayOf()
 var dungeonFloor = ""
-var localInDungeon = false
 val players: HashSet<DungeonPlayerInfo> = hashSetOf()
 
 
 class DungeonUtils {
     //[www.hypixel.net,                , Auto-closing in: 1:52,              , [M] Wadey36 [Lv37], [B] BearSleeping_ [Lv11], [A] Skeldonarmy [Lv25], [H] Garduuk [Lv12], [M] GoldCezar [Lv11],        ,   Ironman,   The Catacombs (F2),  10:20pm,  Early Winter 13th, 10/29/24 m141A]
 
-    inline val inDungeons: Boolean
-        get() = LocationUtils.currentArea.isArea(Location.DUNGEON)
+
     //val testvalue = arrayOf("www.hypixel.ne🎂t","            🎉"," Auto-closing in:🎁 1:57","          👹"," ","        ⚽","  ♲ Ironman🍭","  ⏣ The Catac👽ombs (F7),  2:40pm👾","  Early Winter 13🐍th"," 🔮10/29/24 m14👽1A")
 
     @SubscribeEvent
@@ -42,7 +42,11 @@ class DungeonUtils {
         }
     }
 
+    companion object {
+        inline val inDungeons: Boolean
+            get() = LocationUtils.currentArea.isArea(Island.Dungeon)
 
+    }
 
 
 }

@@ -84,7 +84,7 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
         //roundedRectangle(x + w - 4, y, 2, h, clickGUIColor.brighter(1.6f), 0f, edgeSoftness = 0)
 
         text(name, x + TEXTOFFSET, y + 17.75f, textColor, 20f, FontRenderer.REGULAR)
-        text(getDisplay(), x + w - TEXTOFFSET - 22, y + 17.75f, textColor.darkerIf(isHoveredBox), 16f, FontRenderer.REGULAR, TextAlign.Right)
+        text(getDisplay(), x + w - TEXTOFFSET - 22, y + 15.75f, textColor.darkerIf(isHoveredBox), 16f, FontRenderer.REGULAR, TextAlign.Right)
 
         //draw slider
         roundedRectangle(x + TEXTOFFSET, y + 37f, w - 30f, 7f, sliderBGColor, 3f)
@@ -119,6 +119,10 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
     fun mouseReleased(state: Int) {
         listening = false
     }
+    fun updateSlider() {
+        sliderPercentage = ((valueDouble - min) / (max - min)).toFloat().coerceAtMost(1f)
+    }
+
 
     private fun textUnlisten() {
         if (listeningTextField.isEmpty()) {

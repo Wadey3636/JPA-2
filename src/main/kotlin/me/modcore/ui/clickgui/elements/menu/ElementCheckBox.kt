@@ -41,6 +41,7 @@ class ElementCheckBox(parent: ModuleButton, setting: BooleanSetting) : Element<B
         else isAreaHovered(x + w - 43f, y + 4f, 34f, 20f)
 
         override fun draw() {
+            //if (setting.hidden) return
             roundedRectangle(x, y, w, h, elementBackground)
             text(name, x + TEXTOFFSET, y + h / 2f, textColor, 12f, FontRenderer.REGULAR)
 
@@ -48,7 +49,7 @@ class ElementCheckBox(parent: ModuleButton, setting: BooleanSetting) : Element<B
             val color = colorAnim.get(clickGUIColor.darkerIf(hover.percent() > 0, 0.7f), buttonColor.brighter(1.3f).brighterIf(hover.percent() > 0, 1.3f), setting.enabled)
 
 
-            if (!ClickGUIModule.switchType) {
+            if (!ClickGUIModule.switchType || setting.forceCheckBox) {
                 //render check box
                 dropShadow(x + w - 30f, y + 5f, 21f, 20f, 10f, 0.75f)
                 roundedRectangle(x + w - 30f, y + 5f, 21f, 20f, color, 5f)
@@ -68,6 +69,7 @@ class ElementCheckBox(parent: ModuleButton, setting: BooleanSetting) : Element<B
         }
 
     override fun mouseClicked(mouseButton: Int): Boolean {
+        //if (setting.hidden) return false
         if (mouseButton == 0 && isHovered) {
             if (colorAnim.start()) {
                 linearAnimation.start()

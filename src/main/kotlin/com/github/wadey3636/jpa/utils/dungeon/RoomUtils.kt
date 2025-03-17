@@ -1,4 +1,4 @@
-package com.github.wadey3636.jpa.utils
+package com.github.wadey3636.jpa.utils.dungeon
 
 /*
     The idea for this system of room rotation and converting to and from

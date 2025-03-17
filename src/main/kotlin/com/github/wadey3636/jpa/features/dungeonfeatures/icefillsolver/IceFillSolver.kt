@@ -4,22 +4,21 @@ package com.github.wadey3636.jpa.features.dungeonfeatures.icefillsolver
 
 import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.iceFillPosition
 import com.github.wadey3636.jpa.events.QuarterSecondEvent
-import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.DungeonScanner
-import com.github.wadey3636.jpa.utils.*
 import com.github.wadey3636.jpa.utils.RenderHelper.drawBox
+import com.github.wadey3636.jpa.utils.RenderHelper.drawLine3d
 import com.github.wadey3636.jpa.utils.RenderHelper.drawLines3dAboveBlocks
 import com.github.wadey3636.jpa.utils.RenderHelper.getViewerPos
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
+import com.github.wadey3636.jpa.utils.dungeon.*
 import me.modcore.features.Category
 import me.modcore.features.Module
 import me.modcore.features.settings.impl.BooleanSetting
 import me.modcore.features.settings.impl.ColorSetting
 import me.modcore.utils.render.Color
-import me.modcore.utils.skyblock.modError
+import me.modcore.utils.skyblock.devMessage
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 import net.minecraftforge.client.event.RenderWorldLastEvent
-import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -73,29 +72,23 @@ object IceFillSolver : Module(
                         Blocks.stone
                     )
                 } == points.detectionPoints.size) {
+                devMessage(points.name)
                 return DeterminedVariant(points.name, points.plotPoints, points.warpPoints, points.tpPoint)
             }
         }
 
-        modError("§c[Jpa] Error: Variant Undetermined")
+        devMessage("§c[Jpa] Error: Variant Undetermined")
         return DeterminedVariant("none", emptyList(), emptyList(), null)
     }
 
-    override fun onEnable() {
-        super.onEnable()
-        MinecraftForge.EVENT_BUS.register(DungeonScanner())
-    }
-
-    override fun onDisable() {
-        super.onDisable()
-        MinecraftForge.EVENT_BUS.unregister(DungeonScanner())
-    }
 
 
     private fun drawVariant(plot: List<BlockPos>?, warp: List<BlockPos>?, tpPoint: BlockPos?, partialTicks: Float) {
+
         if (plot == null || warp == null) return
         val viewerPos = getViewerPos(partialTicks)
         drawLines3dAboveBlocks(plot, icefillPathColor, 3f, icefillSolverPhase, viewerPos)
+
         warp.forEachIndexed { i, point ->
             if ((i <= 2 || isBlock(warp[i - 3], Blocks.packed_ice)) && !isBlock(point, Blocks.packed_ice)) {
                 drawBox(point, icefillEtherwarpPointColor, 3f, icefillSolverPhase, viewerPos)
@@ -105,6 +98,8 @@ object IceFillSolver : Module(
         tpPoint?.let {
             drawBox(it, icefillTeleportPointColor, 3f, icefillSolverPhase, viewerPos)
         }
+
+
     }
 
 
@@ -122,15 +117,15 @@ object IceFillSolver : Module(
 
     @SubscribeEvent
     fun onQuarterSecond(event: QuarterSecondEvent) {
+
         iceFillPosition?.let { position ->
             if (!playerInRoomBounds(position, mc.thePlayer.position)) {
                 inIcefill = false
                 return
             }
-
             inIcefill = true
-            if (determinedVariants) return
 
+            if (determinedVariants) return
 
             // Check for variants!11!!!!1!!!111 WOOWOOWOWO
             layer0 = determineVariant(listOf(spongecokeVariant, epicVariant, crazyVariant, bfvarroeVariant), position)

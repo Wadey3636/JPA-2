@@ -1,7 +1,7 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures.icefillsolver
 
 
-import com.github.wadey3636.jpa.utils.VariantInfo
+import com.github.wadey3636.jpa.utils.dungeon.VariantInfo
 import net.minecraft.util.BlockPos
 
 

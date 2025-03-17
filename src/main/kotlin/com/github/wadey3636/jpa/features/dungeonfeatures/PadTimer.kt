@@ -2,10 +2,14 @@ package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
 import com.github.wadey3636.jpa.events.ServerTickEvent
-import com.github.wadey3636.jpa.utils.RenderHelper
 import me.modcore.events.impl.ChatPacketEvent
 import me.modcore.features.Category
 import me.modcore.features.Module
+import me.modcore.features.settings.impl.HudSetting
+import me.modcore.ui.hud.HudElement
+import me.modcore.utils.render.Color
+import me.modcore.utils.render.mcText
+import me.modcore.utils.render.text
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
@@ -13,7 +17,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 var purpleTicks = 0
 var stormActivated = false
 var padticks = 20f
-var padcolor = RenderHelper.argbToInt(255, (255 - padticks * 12.75).toInt(), (0 + padticks * 12.75).toInt(), 0)
+var padcolor = Color(0, (255 - padticks * 12.75).toInt(), (0 + padticks * 12.75).toInt(), 1f)
     //PolyColor(
 
 object PadTimer : Module(
@@ -22,9 +26,17 @@ object PadTimer : Module(
     category = Category.FLOOR7
 ) {
 
+    private val padTickHud: HudElement by HudSetting("Pad Tick Hud", 10f, 10f, 1f, true) {
+        if (!stormActivated) return@HudSetting 0f to 0f
+        text(if (padticks % 2 != 1f) (padticks / 20).toString() + "0" else (padticks / 20).toString(), 0, 0, padcolor, 1f )
+        40f to 10f
+
+    }
+
 
     @SubscribeEvent
     fun reset(event: WorldEvent.Load) {
+
         stormActivated = false
     }
 
@@ -50,7 +62,7 @@ object PadTimer : Module(
 
             if (purpleTicks > 0) --purpleTicks
 
-            padcolor = RenderHelper.argbToInt(255, (255 - padticks * 12.75).toInt(), (0 + padticks * 12.75).toInt(), 0)
+            padcolor = Color(0, (255 - padticks * 12.75).toInt(), (0 + padticks * 12.75).toInt(), 1f)
         }
     }
 

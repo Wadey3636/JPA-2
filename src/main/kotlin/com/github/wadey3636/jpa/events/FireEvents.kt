@@ -33,6 +33,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import com.github.wadey3636.jpa.utils.waitUntilLastItem
 import me.modcore.events.impl.ChatPacketEvent
+import me.modcore.events.impl.PacketEvent
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.inventory.ContainerChest
@@ -53,12 +54,13 @@ class FireEvents {
     private val serverTicked by lazy { ServerTickEvent() }
 
     @SubscribeEvent
-    fun onServerTick(event: PacketEvent.Receive) {
+    fun onServerTick(event: PacketEvent) {
         if (event.packet is S32PacketConfirmTransaction) ServerTickEvent().postAndCatch()
     }
 
     @SubscribeEvent
     fun onTick(event: TickEvent.ClientTickEvent) {
+
         if (event.phase != TickEvent.Phase.START) return
         if (System.currentTimeMillis() - lastTimeQuarter > 250) {
             lastTimeQuarter = System.currentTimeMillis()

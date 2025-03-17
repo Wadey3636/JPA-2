@@ -8,10 +8,11 @@ import com.github.wadey3636.jpa.utils.WorldUtils
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.util.BlockPos
 import com.github.wadey3636.jpa.utils.InventoryInfo
-import com.github.wadey3636.jpa.utils.Location
+import com.github.wadey3636.jpa.utils.location.Island
+
 import me.modcore.features.Category
 import me.modcore.features.Module
-import com.github.wadey3636.jpa.utils.LocationUtils
+import com.github.wadey3636.jpa.utils.location.LocationUtils
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import me.modcore.Core.logger
@@ -32,7 +33,7 @@ object InventoryLogger : Module(
         load()
     }
 
-    private fun entryExists(location: Location, pos: List<BlockPos>): Int? {
+    private fun entryExists(location: Island, pos: List<BlockPos>): Int? {
         var i = 0
         while (i < chestEntries.size) {
             val entry = chestEntries[i]
@@ -46,7 +47,7 @@ object InventoryLogger : Module(
 
     @SubscribeEvent
     fun openGui(event: GuiOpenEvent){
-        val location = LocationUtils.getLocation() ?: return
+        val location = LocationUtils.currentArea
         if (lastClickedChest.isNotEmpty() && event.gui is GuiChest) {
             val index = entryExists(location, lastClickedChest)
             val container = (event.gui as GuiChest).inventorySlots

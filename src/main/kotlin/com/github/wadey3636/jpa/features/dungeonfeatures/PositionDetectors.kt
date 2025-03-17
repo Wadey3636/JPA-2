@@ -5,15 +5,16 @@ package com.github.wadey3636.jpa.features.dungeonfeatures
 import me.modcore.features.impl.render.ClickGUIModule.devMode
 import com.github.wadey3636.jpa.events.QuarterSecondEvent
 import com.github.wadey3636.jpa.utils.PlayerPosInfo
-import com.github.wadey3636.jpa.utils.inDungeon
 import com.github.wadey3636.jpa.utils.RenderHelper.renderTitle
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
+import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils
 import me.modcore.features.Category
 import me.modcore.features.Module
 import me.modcore.features.settings.impl.BooleanSetting
 import me.modcore.features.settings.impl.ColorSetting
 import me.modcore.features.settings.impl.NumberSetting
 import me.modcore.features.settings.impl.StringSetting
+import me.modcore.utils.noControlCodes
 import me.modcore.utils.render.Color
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
@@ -59,49 +60,50 @@ object PositionDetectors : Module(
 
     private val midDetector by BooleanSetting(
         name = "Mid Detector",
-        description = "When someone is at mid"
+        description = "When someone is at mid",
+        forceCheckBox = true
     )
     private val midText by StringSetting(
         "Mid Detector Text",
         "is at Mid!",
-        description = "Player + Input Text",
-        hidden = !midDetector
+        description = "Player + Input Text"
     )
 
     private val ee2Detector by BooleanSetting(
         name = "ee2 Detector",
-        description = "When someone is at ee2"
+        description = "When someone is at ee2",
+        forceCheckBox = true
     )
     private val ee2Text by StringSetting(
         "ee2 Text",
         "is at ee2!",
-        description = "Player + Input Text",
-        hidden = !ee2Detector
+        description = "Player + Input Text"
     )
 
     private val ee3Detector by BooleanSetting(
         name = "ee3 Detector",
-        description = "When someone is at ee3"
+        description = "When someone is at ee3",
+        forceCheckBox = true
     )
     private val ee3Text by StringSetting(
         "ee3 Text",
         "is at ee3!",
-        description = "Player + Input Text",
-        hidden = !ee3Detector
+        description = "Player + Input Text"
     )
     private val ee4Detector by BooleanSetting(
         name = "ee4 Detector",
-        description = "When someone is at ee4"
+        description = "When someone is at ee4",
+        forceCheckBox = true
     )
     private val ee4Text by StringSetting(
         "ee4 Text",
         "is at ee4!",
-        description = "Player + Input Text",
-        hidden = !ee4Detector
+        description = "Player + Input Text"
     )
     private val safespots by BooleanSetting(
         name = "ee2 Detector",
-        description = "When someone is at ee2"
+        description = "When someone is at ee2",
+        forceCheckBox = true
     )
     private val ee2TextSS by StringSetting(
         "ee2 Safe Spot Text",
@@ -112,8 +114,7 @@ object PositionDetectors : Module(
     private val ee3TextSS by StringSetting(
         "ee3 Safe Spot Text",
         "is at ee3 Safe Spot!",
-        description = "Player + Input Text",
-        hidden = !ee3Detector || !safespots
+        description = "Player + Input Text"
     )
 
 
@@ -181,7 +182,7 @@ object PositionDetectors : Module(
                 false
             )
             detectorActive.set(true)
-            if (includePosition) {renderTitle("$player $text", detectorTextSize.toFloat(), textColor, 3000L)}
+            if (includePosition) {renderTitle("${player.noControlCodes} $text", detectorTextSize.toFloat(), textColor, 3000L)}
             else renderTitle(player, detectorTextSize.toFloat(), textColor, 3000L)
         }
 
@@ -189,8 +190,8 @@ object PositionDetectors : Module(
 
 
 @SubscribeEvent
-    fun Detector(event: QuarterSecondEvent) {
-        if (inDungeon) {
+    fun detector(event: QuarterSecondEvent) {
+        if (DungeonUtils.inDungeons) {
             val players = arrayListOf<PlayerPosInfo>()
             if (devMode) {
                 mc.theWorld?.playerEntities?.forEach {

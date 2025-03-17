@@ -131,8 +131,11 @@ class ModuleButton(val module: Module, val panel: Panel) {
         val scissor = scissor(x, y, width, offs)
         for (i in 0 until menuElements.size) {
             val currentY = drawY
-            menuElements[i].y = currentY
-            drawY += menuElements[i].render()
+            if (!menuElements[i].setting.hidden) {
+                menuElements[i].y = currentY
+                drawY += menuElements[i].render()
+            }
+
         }
         roundedRectangle(x, y + height, 2, drawY - height, clickGUIColor.brighter(1.65f), edgeSoftness = 0f)
         resetScissor(scissor)

@@ -1,9 +1,13 @@
 package me.modcore.config
 
 import com.google.gson.*
+import me.modcore.Core.logger
 import me.modcore.Core.mc
+import me.modcore.utils.skyblock.modMessage
 import java.io.File
 import java.io.IOException
+import java.awt.Desktop
+
 
 object DataManager {
     fun saveDataToFile(fileName: String, dataList: JsonArray) {
@@ -36,18 +40,31 @@ object DataManager {
                 jsonArray.map { it.asJsonObject }
             }
         } catch (e: java.nio.file.NoSuchFileException) {
-            println("File not found: ${path.path}")
+            logger.error("File not found: ${path.path}")
             emptyList()
         } catch (e: IOException) {
             e.printStackTrace()
             emptyList()
         } catch (e: JsonSyntaxException) {
-            println("Invalid JSON syntax in file: ${path.path}")
+            logger.error("Invalid JSON syntax in file: ${path.path}")
             emptyList()
         } catch (e: Exception) {
-            println("Error loading data from file: ${path.path}")
+            logger.error("Error loading data from file: ${path.path}")
             e.printStackTrace()
             emptyList()
+        }
+    }
+    fun openFolder(path: String) {
+        val folder = File(mc.mcDataDir, "config/jpa/$path")
+        if (Desktop.isDesktopSupported()) {
+            val desktop = Desktop.getDesktop()
+            try {
+                desktop.open(folder)
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        } else {
+            modMessage("Desktop is not supported on this platform.")
         }
     }
 }

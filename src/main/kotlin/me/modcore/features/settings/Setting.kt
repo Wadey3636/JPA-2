@@ -15,6 +15,7 @@ abstract class Setting<T> (
     val name: String,
     var hidden: Boolean = false,
     var description: String = "",
+    var forceCheckBox: Boolean = false
 ) : ReadWriteProperty<Module, T>, PropertyDelegateProvider<Module, ReadWriteProperty<Module, T>> {
 
     /**

@@ -3,8 +3,9 @@ package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
 import com.github.wadey3636.jpa.events.QuarterSecondEvent
-import com.github.wadey3636.jpa.utils.inDungeon
+
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
+import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
@@ -34,32 +35,39 @@ object PositionalMessages : Module(
 
     private val berzmsg by BooleanSetting(
         name = "I4 Await Healer",
-        description = "Sends as positional message when you stand on the spot awaiting healer leap"
+        description = "Sends as positional message when you stand on the spot awaiting healer leap",
+        forceCheckBox = true
     )
     private val simonsayspos by BooleanSetting(
         name = "Simon Says",
-        description = "When you stand at Simon Says"
+        description = "When you stand at Simon Says",
+        forceCheckBox = true
     )
     private val earlyentrypositions by BooleanSetting(
         name = "Early Entry Positions",
-        description = "Sends as positional message when you stand on the spot awaiting healer leap"
+        description = "Sends as positional message when you stand on the spot awaiting healer leap",
+        forceCheckBox = true
     )
 
     private val goldorpos by BooleanSetting(
         name = "Core",
-        description = "When you are in Core"
+        description = "When you are in Core",
+        forceCheckBox = true
     )
     private val dragonpos by BooleanSetting(
         name = "P5",
-        description = "When you fall into P5. Doesn't work with lavaclip"
+        description = "When you fall into P5. Doesn't work with lavaclip",
+        forceCheckBox = true
     )
     private val midposmsg by BooleanSetting(
         name = "Middle",
-        description = "When you land at mid"
+        description = "When you land at mid",
+        forceCheckBox = true
     )
     private val stormposmsg by BooleanSetting(
         name = "Storm",
-        description = "When you fall into storm"
+        description = "When you fall into storm",
+        forceCheckBox = true
     )
 
 
@@ -93,7 +101,7 @@ object PositionalMessages : Module(
 
     @SubscribeEvent
     fun positionalMessages(event: QuarterSecondEvent) {
-        if (inDungeon) {
+        if (DungeonUtils.inDungeons) {
             val coords = mc.thePlayer.position
             if (berzmsg) sendPosMessage(
                 coords,

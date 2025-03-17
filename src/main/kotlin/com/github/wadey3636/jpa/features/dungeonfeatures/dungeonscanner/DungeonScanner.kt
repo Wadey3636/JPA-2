@@ -3,10 +3,12 @@ package com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner
 
 
 import com.github.wadey3636.jpa.events.SecondEvent
-import com.github.wadey3636.jpa.utils.inDungeon
-import com.github.wadey3636.jpa.utils.RoomInfo
+import com.github.wadey3636.jpa.utils.dungeon.RoomInfo
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
+import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils
+import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils.Companion.inDungeons
 import me.modcore.Core.mc
+import me.modcore.utils.skyblock.devMessage
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 import net.minecraftforge.event.world.WorldEvent
@@ -34,14 +36,12 @@ class DungeonScanner {
             }
         }
     }
-    //-186,90,-24 Block{type=minecraft:stone, x=-186, y=90, z=-24} (2)
-    //67 - icepath
-    // 70 icefill
+
 
 
     @SubscribeEvent
     fun dungeonScanner(event: SecondEvent) {
-        if (scanFinished || !inDungeon) return
+        if (scanFinished || !inDungeons) return
         if (currentTimeMillis() - lastScan < 5000) return
         lastScan = currentTimeMillis()
         val iterator = uncheckedRooms.iterator()
@@ -49,6 +49,7 @@ class DungeonScanner {
             val pos = iterator.next()
             if (mc.theWorld.getChunkFromBlockCoords(pos).isLoaded) {
                 if (isIceFill(pos)) {
+                    devMessage("Found Icefill")
                     val doors = findWitherDoors(pos)
                     if (doors.size == 1) {
                         iceFillPosition = RoomInfo("IceFill", intArrayOf(pos.x, pos.z), doors[0])

@@ -1,4 +1,4 @@
-package com.github.wadey3636.jpa.utils
+package com.github.wadey3636.jpa.utils.dungeon
 
 data class RoomInfo(val name: String, val center: IntArray, val rotation: String) {
     fun getX(): Int {

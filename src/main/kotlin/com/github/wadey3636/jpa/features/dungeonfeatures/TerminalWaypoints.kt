@@ -52,15 +52,18 @@ object TerminalWaypoints : Module(
     )
     private val i4 by BooleanSetting(
         name = "I4",
-        description = "Enable if Berserker is doing I4"
+        description = "Enable if Berserker is doing I4",
+        forceCheckBox = true
     )
     private val ee2 by BooleanSetting(
         name = "EE2",
-        description = "Enable if Archer is doing I4"
+        description = "Enable if Archer is doing I4",
+        forceCheckBox = true
     )
     private val mageCoring by BooleanSetting(
         name = "Core",
-        description = "Enable if Mage is coring"
+        description = "Enable if Mage is coring",
+        forceCheckBox = true
     )
 
     private val terminalWaypointsTextS1 by StringSetting(

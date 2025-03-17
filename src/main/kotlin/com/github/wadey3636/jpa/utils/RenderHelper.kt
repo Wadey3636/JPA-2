@@ -15,6 +15,7 @@ import org.lwjgl.opengl.GL11
 import kotlin.math.cos
 import kotlin.math.sin
 import me.modcore.Core.mc
+import me.modcore.utils.render.RenderUtils.bind
 
 object RenderHelper {
     private val beaconBeam = ResourceLocation("textures/entity/beacon_beam.png")
@@ -125,12 +126,7 @@ object RenderHelper {
         GlStateManager.enableBlend()
         GlStateManager.blendFunc(770, 771)
         GL11.glLineWidth(thickness)
-        GlStateManager.color(
-            color.r.toFloat() / 255,
-            color.g.toFloat() / 255,
-            color.b.toFloat() / 255,
-            color.alpha / 255
-        )
+        color.bind()
 
         worldRenderer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION)
         worldRenderer.pos(x, y, z).endVertex()
@@ -170,13 +166,7 @@ object RenderHelper {
 
 
 
-        GlStateManager.color(
-            color.r.toFloat() / 255,
-            color.g.toFloat() / 255,
-            color.b.toFloat() / 255,
-            color.alpha.toFloat() / 255
-        )
-
+        color.bind()
         worldRenderer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION)
         var i = 0
         while (i < points.size - 1) {
@@ -220,12 +210,7 @@ object RenderHelper {
         GlStateManager.blendFunc(770, 771)
         //GL11.glEnable(GL11.GL_LINE_STRIP)
         GL11.glLineWidth(thickness)
-        GlStateManager.color(
-            color.r.toFloat() / 255,
-            color.g.toFloat() / 255,
-            color.b.toFloat() / 255,
-            color.alpha.toFloat() / 255
-        )
+        color.bind()
 
 
         worldRenderer.begin(GL11.GL_LINE_STRIP, DefaultVertexFormats.POSITION)

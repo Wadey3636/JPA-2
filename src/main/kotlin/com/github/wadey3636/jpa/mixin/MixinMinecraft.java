@@ -1,5 +1,6 @@
 package com.github.wadey3636.jpa.mixin;
 
+
 import me.modcore.events.impl.ClickEvent;
 import me.modcore.events.impl.InputEvent;
 import net.minecraft.client.Minecraft;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static me.modcore.utils.Utils.postAndCatch;
+
 
 @Mixin(value = {Minecraft.class}, priority = 800)
 public class MixinMinecraft {

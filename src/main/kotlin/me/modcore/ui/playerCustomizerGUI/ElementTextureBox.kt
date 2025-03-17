@@ -1,7 +1,6 @@
 package me.modcore.ui.playerCustomizerGUI
 
 import com.github.wadey3636.jpa.features.render.PlayerEntry
-import com.mojang.authlib.GameProfile
 import me.modcore.Core.logger
 import me.modcore.features.settings.impl.NumberSetting
 import me.modcore.font.FontRenderer
@@ -36,27 +35,31 @@ import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI.refreshUI
  * @author Stivais, Aton
  * @see [Element]
  */
-class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var y: Float, val w: Float, val h: Float) {
+class ElementTextureBox(val name: String, var entry: PlayerEntry, val x: Float, var y: Float, val w: Float, val h: Float) {
     private var listeningText = false
 
     private val isHoveredBox: Boolean
-        get() = isAreaHovered(x + w - TEXTOFFSET - 28, y  + 36f, 16f + getTextWidth(getDisplay(), 16f), 22.5f)
+        get() = isAreaHovered(x + w - TEXTOFFSET - 28, y  + 37f, 16f + getTextWidth(getDisplay(), 16f), 21.5f)
 
     private val colorAnim = ColorAnimation(100)
 
     private fun getDisplay(): String {
         if (listeningText) {
-            return listeningTextField.ifEmpty { " " }
+            return listeningTextField.ifEmpty { "" }
         }
-        return entry.name
+        if (entry.texture == null) return "   "
+        return if (entry.texture.toString().takeLast(4) == ".png")  entry.texture.toString().dropLast(4) else entry.texture.toString()
     }
 
     fun draw() {
         val textWidth = getTextWidth(getDisplay(), 16f)
-        roundedRectangle(x + w - TEXTOFFSET - 28, y  + 36f, 16f + textWidth, 22.5f, buttonColor, 4f, edgeSoftness = 1f)
-        rectangleOutline(x + w - TEXTOFFSET - 28, y  + 36f, 16f + textWidth, 22.5f, colorAnim.get(buttonColor.darkerIf(isHoveredBox, 0.8f), clickGUIColor.darkerIf(isHoveredBox, 0.8f), !listeningText), 4f, 3f)
-        text(name, x - 22, y + 20, textColor, 20f, FontRenderer.REGULAR)
+
+        roundedRectangle(x + w - TEXTOFFSET - 28, y  + 37f, 16f + textWidth, 21.5f, buttonColor, 4f, edgeSoftness = 1f)
+        rectangleOutline(x + w - TEXTOFFSET - 28, y  + 37f, 16f + textWidth, 21.5f, colorAnim.get(buttonColor.darkerIf(isHoveredBox, 0.8f), clickGUIColor.darkerIf(isHoveredBox, 0.8f), !listeningText), 4f, 3f)
+        text(name, x - 22, y + 11, textColor, 20f, FontRenderer.REGULAR)
         text(getDisplay(), x - 22, y + 17.75f + 22 + 10f , textColor.darkerIf(isHoveredBox), 16f, FontRenderer.REGULAR, TextAlign.Left)
+
+
     }
 
     fun mouseClicked(){
@@ -66,7 +69,7 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
                 return
             }
             listeningText = true
-            listeningTextField = entry.name
+            listeningTextField = if (entry.texture == null) "" else if (entry.texture.toString().takeLast(4) == ".png") entry.texture.toString().dropLast(4) else entry.texture.toString()
             return
         }
         if (listeningText) {
@@ -81,15 +84,15 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
 
     private fun textUnlisten() {
         if (listeningTextField.isEmpty()) {
-            entry.profile = GameProfile(entry.profile?.id, "")
-            entry.name = ""
+            entry.texture = null
             listeningText = false
             return
         }
-        entry.name = listeningTextField
-        entry.profile = GameProfile(entry.profile?.id, listeningTextField)
+
+
+
+        entry.texture = if (listeningTextField.takeLast(4) == ".png") listeningTextField else "$listeningTextField.png"
         listeningText = false
-        refreshUI()
 
     }
 
@@ -195,7 +198,6 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
         Keyboard.KEY_Z,
         Keyboard.KEY_UNDERLINE,
         Keyboard.KEY_MINUS
-
 
     )
 }

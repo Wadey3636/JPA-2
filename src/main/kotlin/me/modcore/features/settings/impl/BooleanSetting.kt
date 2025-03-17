@@ -15,7 +15,8 @@ class BooleanSetting (
     override val default: Boolean = false,
     hidden: Boolean = false,
     description: String,
-): Setting<Boolean>(name, hidden, description), Saving {
+    forceCheckBox: Boolean = false,
+): Setting<Boolean>(name, hidden, description, forceCheckBox), Saving {
 
     override var value: Boolean = default
 

@@ -36,8 +36,8 @@ object ValueGUI : Screen() {
         values.clear()
         val array = DataManager.loadDataFromFile("Values")
         for (element in array) {
-            val entry = gson.fromJson(element, Map.Entry::class.java) as Map.Entry<String, Float>
-            values[entry.key] = entry.value
+            //val entry = gson.fromJson(element, Map.Entry::class.java) as Map.Entry<String, Float>
+            //values[entry.key] = entry.value
         }
     }
 

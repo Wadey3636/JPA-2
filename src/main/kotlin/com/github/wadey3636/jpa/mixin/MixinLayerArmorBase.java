@@ -12,9 +12,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LayerArmorBase.class)
 public class MixinLayerArmorBase {
 
-    @Inject(method = "renderLayer", at = @At("HEAD"), cancellable = true)
+    //@Inject(method = "renderLayer", at = @At("HEAD"), cancellable = true)
     private void onRenderLayer(EntityLivingBase entitylivingbaseIn, float p_177182_2_, float p_177182_3_, float partialTicks, float p_177182_5_, float p_177182_6_, float p_177182_7_, float scale, int armorSlot, CallbackInfo ci) {
-        if (PlayerRenderer.INSTANCE.renderLayer(entitylivingbaseIn, armorSlot)) ci.cancel();
+        //if (PlayerRenderer.INSTANCE.renderLayer(entitylivingbaseIn, armorSlot)) ci.cancel();
 
     }
 }

@@ -27,7 +27,7 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.github.wadey3636.jpa.features.render
 
-
+import me.modcore.Core.mc
 import com.mojang.authlib.GameProfile
 import me.modcore.Core.display
 import me.modcore.features.Module
@@ -38,12 +38,17 @@ import net.minecraft.client.renderer.GlStateManager.scale
 import net.minecraft.client.renderer.GlStateManager.translate
 import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
+import net.minecraftforge.client.event.RenderPlayerEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.relauncher.Side
+import net.minecraftforge.fml.relauncher.SideOnly
 import java.io.File
 import javax.imageio.ImageIO
 
 var playerEntries: MutableList<PlayerEntry> = mutableListOf()
-
+@SideOnly(Side.CLIENT)
 object PlayerRenderer : Module(name = "Player Customizer", description = "The scale, skin, and armor of players") {
     private val openGUI by ActionSetting(
         "Open GUI",
@@ -51,6 +56,10 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
         default = { display = PlayerCustomizerGUI }
     )
 
+    private var helmet: ItemStack? = null
+    private var chestplate: ItemStack? = null
+    private var leggings: ItemStack? = null
+    private var boots: ItemStack? = null
     /**
      * Adapted from odin
      */
@@ -86,8 +95,9 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
         }
 
     }
-
+/*
     fun renderLayer(entityLivingBaseIn: EntityLivingBase, armorSlot: Int): Boolean {
+        return false
         if (!enabled) return false
         val entry = playerEntries.toList().firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() }
             ?: return false
@@ -115,7 +125,57 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
 
         return false
     }
+ */
 
+
+    @SubscribeEvent
+    fun renderPlayer(event: RenderPlayerEvent.Pre) {
+        val entry =
+            playerEntries.toList().firstOrNull { it.name.lowercase() == event.entityPlayer.name.lowercase() } ?: return
+        if (!entry.toggle) return
+
+        val entityArmor = event.entityPlayer.inventory.armorInventory
+        if (event.entityPlayer == mc.thePlayer) {
+            helmet = entityArmor[3]
+            chestplate = entityArmor[2]
+            leggings = entityArmor[1]
+            boots = entityArmor[0]
+        }
+        if (entry.hideHelmet) {
+            entityArmor[3] = null
+        }
+        if (entry.hideChestplate) {
+            entityArmor[2] = null
+        }
+        if (entry.hideLeggings) {
+            entityArmor[1] = null
+        }
+        if (entry.hideBoots) {
+            entityArmor[0] = null
+        }
+
+    }
+    @SubscribeEvent
+    fun resetArmor(event: RenderPlayerEvent.Post) {
+        if (event.entityPlayer != mc.thePlayer) return
+        val playerArmor = event.entityPlayer.inventory.armorInventory
+        if (helmet != null) {
+            playerArmor[3] = helmet
+            helmet = null
+        }
+        if (chestplate != null) {
+            playerArmor[2] = chestplate
+            chestplate = null
+        }
+        if (leggings != null) {
+            playerArmor[1] = leggings
+            leggings = null
+        }
+        if (boots != null) {
+            playerArmor[0] = boots
+            boots = null
+        }
+    }
 
 }
 

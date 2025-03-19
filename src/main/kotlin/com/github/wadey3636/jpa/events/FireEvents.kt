@@ -29,20 +29,20 @@
 
 package com.github.wadey3636.jpa.events
 
+import com.github.wadey3636.jpa.utils.waitUntilLastItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import com.github.wadey3636.jpa.utils.waitUntilLastItem
 import me.modcore.events.impl.ChatPacketEvent
 import me.modcore.events.impl.PacketEvent
+import me.modcore.utils.postAndCatch
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.network.play.server.S32PacketConfirmTransaction
 import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import kotlin.coroutines.EmptyCoroutineContext
-import me.modcore.utils.postAndCatch
 import net.minecraftforge.fml.common.gameevent.TickEvent
+import kotlin.coroutines.EmptyCoroutineContext
 
 class FireEvents {
 
@@ -71,12 +71,14 @@ class FireEvents {
             SecondEvent().postAndCatch()
         }
     }
+
     @SubscribeEvent
     fun onChat(event: ChatPacketEvent) {
         when (event.message) {
             "[BOSS] Storm: I should have known that I stood no chance." -> {
                 P3StartEvent().postAndCatch()
             }
+
             else -> return
         }
     }

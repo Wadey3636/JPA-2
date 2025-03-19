@@ -1,8 +1,6 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-
-import me.modcore.features.impl.render.ClickGUIModule.devMode
 import com.github.wadey3636.jpa.events.QuarterSecondEvent
 import com.github.wadey3636.jpa.utils.PlayerPosInfo
 import com.github.wadey3636.jpa.utils.RenderHelper.renderTitle
@@ -10,6 +8,8 @@ import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
 import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils
 import me.modcore.features.Category
 import me.modcore.features.Module
+import me.modcore.features.impl.render.ClickGUIModule.devMode
+import me.modcore.features.settings.Setting.Companion.withDependency
 import me.modcore.features.settings.impl.BooleanSetting
 import me.modcore.features.settings.impl.ColorSetting
 import me.modcore.features.settings.impl.NumberSetting
@@ -50,6 +50,10 @@ object PositionDetectors : Module(
         name = "Include Position",
         description = "Includes the location of the displayed player"
     )
+    private val safespots by BooleanSetting(
+        name = "Safe Spots",
+        description = "Allows safe spots to trigger the detector"
+    )
     private val detectorTextSize by NumberSetting(
         name = "Scale",
         description = "The Size of the Alert",
@@ -57,6 +61,7 @@ object PositionDetectors : Module(
         max = 5,
         default = 3
     )
+
 
     private val midDetector by BooleanSetting(
         name = "Mid Detector",
@@ -67,7 +72,7 @@ object PositionDetectors : Module(
         "Mid Detector Text",
         "is at Mid!",
         description = "Player + Input Text"
-    )
+    ).withDependency { includePosition && midDetector }
 
     private val ee2Detector by BooleanSetting(
         name = "ee2 Detector",
@@ -78,7 +83,12 @@ object PositionDetectors : Module(
         "ee2 Text",
         "is at ee2!",
         description = "Player + Input Text"
-    )
+    ).withDependency { includePosition && ee2Detector }
+    private val ee2TextSS by StringSetting(
+        "ee2SS Text",
+        "is at ee2 Safe Spot!",
+        description = "Player + Input Text"
+    ).withDependency { ee2Detector && safespots && includePosition }
 
     private val ee3Detector by BooleanSetting(
         name = "ee3 Detector",
@@ -89,7 +99,13 @@ object PositionDetectors : Module(
         "ee3 Text",
         "is at ee3!",
         description = "Player + Input Text"
-    )
+    ).withDependency { includePosition && ee3Detector }
+    private val ee3TextSS by StringSetting(
+        "ee3SS Text",
+        "is at ee3 Safe Spot!",
+        description = "Player + Input Text"
+    ).withDependency { includePosition && ee3Detector && safespots }
+
     private val ee4Detector by BooleanSetting(
         name = "ee4 Detector",
         description = "When someone is at ee4",
@@ -99,31 +115,7 @@ object PositionDetectors : Module(
         "ee4 Text",
         "is at ee4!",
         description = "Player + Input Text"
-    )
-    private val safespots by BooleanSetting(
-        name = "ee2 Detector",
-        description = "When someone is at ee2",
-        forceCheckBox = true
-    )
-    private val ee2TextSS by StringSetting(
-        "ee2 Safe Spot Text",
-        "is at ee2 Safe Spot!",
-        description = "Player + Input Text",
-        hidden = !ee2Detector || !safespots
-    )
-    private val ee3TextSS by StringSetting(
-        "ee3 Safe Spot Text",
-        "is at ee3 Safe Spot!",
-        description = "Player + Input Text"
-    )
-
-
-
-
-
-
-
-
+    ).withDependency { includePosition && ee4Detector }
 
 
     private var player: String = ""
@@ -137,7 +129,6 @@ object PositionDetectors : Module(
         eess2Triggered.set(false)
         eess3Triggered.set(false)
     }
-
 
 
     /**
@@ -182,14 +173,15 @@ object PositionDetectors : Module(
                 false
             )
             detectorActive.set(true)
-            if (includePosition) {renderTitle("${player.noControlCodes} $text", detectorTextSize.toFloat(), textColor, 3000L)}
-            else renderTitle(player, detectorTextSize.toFloat(), textColor, 3000L)
+            if (includePosition) {
+                renderTitle("${player.noControlCodes} $text", detectorTextSize.toFloat(), textColor, 3000L)
+            } else renderTitle(player, detectorTextSize.toFloat(), textColor, 3000L)
         }
 
     }
 
 
-@SubscribeEvent
+    @SubscribeEvent
     fun detector(event: QuarterSecondEvent) {
         if (DungeonUtils.inDungeons) {
             val players = arrayListOf<PlayerPosInfo>()

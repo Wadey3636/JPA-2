@@ -17,8 +17,9 @@ public class MixinRenderPlayer {
     private void onPreRenderCallback(AbstractClientPlayer entitylivingbaseIn, float partialTickTime, CallbackInfo ci) {
         PlayerRenderer.INSTANCE.preRenderCallbackScaleHook(entitylivingbaseIn);
     }
+
     @Inject(method = "getEntityTexture(Lnet/minecraft/client/entity/AbstractClientPlayer;)Lnet/minecraft/util/ResourceLocation;", at = @At("HEAD"), cancellable = true)
-    private void onGetEntityTexture(AbstractClientPlayer player, CallbackInfoReturnable<ResourceLocation> cir)  {
+    private void onGetEntityTexture(AbstractClientPlayer player, CallbackInfoReturnable<ResourceLocation> cir) {
         cir.setReturnValue(PlayerRenderer.INSTANCE.injectCustomSkin(player));
     }
 

@@ -112,7 +112,7 @@ object EditHUDGui : Screen() {
     }
 
     override fun initGui() {
-        openAnim.start()
+        //openAnim.start()
         open = true
     }
 

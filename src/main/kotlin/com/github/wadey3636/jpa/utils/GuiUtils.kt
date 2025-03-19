@@ -29,6 +29,8 @@
 package com.github.wadey3636.jpa.utils
 
 import me.modcore.Core.mc
+import net.minecraft.client.gui.inventory.GuiChest
+import net.minecraft.inventory.ContainerChest
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.ItemStack
 import net.minecraft.nbt.NBTTagCompound
@@ -48,7 +50,6 @@ object GuiUtils {
     fun String.containsOneOf(vararg options: String, ignoreCase: Boolean = false): Boolean {
         return options.any { this.contains(it, ignoreCase) }
     }
-
 
 
     /**
@@ -102,6 +103,34 @@ object GuiUtils {
         return items
     }
 
+    private fun getInventoryItemStacks(inventory: IInventory): MutableList<Slot> {
+        val items: MutableList<Slot> = mutableListOf()
+        for (i in 0 until inventory.sizeInventory) {
+
+            inventory.getStackInSlot(i)?.let { stack ->
+                items.add(
+                    Slot(i, stack)
+                )
+
+            }
+        }
+        return items
+    }
+
+    val IInventory.getStacks: MutableList<Slot>
+        get() = getInventoryItemStacks(this)
+
+
+    private fun getStacksFromGuiChest(guiChest: GuiChest): MutableList<Slot> {
+        val gui = guiChest.inventorySlots as ContainerChest
+        return gui.lowerChestInventory.getStacks
+
+
+    }
+
+    val GuiChest.getStacks: MutableList<Slot>
+        get() = getStacksFromGuiChest(this)
+
 
     fun getInventory(): Array<out ItemStack>? {
         return mc.thePlayer?.inventory?.mainInventory
@@ -124,3 +153,4 @@ object GuiUtils {
 }
 
 data class Item(val name: String, val lore: List<String>, val position: Int)
+data class Slot(val index: Int, val itemStack: ItemStack)

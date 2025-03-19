@@ -1,7 +1,6 @@
 package com.github.wadey3636.jpa.utils
 
 
-
 //10,000,000
 //10m
 object UniversalUtils {
@@ -25,8 +24,6 @@ object UniversalUtils {
 
 
     }
-
-
 
 
     fun abbreviateNumber(n: Int): String {

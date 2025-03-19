@@ -1,7 +1,6 @@
 package com.github.wadey3636.jpa.utils.dungeon
 
 
-
 import com.github.wadey3636.jpa.events.DungeonStartEvent
 import com.github.wadey3636.jpa.utils.WorldUtils.getSidebarLines
 import com.github.wadey3636.jpa.utils.location.Island

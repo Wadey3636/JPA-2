@@ -1,19 +1,16 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-
-import com.github.wadey3636.jpa.utils.RenderHelper
-import net.minecraft.util.BlockPos
-import net.minecraftforge.client.event.RenderWorldLastEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import com.github.wadey3636.jpa.events.QuarterSecondEvent
 import com.github.wadey3636.jpa.utils.GuiUtils.containsOneOf
 import com.github.wadey3636.jpa.utils.GuiUtils.deformat
+import com.github.wadey3636.jpa.utils.RenderHelper
 import com.github.wadey3636.jpa.utils.RenderHelper.getViewerPos
 import com.github.wadey3636.jpa.utils.WorldUtils
 import me.modcore.events.impl.ChatPacketEvent
 import me.modcore.features.Category
 import me.modcore.features.Module
+import me.modcore.features.settings.Setting.Companion.withDependency
 import me.modcore.features.settings.impl.BooleanSetting
 import me.modcore.features.settings.impl.ColorSetting
 import me.modcore.features.settings.impl.SelectorSetting
@@ -21,9 +18,10 @@ import me.modcore.features.settings.impl.StringSetting
 import me.modcore.utils.render.Color
 import net.minecraft.entity.item.EntityArmorStand
 import net.minecraft.util.AxisAlignedBB
+import net.minecraft.util.BlockPos
+import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.event.world.WorldEvent
-
-
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 
 object TerminalWaypoints : Module(
@@ -38,10 +36,15 @@ object TerminalWaypoints : Module(
         name = "Tracer",
         description = "Draws a line from your cursor to the next terminal waypoint"
     )
-    private val terminalWaypointsColor by ColorSetting("Color", description = "The color of the Terminal Waypoints", default = Color.BLUE)
     private val terminalWaypointsPhase by BooleanSetting(
         name = "Phase",
-        description = "Draws waypoints through walls"
+        description = "Draws waypoints through walls",
+        default = true
+    )
+    private val terminalWaypointsColor by ColorSetting(
+        "Color",
+        description = "The color of the Terminal Waypoints",
+        default = Color.BLUE
     )
     private var terminalSection: Int = 0
     private val terminalPreset by SelectorSetting(
@@ -54,44 +57,38 @@ object TerminalWaypoints : Module(
         name = "I4",
         description = "Enable if Berserker is doing I4",
         forceCheckBox = true
-    )
+    ).withDependency { terminalPreset != 4 }
     private val ee2 by BooleanSetting(
         name = "EE2",
         description = "Enable if Archer is doing I4",
         forceCheckBox = true
-    )
+    ).withDependency { terminalPreset == 0 || terminalPreset == 2 }
     private val mageCoring by BooleanSetting(
         name = "Core",
         description = "Enable if Mage is coring",
         forceCheckBox = true
-    )
+    ).withDependency { terminalPreset == 0 || terminalPreset == 2 }
 
     private val terminalWaypointsTextS1 by StringSetting(
         name = "S1",
-        description = "Enter the terminals separated by slashes in the order you plan to complete them. LL and RL stand for the left and right levers. DEV stands for device. Example: 5/3/RL",
-        hidden = terminalPreset != 4
+        description = "Enter the terminals separated by slashes in the order you plan to complete them. LL and RL stand for the left and right levers. DEV stands for device. Example: 5/3/RL"
 
-    )
+    ).withDependency { terminalPreset == 4 }
     private val terminalWaypointsTextS2 by StringSetting(
-        name = "S1",
-        description = "Enter the terminals separated by slashes in the order you plan to complete them. LL and RL stand for the left and right levers. DEV stands for device. Example: 5/3/RL",
-        hidden = terminalPreset != 4
-    )
+        name = "S2",
+        description = "Enter the terminals separated by slashes in the order you plan to complete them. LL and RL stand for the left and right levers. DEV stands for device. Example: 5/3/RL"
+    ).withDependency { terminalPreset == 4 }
     private val terminalWaypointsTextS3 by StringSetting(
-        name = "S1",
-        description = "Enter the terminals separated by slashes in the order you plan to complete them. LL and RL stand for the left and right levers. DEV stands for device. Example: 5/3/RL",
-        hidden = terminalPreset != 4
-    )
+        name = "S3",
+        description = "Enter the terminals separated by slashes in the order you plan to complete them. LL and RL stand for the left and right levers. DEV stands for device. Example: 5/3/RL"
+    ).withDependency { terminalPreset == 4 }
     private val terminalWaypointsTextS4 by StringSetting(
-        name = "S1",
-        description = "Enter the terminals separated by slashes in the order you plan to complete them. LL and RL stand for the left and right levers. DEV stands for device. Example: 5/3/RL",
-        hidden = terminalPreset != 4
-    )
+        name = "S4",
+        description = "Enter the terminals separated by slashes in the order you plan to complete them. LL and RL stand for the left and right levers. DEV stands for device. Example: 5/3/RL"
+    ).withDependency { terminalPreset == 4 }
 
 
-
-
-    private fun addS1(){
+    private fun addS1() {
         when (terminalPreset) {
             0 -> if (i4 && ee2) "4/3" else if (i4) "3" else "2"
             1 -> if (i4) "2/1" else "1"
@@ -111,8 +108,8 @@ object TerminalWaypoints : Module(
             }
         }
     }
-    
-    private fun addS2(){
+
+    private fun addS2() {
         when (terminalPreset) {
             0 -> if (mageCoring) "2" else "2/3"
             1 -> "1/3"
@@ -132,10 +129,10 @@ object TerminalWaypoints : Module(
                 else -> return@forEach
             }
         }
-        
+
     }
 
-    private fun addS3(){
+    private fun addS3() {
 
         when (terminalPreset) {
             0 -> if (mageCoring) "" else "2"
@@ -158,7 +155,7 @@ object TerminalWaypoints : Module(
 
     }
 
-    private fun addS4(){
+    private fun addS4() {
         when (terminalPreset) {
             0 -> if (mageCoring) "" else "2"
             1 -> "1"
@@ -191,7 +188,13 @@ object TerminalWaypoints : Module(
                 )
             )
             armorStands.isNotEmpty() && armorStands.any {
-                it.name.deformat.containsOneOf("active", "terminal active", "activated", "device active", ignoreCase = true)
+                it.name.deformat.containsOneOf(
+                    "active",
+                    "terminal active",
+                    "activated",
+                    "device active",
+                    ignoreCase = true
+                )
             }
         }
     }
@@ -204,11 +207,10 @@ object TerminalWaypoints : Module(
     @SubscribeEvent
     fun chatReceived(event: ChatPacketEvent) {
         when (event.message) {
-            "[BOSS] Storm: I should have known that I stood no chance." ->
-                {
-                    terminalSection = 0
-                    addS1()
-                }
+            "[BOSS] Storm: I should have known that I stood no chance." -> {
+                terminalSection = 0
+                addS1()
+            }
         }
         if (event.message.containsOneOf("! (7/7)", "! (8/8)")) {
             terminalSection += 1
@@ -221,7 +223,7 @@ object TerminalWaypoints : Module(
 
     }
 
-    private fun isDev(pos: BlockPos): Boolean{
+    private fun isDev(pos: BlockPos): Boolean {
         return true
     }
 
@@ -244,11 +246,16 @@ object TerminalWaypoints : Module(
                 firstWaypoint.x.toDouble(), firstWaypoint.y.toDouble(), firstWaypoint.z.toDouble()
             )
             val clampedAlpha = (distance.coerceIn(2.0, 10.0) / 10).let { if (it == 0.2) 0.0 else it }
-            devColor = Color(terminalWaypointsColor.r, terminalWaypointsColor.g, terminalWaypointsColor.b, clampedAlpha.toFloat())
+            devColor = Color(
+                terminalWaypointsColor.r,
+                terminalWaypointsColor.g,
+                terminalWaypointsColor.b,
+                clampedAlpha.toFloat()
+            )
             renderWaypoints = activeWaypoints.drop(1).toMutableList()
         }
         renderWaypoints.forEach {
-            RenderHelper.drawBox(it, terminalWaypointsColor, 3f, terminalWaypointsPhase, viewerPos)
+            RenderHelper.drawBox(it, terminalWaypointsColor, 3f, !terminalWaypointsPhase, viewerPos)
         }
         firstWaypoint?.let {
             if (terminalWaypointsTracer) {

@@ -34,7 +34,8 @@ object LocationUtils {
     init {
         Executor(500, "LocationUtils") {
             if (!isInSkyblock)
-                isInSkyblock = isOnHypixel && mc.theWorld?.scoreboard?.getObjectiveInDisplaySlot(1)?.let { cleanSB(it.displayName).contains("SKYBLOCK") } == true
+                isInSkyblock = isOnHypixel && mc.theWorld?.scoreboard?.getObjectiveInDisplaySlot(1)
+                    ?.let { cleanSB(it.displayName).contains("SKYBLOCK") } == true
 
             if (currentArea.isArea(Island.Unknown)) currentArea = getArea()
 
@@ -45,7 +46,8 @@ object LocationUtils {
 
             if (currentArea.isArea(Island.Kuudra) && kuudraTier == 0)
                 sidebarLines.find { cleanLine(it).contains("Kuudra's Hollow (") }?.let {
-                    kuudraTier = it.substringBefore(")").lastOrNull()?.digitToIntOrNull() ?: 0 }
+                    kuudraTier = it.substringBefore(")").lastOrNull()?.digitToIntOrNull() ?: 0
+                }
         }.register()
     }
 
@@ -74,14 +76,17 @@ object LocationUtils {
     @SubscribeEvent
     fun onConnect(event: FMLNetworkEvent.ClientConnectedToServerEvent) {
         isOnHypixel = if (ClickGUIModule.forceHypixel) true else mc.runCatching {
-            !event.isLocal && ((thePlayer?.clientBrand?.contains("hypixel", true) ?: currentServerData?.serverIP?.contains("hypixel", true)) == true)
+            !event.isLocal && ((thePlayer?.clientBrand?.contains("hypixel", true)
+                ?: currentServerData?.serverIP?.contains("hypixel", true)) == true)
         }.getOrDefault(false)
     }
 
     @SubscribeEvent
     fun onPacket(event: PacketEvent.Receive) {
         if (isOnHypixel || event.packet !is S3FPacketCustomPayload || event.packet.channelName != "MC|Brand") return
-        if (event.packet.bufferData?.readStringFromBuffer(Short.MAX_VALUE.toInt())?.contains("hypixel", true) == true) isOnHypixel = true
+        if (event.packet.bufferData?.readStringFromBuffer(Short.MAX_VALUE.toInt())
+                ?.contains("hypixel", true) == true
+        ) isOnHypixel = true
     }
 
     /**
@@ -92,7 +97,12 @@ object LocationUtils {
         if (mc.isSingleplayer) return Island.SinglePlayer
         if (!isInSkyblock) return Island.Unknown
 
-        val area = mc.thePlayer?.sendQueue?.playerInfoMap?.find { it?.displayName?.unformattedText?.startsWithOneOf("Area: ", "Dungeon: ") == true }?.displayName?.formattedText ?: return Island.Unknown
+        val area = mc.thePlayer?.sendQueue?.playerInfoMap?.find {
+            it?.displayName?.unformattedText?.startsWithOneOf(
+                "Area: ",
+                "Dungeon: "
+            ) == true
+        }?.displayName?.formattedText ?: return Island.Unknown
 
         return Island.entries.firstOrNull { area.contains(it.displayName, true) } ?: Island.Unknown
     }
@@ -100,7 +110,9 @@ object LocationUtils {
     fun getFloor(): Floor? {
         if (currentArea.isArea(Island.SinglePlayer)) return Floor.E
         for (i in sidebarLines) {
-            return Floor.valueOf(Regex("The Catacombs \\((\\w+)\\)\$").find(cleanSB(i))?.groupValues?.get(1) ?: continue)
+            return Floor.valueOf(
+                Regex("The Catacombs \\((\\w+)\\)\$").find(cleanSB(i))?.groupValues?.get(1) ?: continue
+            )
         }
         return null
     }

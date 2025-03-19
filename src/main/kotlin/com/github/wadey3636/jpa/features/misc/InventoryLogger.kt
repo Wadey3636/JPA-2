@@ -1,23 +1,28 @@
 package com.github.wadey3636.jpa.features.misc
 
 
-import net.minecraftforge.client.event.GuiOpenEvent
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.event.entity.player.PlayerInteractEvent
-import com.github.wadey3636.jpa.utils.WorldUtils
-import net.minecraft.client.gui.inventory.GuiChest
-import net.minecraft.util.BlockPos
+import com.github.wadey3636.jpa.utils.GuiUtils.getStacks
 import com.github.wadey3636.jpa.utils.InventoryInfo
+import com.github.wadey3636.jpa.utils.WorldUtils
+import com.github.wadey3636.jpa.utils.adapters.ChestEntryTypeAdapter
 import com.github.wadey3636.jpa.utils.location.Island
-
-import me.modcore.features.Category
-import me.modcore.features.Module
 import com.github.wadey3636.jpa.utils.location.LocationUtils
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import me.modcore.Core.logger
 import me.modcore.config.DataManager
+import me.modcore.events.impl.PacketEvent
+import me.modcore.features.Category
+import me.modcore.features.Module
 import me.modcore.utils.skyblock.devMessage
+import net.minecraft.client.gui.inventory.GuiChest
+import net.minecraft.network.play.client.C0DPacketCloseWindow
+import net.minecraft.util.BlockPos
+import net.minecraftforge.event.entity.player.PlayerInteractEvent
+import net.minecraftforge.event.entity.player.PlayerUseItemEvent.Tick
+import net.minecraftforge.event.world.WorldEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import net.minecraftforge.fml.common.gameevent.TickEvent
 
 
 object InventoryLogger : Module(
@@ -25,8 +30,11 @@ object InventoryLogger : Module(
     description = "Logs all chests and gui's opened, allowing you to run /search to find an item in any logged chest. It is also dependent on what skyblock profile you are on",
     category = Category.MISC
 ) {
+    val gson = GsonBuilder().registerTypeAdapter(InventoryInfo::class.java, ChestEntryTypeAdapter()).setPrettyPrinting()
+        .create()
 
-    private var chestEntries: MutableList<InventoryInfo> = mutableListOf()
+
+    var chestEntries: MutableList<InventoryInfo> = mutableListOf()
     private var lastClickedChest: List<BlockPos> = listOf()
 
     init {
@@ -44,33 +52,43 @@ object InventoryLogger : Module(
     }
 
 
+    @SubscribeEvent
+    fun openGui(event: TickEvent.ClientTickEvent) {
+        val gui = mc.currentScreen
+        if (event.phase != TickEvent.Phase.END || gui !is GuiChest) return
+        val location = LocationUtils.currentArea
+        if (lastClickedChest.isNotEmpty()) {
+            val index = entryExists(location, lastClickedChest)
+            if (index != null) {
+                chestEntries[index] = InventoryInfo(location, lastClickedChest, gui.getStacks)
+            } else {
+                chestEntries.add(InventoryInfo(location, lastClickedChest, gui.getStacks))
+            }
+
+            lastClickedChest = listOf()
+            save()
+        }
+    }
 
     @SubscribeEvent
-    fun openGui(event: GuiOpenEvent){
-        val location = LocationUtils.currentArea
-        if (lastClickedChest.isNotEmpty() && event.gui is GuiChest) {
-            val index = entryExists(location, lastClickedChest)
-            val container = (event.gui as GuiChest).inventorySlots
-            if (index != null) {
-                chestEntries[index] = InventoryInfo(location, lastClickedChest, container)
-            }
-            else chestEntries.add(InventoryInfo(location, lastClickedChest, container))
-        }
-        save()
-        devMessage(chestEntries.size)
+    fun worldLoadEvent(event: WorldEvent.Load) {
+        load()
     }
+
+
     @SubscribeEvent
     fun findChest(event: PlayerInteractEvent) {
         if (
             event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK
             && WorldUtils.isChest(event.pos)
-            ) {
+        ) {
+            devMessage("Clicked Chest")
             lastClickedChest = WorldUtils.findDoubleChest(event.pos)
         }
     }
+
     private fun save() {
         val array = JsonArray()
-        val gson =  GsonBuilder().setPrettyPrinting().create()
         try {
             for (entry in chestEntries) {
                 array.add(gson.toJsonTree(entry))
@@ -81,10 +99,16 @@ object InventoryLogger : Module(
         }
 
     }
+
     private fun load() {
         chestEntries.clear()
         DataManager.loadDataFromFile("ChestEntries").forEach { jsonObject ->
-
+            try {
+                chestEntries.add(gson.fromJson(jsonObject, InventoryInfo::class.java))
+            } catch (e: Exception) {
+                devMessage("Error Loading Chests")
+                logger.error("Error Saving Chests", e)
+            }
 
         }
     }

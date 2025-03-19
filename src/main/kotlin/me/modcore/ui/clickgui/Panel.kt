@@ -36,8 +36,8 @@ import kotlin.math.floor
 class Panel(
     var category: Category,
 ) {
-    private val renderIcon = DynamicTexture(loadBufferedImage("/assets/odinmain/clickgui/render.png"))
-    private val floor7Icon = DynamicTexture(loadBufferedImage("/assets/odinmain/clickgui/wither.png"))
+    private val renderIcon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/render.png"))
+    private val floor7Icon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/wither.png"))
 
     val displayName = category.name.lowercase().capitalizeFirst()
 

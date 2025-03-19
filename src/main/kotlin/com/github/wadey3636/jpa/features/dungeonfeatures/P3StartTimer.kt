@@ -1,4 +1,5 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
+
 import com.github.wadey3636.jpa.events.P3StartEvent
 import com.github.wadey3636.jpa.events.ServerTickEvent
 import me.modcore.features.Category
@@ -21,12 +22,12 @@ object P3StartTimer : Module(
     }
 
 
-
-
     @SubscribeEvent
     fun countDown(event: ServerTickEvent) {
         --p3StartTimerticks
-        if (p3StartTimerticks <= 0f) {p3StartTimerText = ""; return}
+        if (p3StartTimerticks <= 0f) {
+            p3StartTimerText = ""; return
+        }
         p3StartTimerText = if (p3StartTimerticks % 2 == 0f) {
             (p3StartTimerticks / 20).toString() + "0"
         } else {

@@ -1,6 +1,5 @@
 package com.github.wadey3636.jpa.utils
 
-import com.google.gson.JsonObject
 import com.google.gson.JsonParser
 import me.modcore.Core.logger
 import java.io.InputStreamReader

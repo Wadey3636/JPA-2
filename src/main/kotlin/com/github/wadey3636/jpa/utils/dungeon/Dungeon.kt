@@ -1,23 +1,13 @@
 package com.github.wadey3636.jpa.utils.dungeon
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import me.modcore.Core.mc
-import me.modcore.Core.scope
 import me.modcore.events.impl.PacketEvent
 import me.modcore.utils.equalsOneOf
 import me.modcore.utils.noControlCodes
-
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.network.play.server.S02PacketChat
-import net.minecraft.network.play.server.S38PacketPlayerListItem
-import net.minecraft.network.play.server.S3EPacketTeams
-import net.minecraft.network.play.server.S47PacketPlayerListHeaderFooter
-import net.minecraftforge.event.entity.EntityJoinWorldEvent
-import com.github.wadey3636.jpa.utils.dungeon.DungeonClass
 import me.modcore.utils.romanToInt
 import me.modcore.utils.skyblock.PlayerUtils.posX
 import me.modcore.utils.skyblock.PlayerUtils.posZ
+import net.minecraft.network.play.server.S38PacketPlayerListItem
 
 // could add some system to look back at previous runs.
 class Dungeon(val floor: Floor) {
@@ -41,7 +31,6 @@ class Dungeon(val floor: Floor) {
     }
 
 
-
     fun onPacket(event: PacketEvent.Receive) {
         when (event.packet) {
             is S38PacketPlayerListItem -> handleTabListPacket(event.packet)
@@ -56,10 +45,12 @@ class Dungeon(val floor: Floor) {
     }
 
 
-
-
     private fun handleTabListPacket(packet: S38PacketPlayerListItem) {
-        if (!packet.action.equalsOneOf(S38PacketPlayerListItem.Action.UPDATE_DISPLAY_NAME, S38PacketPlayerListItem.Action.ADD_PLAYER)) return
+        if (!packet.action.equalsOneOf(
+                S38PacketPlayerListItem.Action.UPDATE_DISPLAY_NAME,
+                S38PacketPlayerListItem.Action.ADD_PLAYER
+            )
+        ) return
         updateDungeonTeammates(packet.entries)
 
     }
@@ -73,13 +64,23 @@ class Dungeon(val floor: Floor) {
         dungeonTeammatesNoSelf = ArrayList(dungeonTeammates.filter { it.entity != mc.thePlayer })
     }
 
-    private fun getDungeonTeammates(previousTeammates: ArrayList<DungeonPlayer>, tabList: List<S38PacketPlayerListItem.AddPlayerData>): ArrayList<DungeonPlayer> {
+    private fun getDungeonTeammates(
+        previousTeammates: ArrayList<DungeonPlayer>,
+        tabList: List<S38PacketPlayerListItem.AddPlayerData>
+    ): ArrayList<DungeonPlayer> {
         for (line in tabList) {
             val displayName = line.displayName?.unformattedText?.noControlCodes ?: continue
             val (_, name, clazz, clazzLevel) = tablistRegex.find(displayName)?.destructured ?: continue
 
-            previousTeammates.find { it.name == name }?.let { player -> player.isDead = clazz == "DEAD" } ?:
-            previousTeammates.add(DungeonPlayer(name, DungeonClass.entries.find { it.name == clazz } ?: continue, clazzLvl = romanToInt(clazzLevel), mc.netHandler?.getPlayerInfo(name)?.locationSkin ?: continue, mc.theWorld?.getPlayerEntityByName(name), false))
+            previousTeammates.find { it.name == name }?.let { player -> player.isDead = clazz == "DEAD" }
+                ?: previousTeammates.add(
+                    DungeonPlayer(
+                        name,
+                        DungeonClass.entries.find { it.name == clazz } ?: continue,
+                        clazzLvl = romanToInt(clazzLevel),
+                        mc.netHandler?.getPlayerInfo(name)?.locationSkin ?: continue,
+                        mc.theWorld?.getPlayerEntityByName(name),
+                        false))
         }
         return previousTeammates
     }

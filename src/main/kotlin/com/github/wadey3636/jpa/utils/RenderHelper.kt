@@ -3,7 +3,9 @@ package com.github.wadey3636.jpa.utils
 //import net.minecraft.client.renderer.entity.RenderManager
 
 
+import me.modcore.Core.mc
 import me.modcore.utils.render.Color
+import me.modcore.utils.render.RenderUtils.bind
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.WorldRenderer
@@ -14,8 +16,6 @@ import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
 import kotlin.math.cos
 import kotlin.math.sin
-import me.modcore.Core.mc
-import me.modcore.utils.render.RenderUtils.bind
 
 object RenderHelper {
     private val beaconBeam = ResourceLocation("textures/entity/beacon_beam.png")
@@ -56,8 +56,6 @@ object RenderHelper {
     }
 
 
-
-
     fun renderTitle(text: String, scale: Float, color: Int, duration: Long) {
         title = text
         size = scale
@@ -95,11 +93,27 @@ object RenderHelper {
         GlStateManager.popMatrix()
     }
 
-    fun trace(pos: BlockPos, viewerPos: Triple<Double, Double, Double>, color: Color, thickness: Float, phase: Boolean){
-        drawLine3d(0.0, cameraHeight(), 0.0, pos.x - viewerPos.first +0.5, pos.y - viewerPos.second + 0.5, pos.z - viewerPos.third + 0.5, color, thickness, phase)
+    fun trace(
+        pos: BlockPos,
+        viewerPos: Triple<Double, Double, Double>,
+        color: Color,
+        thickness: Float,
+        phase: Boolean
+    ) {
+        drawLine3d(
+            0.0,
+            cameraHeight(),
+            0.0,
+            pos.x - viewerPos.first + 0.5,
+            pos.y - viewerPos.second + 0.5,
+            pos.z - viewerPos.third + 0.5,
+            color,
+            thickness,
+            phase
+        )
     }
 
-    fun cameraHeight(): Double{
+    fun cameraHeight(): Double {
         return if (mc.thePlayer.isSneaking) 1.54 else 1.62
     }
 
@@ -140,7 +154,6 @@ object RenderHelper {
         resetPhase()
         GlStateManager.popMatrix()
     }
-
 
 
     fun drawLines3dAboveBlocks(

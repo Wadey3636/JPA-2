@@ -29,18 +29,16 @@ package com.github.wadey3636.jpa.features.render
 
 
 import com.mojang.authlib.GameProfile
+import me.modcore.Core.display
 import me.modcore.features.Module
 import me.modcore.features.settings.impl.ActionSetting
+import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.GlStateManager.scale
 import net.minecraft.client.renderer.GlStateManager.translate
-import net.minecraft.util.ResourceLocation
-import me.modcore.Core.display
-import me.modcore.Core.logger
-import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI
-import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.util.ResourceLocation
 import java.io.File
 import javax.imageio.ImageIO
 
@@ -50,7 +48,7 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
     private val openGUI by ActionSetting(
         "Open GUI",
         description = "Opens the GUI to customize players",
-        default = {display = PlayerCustomizerGUI}
+        default = { display = PlayerCustomizerGUI }
     )
 
     /**
@@ -58,7 +56,8 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
      */
     fun preRenderCallbackScaleHook(entityLivingBaseIn: AbstractClientPlayer) {
         if (!enabled) return
-        val entry = playerEntries.toList().firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() } ?: return
+        val entry =
+            playerEntries.toList().firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() } ?: return
         if (entry.toggle) {
             if (entry.dinnerBone) {
                 scale(entry.entryX, -entry.entryY, entry.entryZ)
@@ -70,9 +69,10 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
         }
     }
 
-    fun injectCustomSkin(entityLivingBaseIn: AbstractClientPlayer): ResourceLocation?{
+    fun injectCustomSkin(entityLivingBaseIn: AbstractClientPlayer): ResourceLocation? {
         if (!enabled) return entityLivingBaseIn.locationSkin
-        val entry = playerEntries.firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() } ?: return entityLivingBaseIn.locationSkin
+        val entry = playerEntries.firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() }
+            ?: return entityLivingBaseIn.locationSkin
         if (!entry.toggle || entry.texture == null || !entry.toggleTexture) return entityLivingBaseIn.locationSkin
         val file = File(mc.mcDataDir, "config/jpa/textures/${entry.texture}")
         if (!file.exists()) return entityLivingBaseIn.locationSkin
@@ -86,20 +86,25 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
         }
 
     }
+
     fun renderLayer(entityLivingBaseIn: EntityLivingBase, armorSlot: Int): Boolean {
         if (!enabled) return false
-        val entry = playerEntries.toList().firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() } ?: return false
+        val entry = playerEntries.toList().firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() }
+            ?: return false
         if (entry.toggle) {
             when (armorSlot) {
                 4 -> {
                     if (entry.hideHelmet) return true
                 }
+
                 3 -> {
                     if (entry.hideChestplate) return true
                 }
+
                 2 -> {
                     if (entry.hideLeggings) return true
                 }
+
                 1 -> {
                     if (entry.hideBoots) return true
                 }
@@ -113,6 +118,7 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
 
 
 }
+
 data class PlayerEntry(
     var name: String,
     var entryX: Double,

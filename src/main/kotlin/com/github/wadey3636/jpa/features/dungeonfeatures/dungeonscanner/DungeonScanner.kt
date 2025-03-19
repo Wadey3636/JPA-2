@@ -1,12 +1,10 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner
 
 
-
 import com.github.wadey3636.jpa.events.SecondEvent
-import com.github.wadey3636.jpa.utils.dungeon.RoomInfo
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
-import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils
 import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils.Companion.inDungeons
+import com.github.wadey3636.jpa.utils.dungeon.RoomInfo
 import me.modcore.Core.mc
 import me.modcore.utils.skyblock.devMessage
 import net.minecraft.init.Blocks
@@ -36,7 +34,6 @@ class DungeonScanner {
             }
         }
     }
-
 
 
     @SubscribeEvent

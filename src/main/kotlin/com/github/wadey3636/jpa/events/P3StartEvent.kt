@@ -4,5 +4,4 @@ import net.minecraftforge.fml.common.eventhandler.Cancelable
 import net.minecraftforge.fml.common.eventhandler.Event
 
 @Cancelable
-class P3StartEvent : Event() {
-}
+class P3StartEvent : Event()

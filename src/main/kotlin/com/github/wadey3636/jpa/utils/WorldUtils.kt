@@ -1,8 +1,9 @@
 package com.github.wadey3636.jpa.utils
 
+import com.github.wadey3636.jpa.utils.GuiUtils.deformat
 import com.google.common.collect.Iterables
 import com.google.common.collect.Lists
-import com.github.wadey3636.jpa.utils.GuiUtils.deformat
+import me.modcore.Core.mc
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.scoreboard.Score
@@ -12,7 +13,6 @@ import net.minecraft.util.BlockPos
 import java.util.stream.Collectors
 import kotlin.math.pow
 import kotlin.math.sqrt
-import me.modcore.Core.mc
 
 /**
  * Retrieves the block object at the specified positon
@@ -47,26 +47,29 @@ object WorldUtils {
         return blocks.toString() == (mc.theWorld?.getBlockState(pos)?.block ?: Blocks.air).toString()
     }
 
-    fun isChest(pos: BlockPos): Boolean{
+    fun isChest(pos: BlockPos): Boolean {
         return mc.theWorld?.getTileEntity(pos) is TileEntityChest
     }
+
     fun findDoubleChest(pos: BlockPos): List<BlockPos> {
         val possibleChests = arrayOf(
             BlockPos(pos.x - 1, pos.y, pos.z),
             BlockPos(pos.x + 1, pos.y, pos.z),
-            BlockPos(pos.x, pos.y, pos.z -1),
+            BlockPos(pos.x, pos.y, pos.z - 1),
             BlockPos(pos.x, pos.y, pos.z + 1)
-            )
+        )
         for (location in possibleChests) {
             if (isChest(location)) return listOf(pos, location)
         }
         return listOf(pos)
     }
+
     fun findDistance3D(x: Double, y: Double, z: Double, x1: Double, y1: Double, z1: Double): Double {
         return sqrt((x1 - x).pow(2) + (y1 - y).pow(2) + (z1 - z).pow(2))
     }
+
     fun findDistance2D(x: Double, z: Double, x1: Double, z1: Double): Double {
-        return sqrt((x1-x).pow(2) + (z1-z).pow(2))
+        return sqrt((x1 - x).pow(2) + (z1 - z).pow(2))
     }
 
 

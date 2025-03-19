@@ -1,8 +1,8 @@
 package com.github.wadey3636.jpa.mixin;
 
 
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
@@ -10,13 +10,12 @@ import net.minecraft.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import net.minecraft.client.gui.Gui;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.awt.*;
 
-import static com.github.wadey3636.jpa.features.dungeonfeatures.ProfitCalculatorKt.toggleProfitHud;
 import static com.github.wadey3636.jpa.features.dungeonfeatures.ProfitCalculatorKt.highlightSlots;
+import static com.github.wadey3636.jpa.features.dungeonfeatures.ProfitCalculatorKt.toggleProfitHud;
 
 @Mixin(value = GuiContainer.class, priority = 500)
 public abstract class MixinContainerGui extends GuiScreen {

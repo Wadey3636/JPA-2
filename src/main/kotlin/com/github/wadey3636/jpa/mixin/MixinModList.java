@@ -2,7 +2,6 @@ package com.github.wadey3636.jpa.mixin;
 
 
 import com.github.wadey3636.jpa.ModCoreKt;
-import me.modcore.Core;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.network.handshake.FMLHandshakeMessage;

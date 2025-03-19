@@ -1,20 +1,18 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-
 import com.github.wadey3636.jpa.events.ChangeGuiEvent
 import com.github.wadey3636.jpa.events.OpenGuiEvent
 import com.github.wadey3636.jpa.utils.GuiUtils
 import com.github.wadey3636.jpa.utils.GuiUtils.deformat
 import com.github.wadey3636.jpa.utils.RenderHelper
-import me.modcore.font.FontRenderer
-
 import com.github.wadey3636.jpa.utils.UniversalUtils.abbreviateNumber
 import me.modcore.Core
 import me.modcore.features.Category
 import me.modcore.features.Module
 import me.modcore.features.settings.impl.ActionSetting
 import me.modcore.features.settings.impl.BooleanSetting
+import me.modcore.font.FontRenderer
 import me.modcore.ui.valuegui.ValueGUI
 import me.modcore.utils.render.Color
 import me.modcore.utils.skyblock.modMessage
@@ -22,7 +20,6 @@ import net.minecraft.client.gui.ScaledResolution
 import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-
 
 
 @JvmField
@@ -289,8 +286,6 @@ object ProfitTracker : Module(
     }
 
 
-
-
     @SubscribeEvent
     fun guiClosed(event: ChangeGuiEvent) {
         toggleProfitHud = false
@@ -347,10 +342,9 @@ object ProfitTracker : Module(
     }
 
 
-
 }
-data class chestLine(val chest: String, var profit: Float, val color: Int)
 
+data class chestLine(val chest: String, var profit: Float, val color: Int)
 
 
 /*

@@ -1,12 +1,10 @@
 package com.github.wadey3636.jpa.commands
 
 import me.modcore.Core
+import me.modcore.Core.display
+import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
-import me.modcore.Core.display
-import me.modcore.ui.clickgui.ClickGUI
-import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI
-import org.apache.logging.log4j.LogManager
 
 class PlayerCustomizerGuiCommand : CommandBase() {
     override fun getCommandName(): String {
@@ -25,6 +23,7 @@ class PlayerCustomizerGuiCommand : CommandBase() {
     override fun canCommandSenderUseCommand(sender: ICommandSender?): Boolean {
         return true
     }
+
     override fun getCommandAliases(): List<String> {
         return listOf("jpc", "jppc")
     }

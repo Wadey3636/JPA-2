@@ -1,11 +1,9 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures.icefillsolver
 
 
-
-import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.iceFillPosition
 import com.github.wadey3636.jpa.events.QuarterSecondEvent
+import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.iceFillPosition
 import com.github.wadey3636.jpa.utils.RenderHelper.drawBox
-import com.github.wadey3636.jpa.utils.RenderHelper.drawLine3d
 import com.github.wadey3636.jpa.utils.RenderHelper.drawLines3dAboveBlocks
 import com.github.wadey3636.jpa.utils.RenderHelper.getViewerPos
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
@@ -28,7 +26,7 @@ object IceFillSolver : Module(
     category = Category.DUNGEONS
 ) {
     private val icefillSolverPhase by BooleanSetting(
-        name = "Depth Check",
+        name = "Phase",
         description = "Render the solutions through blocks"
     )
 
@@ -82,24 +80,18 @@ object IceFillSolver : Module(
     }
 
 
-
     private fun drawVariant(plot: List<BlockPos>?, warp: List<BlockPos>?, tpPoint: BlockPos?, partialTicks: Float) {
-
         if (plot == null || warp == null) return
         val viewerPos = getViewerPos(partialTicks)
         drawLines3dAboveBlocks(plot, icefillPathColor, 3f, icefillSolverPhase, viewerPos)
-
         warp.forEachIndexed { i, point ->
             if ((i <= 2 || isBlock(warp[i - 3], Blocks.packed_ice)) && !isBlock(point, Blocks.packed_ice)) {
                 drawBox(point, icefillEtherwarpPointColor, 3f, icefillSolverPhase, viewerPos)
             }
         }
-
         tpPoint?.let {
             drawBox(it, icefillTeleportPointColor, 3f, icefillSolverPhase, viewerPos)
         }
-
-
     }
 
 
@@ -117,17 +109,13 @@ object IceFillSolver : Module(
 
     @SubscribeEvent
     fun onQuarterSecond(event: QuarterSecondEvent) {
-
         iceFillPosition?.let { position ->
             if (!playerInRoomBounds(position, mc.thePlayer.position)) {
                 inIcefill = false
                 return
             }
             inIcefill = true
-
             if (determinedVariants) return
-
-            // Check for variants!11!!!!1!!!111 WOOWOOWOWO
             layer0 = determineVariant(listOf(spongecokeVariant, epicVariant, crazyVariant, bfvarroeVariant), position)
             layer1 = determineVariant(
                 listOf(
@@ -143,16 +131,12 @@ object IceFillSolver : Module(
                 listOf(crossVariant, turtleVariant, americaVariant, pistolVariant, neutralVariant),
                 position
             )
-
-
             layer0plot = bulkConvertToRealCoords(layer0.plotPoints, position)
             layer1plot = bulkConvertToRealCoords(layer1.plotPoints, position)
             layer2plot = bulkConvertToRealCoords(layer2.plotPoints, position)
             layer0warp = bulkConvertToRealCoords(layer0.warpPoints, position)
             layer1warp = bulkConvertToRealCoords(layer1.warpPoints, position)
             layer2warp = bulkConvertToRealCoords(layer2.warpPoints, position)
-
-
             layer1tp = layer1.tpPoint?.let { convertToRealCoords(position, it) }
             layer2tp = layer2.tpPoint?.let { convertToRealCoords(position, it) }
             determinedVariants = true

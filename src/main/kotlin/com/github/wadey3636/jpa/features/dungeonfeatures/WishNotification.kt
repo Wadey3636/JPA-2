@@ -1,7 +1,6 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-
 import com.github.wadey3636.jpa.utils.RenderHelper
 import me.modcore.events.impl.ChatPacketEvent
 import me.modcore.features.Category
@@ -35,25 +34,25 @@ object WishNotification : Module(
 
     @SubscribeEvent
     fun onChat(event: ChatPacketEvent) {
-            when (event.message) {
-                "⚠ Maxor is enraged! ⚠" -> {
-                    RenderHelper.renderTitle(
-                        "Wish",
-                        wishNotificationSize,
-                        healerWishNotificationColor.argb,
-                        3000
-                    )
-                }
-
-                "[BOSS] Goldor: You have done it, you destroyed the factory…" -> {
-                    RenderHelper.renderTitle(
-                        "Wish",
-                        wishNotificationSize,
-                        healerWishNotificationColor.argb,
-                        3000
-                    )
-                }
+        when (event.message) {
+            "⚠ Maxor is enraged! ⚠" -> {
+                RenderHelper.renderTitle(
+                    "Wish",
+                    wishNotificationSize,
+                    healerWishNotificationColor.argb,
+                    3000
+                )
             }
+
+            "[BOSS] Goldor: You have done it, you destroyed the factory…" -> {
+                RenderHelper.renderTitle(
+                    "Wish",
+                    wishNotificationSize,
+                    healerWishNotificationColor.argb,
+                    3000
+                )
+            }
+        }
 
     }
 

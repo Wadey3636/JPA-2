@@ -1,7 +1,6 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-
 import com.github.wadey3636.jpa.events.SecondEvent
 import com.github.wadey3636.jpa.utils.RenderHelper.renderTitle
 import me.modcore.events.impl.ChatPacketEvent
@@ -49,7 +48,6 @@ object MilestoneReminder : Module(
     )
 
 
-
     @SubscribeEvent
     fun checker(event: ChatPacketEvent) {
         if (event.message == "[NPC] Mort: Here, I found this map when I first entered the dungeon.") {
@@ -59,7 +57,7 @@ object MilestoneReminder : Module(
 
         }
         if (event.message.contains("Milestone ❸")) {
-            renderReminder = false; //UChat.chat("[JPA] Reminder False")
+            renderReminder = false //UChat.chat("[JPA] Reminder False")
         }
 
     }

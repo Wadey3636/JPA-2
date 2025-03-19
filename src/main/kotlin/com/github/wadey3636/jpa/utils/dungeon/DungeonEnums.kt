@@ -55,6 +55,7 @@ enum class Blessing(
         current = 0
     }
 }
+
 /**
  * Enumeration representing different floors in a dungeon.
  *

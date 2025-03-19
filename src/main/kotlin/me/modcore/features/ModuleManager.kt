@@ -17,6 +17,7 @@ import me.modcore.ui.hud.HudElement
 import me.modcore.utils.capitalizeFirst
 import me.modcore.utils.profile
 import me.modcore.utils.render.getTextWidth
+import me.modcore.utils.skyblock.devMessage
 import me.modcore.utils.skyblock.modMessage
 import net.minecraft.network.Packet
 import net.minecraftforge.client.event.RenderGameOverlayEvent
@@ -48,8 +49,8 @@ object ModuleManager {
     val modules: ArrayList<Module> = arrayListOf(
         ClickGUIModule,
         GfsKeybinds,
-        P3StartTimer,
-        PadTimer,
+        //P3StartTimer,
+        //PadTimer,
         PositionalMessages,
         PositionDetectors,
         //ProfitTracker,
@@ -57,7 +58,7 @@ object ModuleManager {
         WishNotification,
         IceFillSolver,
         PestFarmingKeybind,
-        InventoryLogger,
+        //InventoryLogger,
         PlayerRenderer
     )
 

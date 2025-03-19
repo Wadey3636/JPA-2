@@ -1,7 +1,6 @@
 package com.github.wadey3636.jpa.features.misc
 
 
-
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
 import com.github.wadey3636.jpa.utils.location.Island
 import com.github.wadey3636.jpa.utils.location.LocationUtils
@@ -13,10 +12,10 @@ import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 
 object PestFarmingKeybind : Module(
-    name = "Pest Farming Keybind",
+    name = "Pest Keybind",
     description = "Sets your spawn if you are inside sugar cane. Warps you to your garden otherwise.",
     category = Category.MISC
-){
+) {
 
     override fun onEnable() {
         if (mc.currentScreen == ClickGUI) {

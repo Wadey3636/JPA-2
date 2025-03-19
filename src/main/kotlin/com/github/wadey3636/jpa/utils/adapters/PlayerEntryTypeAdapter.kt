@@ -3,12 +3,10 @@ import com.google.gson.TypeAdapter
 import com.google.gson.stream.JsonReader
 import com.google.gson.stream.JsonWriter
 import com.mojang.authlib.GameProfile
-import net.minecraft.util.ResourceLocation
 import java.io.IOException
 import java.util.*
 
 class PlayerEntryTypeAdapter : TypeAdapter<PlayerEntry?>() {
-
 
 
     @Throws(IOException::class)
@@ -93,11 +91,26 @@ class PlayerEntryTypeAdapter : TypeAdapter<PlayerEntry?>() {
                         profile = GameProfile(id, profileName)
                     }
                 }
+
                 else -> `in`.skipValue()
             }
         }
         `in`.endObject()
 
-        return PlayerEntry(name, entryX, entryY, entryZ, toggleTexture, texture, dinnerBone, hideHelmet, hideChestplate, hideLeggings, hideBoots, toggle, profile)
+        return PlayerEntry(
+            name,
+            entryX,
+            entryY,
+            entryZ,
+            toggleTexture,
+            texture,
+            dinnerBone,
+            hideHelmet,
+            hideChestplate,
+            hideLeggings,
+            hideBoots,
+            toggle,
+            profile
+        )
     }
 }

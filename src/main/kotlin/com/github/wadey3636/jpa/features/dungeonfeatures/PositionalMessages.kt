@@ -1,19 +1,17 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-
 import com.github.wadey3636.jpa.events.QuarterSecondEvent
-
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
 import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils
-import net.minecraft.block.Block
-import net.minecraft.init.Blocks
-import net.minecraft.util.BlockPos
-import java.util.concurrent.atomic.AtomicBoolean
 import me.modcore.features.Category
 import me.modcore.features.Module
 import me.modcore.features.settings.impl.BooleanSetting
+import net.minecraft.block.Block
+import net.minecraft.init.Blocks
+import net.minecraft.util.BlockPos
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
+import java.util.concurrent.atomic.AtomicBoolean
 
 
 object PositionalMessages : Module(

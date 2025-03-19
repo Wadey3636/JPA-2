@@ -220,11 +220,44 @@ fun ItemStack.drawItem(x: Float = 0f, y: Float = 0f, scale: Float = 1f, z: Float
     GlStateManager.popMatrix()
 }
 
-val ItemStack.skullTexture: String? get() {
-    return this.tagCompound
+
+var ItemStack.skullTexture: String?
+    get() = this.tagCompound
         ?.getCompoundTag("SkullOwner")
         ?.getCompoundTag("Properties")
         ?.getTagList("textures", Constants.NBT.TAG_COMPOUND)
         ?.getCompoundTagAt(0)
         ?.getString("Value")
+    set(value) {
+        if (value == null) {
+            this.tagCompound?.removeTag("SkullOwner")
+        } else {
+            if (this.tagCompound == null) {
+                this.tagCompound = NBTTagCompound()
+            }
+            val skullOwner: NBTTagCompound = if (this.tagCompound.hasKey("SkullOwner", Constants.NBT.TAG_COMPOUND)) {
+                this.tagCompound.getCompoundTag("SkullOwner")
+            } else {
+                NBTTagCompound().also { this.tagCompound.setTag("SkullOwner", it) }
+            }
+            val properties: NBTTagCompound = if (skullOwner.hasKey("Properties", Constants.NBT.TAG_COMPOUND)) {
+                skullOwner.getCompoundTag("Properties")
+            } else {
+                NBTTagCompound().also { skullOwner.setTag("Properties", it) }
+            }
+            val textures: NBTTagList = if (properties.hasKey("textures", Constants.NBT.TAG_LIST)) {
+                properties.getTagList("textures", Constants.NBT.TAG_COMPOUND)
+            } else {
+                NBTTagList().also { properties.setTag("textures", it) }
+            }
+            if (textures.tagCount() == 0) {
+                val textureTag = NBTTagCompound()
+                textureTag.setString("Value", value)
+                textures.appendTag(textureTag)
+            } else {
+                val textureTag = textures.getCompoundTagAt(0)
+                textureTag.setString("Value", value)
+            }
+
+        }
 }

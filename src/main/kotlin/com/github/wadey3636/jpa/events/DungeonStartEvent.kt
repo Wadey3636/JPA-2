@@ -7,7 +7,7 @@ import net.minecraftforge.fml.common.eventhandler.Event
 class DungeonStartEvent(Floor: String) : Event() {
     private var floor = Floor
 
-       fun getFloor(): String {
-           return floor
-       }
+    fun getFloor(): String {
+        return floor
+    }
 }

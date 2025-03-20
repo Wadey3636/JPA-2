@@ -5,6 +5,7 @@
 - Positional Messages
 - Player Position Detectors
 - Healer Wish Notification
+- Terminal Waypoints
 - -----
 ### Dungeons:
 - Smart Gfs Command Keybindings

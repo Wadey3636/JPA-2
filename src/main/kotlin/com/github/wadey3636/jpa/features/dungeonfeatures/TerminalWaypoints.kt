@@ -1,6 +1,7 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
+import com.github.wadey3636.jpa.events.P3StartEvent
 import com.github.wadey3636.jpa.events.QuarterSecondEvent
 import com.github.wadey3636.jpa.utils.GuiUtils.containsOneOf
 import com.github.wadey3636.jpa.utils.GuiUtils.deformat
@@ -206,12 +207,6 @@ object TerminalWaypoints : Module(
 
     @SubscribeEvent
     fun chatReceived(event: ChatPacketEvent) {
-        when (event.message) {
-            "[BOSS] Storm: I should have known that I stood no chance." -> {
-                terminalSection = 0
-                addS1()
-            }
-        }
         if (event.message.containsOneOf("! (7/7)", "! (8/8)")) {
             terminalSection += 1
             when (terminalSection) {
@@ -222,6 +217,13 @@ object TerminalWaypoints : Module(
         }
 
     }
+    @SubscribeEvent
+    fun onP3Start(event: P3StartEvent) {
+        terminalSection = 0
+        addS1()
+    }
+
+
 
     private fun isDev(pos: BlockPos): Boolean {
         return true

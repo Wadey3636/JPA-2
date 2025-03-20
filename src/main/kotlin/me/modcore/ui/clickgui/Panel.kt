@@ -96,7 +96,7 @@ class Panel(
                 drawDynamicTexture(miscIcon, x + WIDTH * 0.08  - imageSize / 2 + 4, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
             }
             Category.DUNGEONS -> {
-                additionalOffset = 4.0
+                additionalOffset = 8.0
                 drawDynamicTexture(dungeonIcon, x + WIDTH * 0.08  - imageSize / 2, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
             }
 

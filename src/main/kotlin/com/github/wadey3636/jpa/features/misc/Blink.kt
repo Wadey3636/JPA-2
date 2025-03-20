@@ -31,12 +31,12 @@ object Blink : Module("Blink", description = "Blinks", category = Category.MISC)
         devMessage(blink)
         if (blink >= 750) {
             roundedRectangle(0, 0, 3000, 1250 - blink, Color.BLACK)
-            roundedRectangle(0, ScaledResolution(mc).scaledHeight + blink - 1250, 3000, 1300, Color.BLACK)
+            roundedRectangle(0, mc.displayHeight + blink - 1250, 3000, 1300, Color.BLACK)
         } else if (blink >= 500) {
-          roundedRectangle(0, 0, 3000, 2000, Color.BLACK)
+          roundedRectangle(0, 0, mc.displayWidth, mc.displayHeight, Color.BLACK)
         } else {
             roundedRectangle(0, 0, 3000, blink, Color.BLACK)
-            roundedRectangle(0, ScaledResolution(mc).scaledHeight - blink, 3000, 1300, Color.BLACK)
+            roundedRectangle(0, mc.displayHeight - blink, 3000, 1300, Color.BLACK)
         }
 
 

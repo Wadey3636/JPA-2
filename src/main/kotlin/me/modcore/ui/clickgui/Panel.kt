@@ -38,6 +38,8 @@ class Panel(
 ) {
     private val renderIcon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/render.png"))
     private val floor7Icon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/wither.png"))
+    private val miscIcon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/misc.png"))
+    private val dungeonIcon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/dungeon.png"))
 
     val displayName = category.name.lowercase().capitalizeFirst()
 
@@ -86,9 +88,18 @@ class Panel(
                 drawDynamicTexture(renderIcon, x + WIDTH * 0.08 - imageSize / 2 + additionalOffset, y + HEIGHT / 2 - imageSize / 2 - 2, imageSize, imageSize)
             }
             Category.FLOOR7 -> {
-                additionalOffset = 4.0
-                drawDynamicTexture(floor7Icon, x + WIDTH * 0.08  - imageSize / 2 + additionalOffset, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
+                additionalOffset = 8.0
+                drawDynamicTexture(floor7Icon, x + WIDTH * 0.08  - imageSize / 2 + 4, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
             }
+            Category.MISC -> {
+                additionalOffset = -4.0
+                drawDynamicTexture(miscIcon, x + WIDTH * 0.08  - imageSize / 2 + 4, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
+            }
+            Category.DUNGEONS -> {
+                additionalOffset = 4.0
+                drawDynamicTexture(dungeonIcon, x + WIDTH * 0.08  - imageSize / 2, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
+            }
+
             else -> {
 
             }

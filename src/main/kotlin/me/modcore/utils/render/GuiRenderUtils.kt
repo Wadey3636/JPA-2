@@ -4,6 +4,7 @@ import gg.essential.universal.UMatrixStack
 import me.modcore.Core.mc
 import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.util.ColorUtil
+import me.modcore.ui.util.MouseUtils.isAreaHovered
 import me.modcore.ui.util.shader.RoundedRect
 import me.modcore.utils.*
 import me.modcore.utils.render.RenderUtils.drawTexturedModalRect
@@ -18,6 +19,8 @@ import org.lwjgl.opengl.GL11
 val matrix = UMatrixStack.Compat
 val scaleFactor get() = ScaledResolution(mc).scaleFactor.toFloat()
 private val arrowIcon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/arrow.png"))
+private val arrowGrayIcon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/arrowGray.png"))
+
 
 data class Box(var x: Number, var y: Number, var w: Number, var h: Number)
 data class BoxWithClass<T : Number>(var x: T, var y: T, var w: T, var h: T)
@@ -192,15 +195,25 @@ fun resetScissor(scissor: Scissor) {
     scissorList.removeLast()
 }
 
-fun drawArrow(xpos: Float, ypos: Float, rotation: Float = 90f, scale: Float = 1f, color: Color = Color.WHITE) {
+fun drawArrow(xpos: Float, ypos: Float, rotation: Float = 90f, scale: Float = 1f) {
     GlStateManager.pushMatrix()
     GlStateManager.translate(xpos, ypos, 0f)
     GlStateManager.rotate(rotation, 0f, 0f, 1f)
     GlStateManager.scale(scale, scale, 1f)
     GlStateManager.translate(-xpos, -ypos, 0f)
-    GlStateManager.color(color.redFloat, color.greenFloat, color.blueFloat, color.alphaFloat)
-    drawDynamicTexture(arrowIcon, xpos - 25 / 2 * scale, ypos - 25 / 2 * scale, 25 * scale, 25 * scale)
+    drawDynamicTexture(
+        if (
+            isAreaHovered(
+            xpos - 25 / 2 * scale,
+            ypos - 25 / 2 * scale,
+            25 * scale, 25 * scale)
+        ) arrowGrayIcon else arrowIcon,
+        xpos - 25 / 2 * scale,
+        ypos - 25 / 2 * scale,
+        25 * scale,
+        25 * scale)
     GlStateManager.popMatrix()
+
 }
 
 fun drawX(x: Float, y: Float, scale: Float, color: Color) {

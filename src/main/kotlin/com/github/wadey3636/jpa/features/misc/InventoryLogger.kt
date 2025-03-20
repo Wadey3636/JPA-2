@@ -7,6 +7,7 @@ import com.github.wadey3636.jpa.utils.WorldUtils
 import com.github.wadey3636.jpa.utils.adapters.ChestEntryTypeAdapter
 import com.github.wadey3636.jpa.utils.location.Island
 import com.github.wadey3636.jpa.utils.location.LocationUtils
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import me.modcore.Core.logger
@@ -30,7 +31,7 @@ object InventoryLogger : Module(
     description = "Logs all chests and gui's opened, allowing you to run /search to find an item in any logged chest. It is also dependent on what skyblock profile you are on",
     category = Category.MISC
 ) {
-    val gson = GsonBuilder().registerTypeAdapter(InventoryInfo::class.java, ChestEntryTypeAdapter()).setPrettyPrinting()
+    val gson: Gson = GsonBuilder().registerTypeAdapter(InventoryInfo::class.java, ChestEntryTypeAdapter()).setPrettyPrinting()
         .create()
 
 
@@ -53,9 +54,13 @@ object InventoryLogger : Module(
 
 
     @SubscribeEvent
-    fun openGui(event: TickEvent.ClientTickEvent) {
+    fun logGui(event: TickEvent.ClientTickEvent) {
         val gui = mc.currentScreen
-        if (event.phase != TickEvent.Phase.END || gui !is GuiChest) return
+        if (
+            event.phase != TickEvent.Phase.END
+            || gui !is GuiChest
+            || LocationUtils.currentArea.isArea(Island.Dungeon)
+            ) return
         val location = LocationUtils.currentArea
         if (lastClickedChest.isNotEmpty()) {
             val index = entryExists(location, lastClickedChest)
@@ -84,6 +89,8 @@ object InventoryLogger : Module(
         ) {
             devMessage("Clicked Chest")
             lastClickedChest = WorldUtils.findDoubleChest(event.pos)
+        } else {
+            lastClickedChest = listOf()
         }
     }
 

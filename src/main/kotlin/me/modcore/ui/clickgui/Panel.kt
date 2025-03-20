@@ -162,7 +162,6 @@ class Panel(
     }
 
     fun mouseClicked(mouseButton: Int): Boolean {
-        devMessage("$displayName clicked at: ($mouseX, $mouseY), isHovered: $isHovered, state: $mouseButton")
         if (isHoveredOverExtendToggle) {
             extended = !extended
             return true

@@ -2,6 +2,7 @@ package me.modcore.features
 
 import com.github.wadey3636.jpa.features.dungeonfeatures.*
 import com.github.wadey3636.jpa.features.dungeonfeatures.icefillsolver.IceFillSolver
+import com.github.wadey3636.jpa.features.misc.Blink
 import com.github.wadey3636.jpa.features.misc.PestFarmingKeybind
 import com.github.wadey3636.jpa.features.misc.InventoryLogger
 import com.github.wadey3636.jpa.features.render.PlayerRenderer
@@ -58,6 +59,7 @@ object ModuleManager {
         WishNotification,
         IceFillSolver,
         PestFarmingKeybind,
+        Blink,
         //InventoryLogger,
         PlayerRenderer
     )

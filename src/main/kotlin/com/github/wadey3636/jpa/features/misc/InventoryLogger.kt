@@ -17,6 +17,7 @@ import me.modcore.features.Category
 import me.modcore.features.Module
 import me.modcore.utils.skyblock.devMessage
 import net.minecraft.client.gui.inventory.GuiChest
+import net.minecraft.network.play.client.C03PacketPlayer.C06PacketPlayerPosLook
 import net.minecraft.network.play.client.C0DPacketCloseWindow
 import net.minecraft.util.BlockPos
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
@@ -69,14 +70,14 @@ object InventoryLogger : Module(
             } else {
                 chestEntries.add(InventoryInfo(location, lastClickedChest, gui.getStacks))
             }
-
-            lastClickedChest = listOf()
             save()
         }
     }
 
+
     @SubscribeEvent
     fun worldLoadEvent(event: WorldEvent.Load) {
+        lastClickedChest = listOf()
         load()
     }
 
@@ -114,7 +115,7 @@ object InventoryLogger : Module(
                 chestEntries.add(gson.fromJson(jsonObject, InventoryInfo::class.java))
             } catch (e: Exception) {
                 devMessage("Error Loading Chests")
-                logger.error("Error Saving Chests", e)
+                logger.error("Error Loading Chests", e)
             }
 
         }

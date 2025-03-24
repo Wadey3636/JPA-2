@@ -54,13 +54,13 @@ object ModuleManager {
         //PadTimer,
         PositionalMessages,
         PositionDetectors,
-        //ProfitTracker,
+        ProfitTracker,
         TerminalWaypoints,
         WishNotification,
         IceFillSolver,
         PestFarmingKeybind,
         Blink,
-        //InventoryLogger,
+        InventoryLogger,
         PlayerRenderer
     )
 

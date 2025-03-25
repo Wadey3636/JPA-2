@@ -47,6 +47,7 @@ object Core {
         }
         ClickGUI.init()
         RoundedRect.initShaders()
+        PlayerCustomizerGUI.loadEntries()
     }
 
     @SubscribeEvent

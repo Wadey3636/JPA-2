@@ -105,7 +105,7 @@ object PlayerCustomizerGUI : Screen() {
 
     }
 
-    private fun loadEntries() {
+    fun loadEntries() {
         playerEntries.clear()
         val jsonArray = DataManager.loadDataFromFile("PlayerEntries")
         jsonArray.forEach {

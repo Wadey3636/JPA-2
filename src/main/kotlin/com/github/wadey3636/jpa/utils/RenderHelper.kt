@@ -2,7 +2,7 @@ package com.github.wadey3636.jpa.utils
 
 //import net.minecraft.client.renderer.entity.RenderManager
 
-
+import net.minecraft.client.renderer.RenderHelper
 import me.modcore.Core.mc
 import me.modcore.utils.render.Color
 import me.modcore.utils.render.RenderUtils.bind
@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.WorldRenderer
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import net.minecraft.item.ItemStack
 import net.minecraft.util.BlockPos
 import net.minecraft.util.MathHelper
 import net.minecraft.util.ResourceLocation
@@ -92,6 +93,24 @@ object RenderHelper {
         )
         GlStateManager.popMatrix()
     }
+
+    /**
+     * Taken from Skyblockcatia under MIT License
+     * Modified
+     * https://github.com/SteveKunG/SkyBlockcatia/blob/1.8.9/LICENSE.md
+     *
+     * @author SteveKunG
+     */
+    @JvmStatic
+    fun renderItem(itemStack: ItemStack?, x: Int, y: Int) {
+        RenderHelper.enableGUIStandardItemLighting()
+        GlStateManager.enableDepth()
+        mc.renderItem.renderItemAndEffectIntoGUI(itemStack, x, y)
+    }
+
+
+
+
 
     fun trace(
         pos: BlockPos,

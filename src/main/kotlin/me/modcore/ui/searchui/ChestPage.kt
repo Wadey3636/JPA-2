@@ -1,16 +1,16 @@
 package me.modcore.ui.searchui
 
-import com.github.wadey3636.jpa.utils.InventoryInfo
-import com.github.wadey3636.jpa.utils.RenderHelper
-import com.github.wadey3636.jpa.utils.Slot
-import com.github.wadey3636.jpa.utils.scaledResolution
+import com.github.wadey3636.jpa.utils.*
 import me.modcore.Core.mc
 import me.modcore.utils.Vec2
 import me.modcore.utils.render.RenderUtils.loadBufferedImage
 import me.modcore.utils.render.drawDynamicTexture
+import me.modcore.utils.render.drawTexture
 import me.modcore.utils.render.scale
+import me.modcore.utils.skyblock.devMessage
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.texture.DynamicTexture
+import net.minecraft.util.ResourceLocation
 import kotlin.math.roundToInt
 
 class ChestPage(
@@ -18,9 +18,9 @@ class ChestPage(
     val offset: Float,
     val yOffset: Float
 ) {
-    private val inventoryTexture = DynamicTexture(loadBufferedImage("/assets/modcore/searchgui/chest.png"))
+    private val chestTexture = ResourceLocation("textures/gui/container/chest.png")
     private var x = offset
-    private val y = yOffset.toInt() * 250
+    private val y = yOffset * 250
 
     init {
         when (offset) {
@@ -34,6 +34,7 @@ class ChestPage(
                 x = scaledResolution.scaledWidth / 3f * 4f
             }
         }
+        devMessage("x:$x, y:$y")
     }
 
 
@@ -41,12 +42,17 @@ class ChestPage(
 
 
     fun draw() {
-        drawDynamicTexture(inventoryTexture, x, y + scrollOffset, 352f, 244f)
+        drawTexture(
+            chestTexture,
+            x,
+            y + scrollOffset,
+            352f,
+            if (inventory.size.int == 2 ) 244f else 138
+        )
         for (item in inventory.page) {
             val pos = RenderHelper.getSlotXY(item.index)
-            val itemX = pos.x * 32 + x.roundToInt()
-            val itemY = pos.z * 32 + y + scrollOffset
-            scale(2, 2, 200f)
+            val itemX = pos.x * 36 + x + 16
+            val itemY = pos.z * 36 + y + scrollOffset + 16
             RenderHelper.renderItem(item.itemStack, itemX, itemY, 2f, 2f, 100f)
         }
     }

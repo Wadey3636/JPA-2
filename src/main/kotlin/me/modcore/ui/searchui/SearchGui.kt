@@ -28,10 +28,12 @@ object SearchGui: Screen() {
     private val chests: MutableList<ChestPage> = mutableListOf()
 
     override fun draw() {
-
         GlStateManager.pushMatrix()
         scale(1f / scaleFactor, 1f / scaleFactor, 1f)
-        chests.forEach { it.draw() }
+        for (chest in chests) {
+            chest.draw()
+        }
+        //chests.forEach { it.draw() }
         scale(scaleFactor, scaleFactor, 1f)
         GlStateManager.popMatrix()
     }
@@ -42,28 +44,38 @@ object SearchGui: Screen() {
             mc.entityRenderer.stopUseShader()
             mc.entityRenderer.loadShader(ResourceLocation("shaders/post/blur.json"))
         }
-        var y = 1f
+
+        var y = 0f
+        var y1 = 0f
+        var y2 = 0f
         var x = 1f
         chests.clear()
         for (entry in chestEntries) {
+            val gap = if (entry.size.int == 2) 244f / 250f + 0.1f else 138f / 250f + 0.1f
             when (x) {
                 1f -> {
+                    devMessage(y)
                     chests.add(ChestPage(entry, x, y))
+                    y += gap
                     x++
                 }
                 2f -> {
-                    chests.add(ChestPage(entry, x, y))
+                    devMessage(y1)
+                    chests.add(ChestPage(entry, x, y1))
                     x++
+                    y1 += gap
                 }
                 3f -> {
-                    chests.add(ChestPage(entry, x, y))
+                    devMessage(y2)
+                    chests.add(ChestPage(entry, x, y2))
                     x = 1f
-                    y++
+                    y2 += gap
                 }
                 else -> {
                     modError("Error Occurred Adding Chests")
                 }
             }
+
 
         }
         devMessage("chests: ${chests.size}, chestEntries: ${chestEntries.size}")
@@ -72,19 +84,6 @@ object SearchGui: Screen() {
 
     override fun onGuiClosed() {
         mc.entityRenderer.stopUseShader()
-    }
-    private fun renderItemStack(stack: ItemStack, x: Int, y: Int) {
-        val itemRender = mc.renderItem
-        val fontRenderer: FontRenderer = mc.fontRendererObj
-
-        GlStateManager.pushMatrix()
-        GlStateManager.enableRescaleNormal()
-        RenderHelper.enableGUIStandardItemLighting()
-        itemRender.renderItemAndEffectIntoGUI(stack, x, y)
-        itemRender.renderItemOverlayIntoGUI(fontRenderer, stack, x, y, null)
-        RenderHelper.disableStandardItemLighting()
-        GlStateManager.disableRescaleNormal()
-        GlStateManager.popMatrix()
     }
 
 

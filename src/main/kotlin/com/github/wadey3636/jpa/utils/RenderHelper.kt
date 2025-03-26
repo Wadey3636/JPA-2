@@ -115,20 +115,20 @@ object RenderHelper {
     }
 
 
-    fun renderItem(itemStack: ItemStack?, x: Int, y: Int, scaleX: Float = 1f, scaleY: Float = 1f, scaleZ: Float = 1f) {
+    fun renderItem(itemStack: ItemStack?, x: Float, y: Float, scaleX: Float = 1f, scaleY: Float = 1f, scaleZ: Float = 1f) {
         GlStateManager.pushMatrix()
-        scale(scaleX, scaleY, scaleZ)
         RenderHelper.enableGUIStandardItemLighting()
         GlStateManager.enableDepth()
-        mc.renderItem.renderItemAndEffectIntoGUI(itemStack, (x / scaleX).roundToInt(), (y / scaleY).roundToInt())
-        scale(1/scaleX, 1/ scaleY, 1/ scaleZ)
+        scale(scaleX, scaleY, 1f)
+        GlStateManager.translate(x / scaleX, y / scaleY, 0f)
+        mc.renderItem.renderItemAndEffectIntoGUI(itemStack, 0, 0)
         GlStateManager.popMatrix()
     }
 
 
     fun getSlotXY(index: Double): Vec2 {
         val slot = (index / 9).toString()
-        return Vec2(slot[0].toString().toInt() + 1, slot[2].toString().toInt() + 1)
+        return Vec2(slot[2].toString().toInt(), slot[0].toString().toInt())
     }
 
     fun getSlotXY(index: Int): Vec2 {

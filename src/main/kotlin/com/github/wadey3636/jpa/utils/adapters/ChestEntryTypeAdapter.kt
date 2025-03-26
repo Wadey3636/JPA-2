@@ -1,5 +1,6 @@
 package com.github.wadey3636.jpa.utils.adapters
 
+import com.github.wadey3636.jpa.features.misc.InventoryLogger.determineSize
 import com.github.wadey3636.jpa.utils.InventoryInfo
 import com.github.wadey3636.jpa.utils.Slot
 import com.github.wadey3636.jpa.utils.location.Island
@@ -49,6 +50,8 @@ class ChestEntryTypeAdapter : TypeAdapter<InventoryInfo>() {
 
 
         out.endArray()
+        out.name("Size").value(info.size.int)
+
         out.endObject()
 
 
@@ -59,7 +62,7 @@ class ChestEntryTypeAdapter : TypeAdapter<InventoryInfo>() {
         var island: Island? = null
         val posList: MutableList<BlockPos> = mutableListOf()
         val slots: MutableList<Slot> = mutableListOf()
-
+        var size: Int = 1
         reader.beginObject()
         while (reader.hasNext()) {
             when (reader.nextName()) {
@@ -122,17 +125,20 @@ class ChestEntryTypeAdapter : TypeAdapter<InventoryInfo>() {
                     }
                     reader.endArray()
                 }
-
+                "Size" -> {
+                    size = reader.nextInt()
+                }
                 else -> {
                     reader.skipValue()
                 }
+
             }
         }
         reader.endObject()
         if (island == null) {
             throw IOException("Missing location in InventoryInfo JSON")
         }
-        return InventoryInfo(island, posList, slots)
+        return InventoryInfo(island, posList, slots, determineSize(size))
     }
 
 }

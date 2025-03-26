@@ -1,6 +1,9 @@
 package com.github.wadey3636.jpa.features.misc
 
 
+import com.github.wadey3636.jpa.utils.ChestSize
+import com.github.wadey3636.jpa.utils.ChestSize.Double
+import com.github.wadey3636.jpa.utils.ChestSize.Single
 import com.github.wadey3636.jpa.utils.GuiUtils.getStacks
 import com.github.wadey3636.jpa.utils.InventoryInfo
 import com.github.wadey3636.jpa.utils.WorldUtils
@@ -49,7 +52,11 @@ object InventoryLogger : Module(
         var i = 0
         while (i < chestEntries.size) {
             val entry = chestEntries[i]
-            if (entry.location == location && entry.pos == pos) return i
+            if (entry.location == location) {
+                for (position in pos) {
+                    if (entry.pos?.firstOrNull { it == position} != null) return i
+                }
+            }
             i++
         }
         return null
@@ -68,14 +75,30 @@ object InventoryLogger : Module(
         if (lastClickedChest.isNotEmpty()) {
             val index = entryExists(location, lastClickedChest)
             if (index != null) {
-                chestEntries[index] = InventoryInfo(location, lastClickedChest, gui.getStacks)
+                chestEntries[index] = InventoryInfo(
+                    location,
+                    lastClickedChest,
+                    gui.getStacks,
+                    determineSize(lastClickedChest.size)
+                )
             } else {
-                chestEntries.add(InventoryInfo(location, lastClickedChest, gui.getStacks))
+                chestEntries.add(
+                    InventoryInfo(
+                        location,
+                        lastClickedChest,
+                        gui.getStacks,
+                        determineSize(lastClickedChest.size)
+
+
+                    )
+                )
             }
             save()
         }
     }
-
+    fun determineSize(size: Int): ChestSize {
+        return if (size == 1) Single else Double
+    }
 
     @SubscribeEvent
     fun worldLoadEvent(event: WorldEvent.Load) {

@@ -1,5 +1,6 @@
 package me.modcore.utils.render
 
+
 import gg.essential.universal.UMatrixStack
 import me.modcore.Core.mc
 import me.modcore.font.FontRenderer
@@ -13,6 +14,7 @@ import me.modcore.utils.render.TextAlign.Left
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.texture.DynamicTexture
+import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.Display
 import org.lwjgl.opengl.GL11
 
@@ -240,6 +242,21 @@ fun drawDynamicTexture(dynamicTexture: DynamicTexture, x: Number, y: Number, w: 
     GlStateManager.bindTexture(dynamicTexture.glTextureId)
     drawTexturedModalRect(x.toInt(), y.toInt(), w.toInt(), h.toInt())
 
+    if (!isBlendEnabled) GlStateManager.disableBlend()
+    if (!isAlphaEnabled) GlStateManager.disableAlpha()
+
+    GlStateManager.popMatrix()
+}
+
+fun drawTexture(texture: ResourceLocation, x: Number, y: Number, w: Number, h: Number) {
+
+    val isBlendEnabled = GL11.glIsEnabled(GL11.GL_BLEND)
+    val isAlphaEnabled = GL11.glIsEnabled(GL11.GL_ALPHA_TEST)
+    GlStateManager.pushMatrix()
+    if (!isBlendEnabled) GlStateManager.enableBlend()
+    if (!isAlphaEnabled) GlStateManager.enableAlpha()
+    mc.textureManager.bindTexture(texture)
+    drawTexturedModalRect(x.toInt(), y.toInt(), w.toInt(), h.toInt())
     if (!isBlendEnabled) GlStateManager.disableBlend()
     if (!isAlphaEnabled) GlStateManager.disableAlpha()
 

@@ -11,6 +11,7 @@ import me.modcore.utils.render.drawDynamicTexture
 import me.modcore.utils.render.scale
 import me.modcore.utils.render.scaleFactor
 import me.modcore.utils.skyblock.devMessage
+import me.modcore.utils.skyblock.modError
 import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.OpenGlHelper
@@ -27,28 +28,10 @@ object SearchGui: Screen() {
     private val chests: MutableList<ChestPage> = mutableListOf()
 
     override fun draw() {
+
         GlStateManager.pushMatrix()
         scale(1f / scaleFactor, 1f / scaleFactor, 1f)
         chests.forEach { it.draw() }
-
-
-
-
-
-/*
-        drawDynamicTexture(inventoryTexture, scaledResolution.scaledWidth  / 3f, 200f, 352f, 244f)
-        drawDynamicTexture(inventoryTexture, scaledResolution.scaledWidth / 3 * 2.5, 200f, 352f, 244f)
-        drawDynamicTexture(inventoryTexture, scaledResolution.scaledWidth / 3 * 4, 200f, 352f, 244f)
-
- */
-
-        if (chestEntries[0].page.isNotEmpty()) {
-            renderItemStack(chestEntries[0].page[0].itemStack, 400, 400)
-        }
-
-
-
-
         scale(scaleFactor, scaleFactor, 1f)
         GlStateManager.popMatrix()
     }
@@ -61,6 +44,7 @@ object SearchGui: Screen() {
         }
         var y = 1f
         var x = 1f
+        chests.clear()
         for (entry in chestEntries) {
             when (x) {
                 1f -> {
@@ -77,11 +61,13 @@ object SearchGui: Screen() {
                     y++
                 }
                 else -> {
-                    devMessage("Error Occurred Adding Chests")
+                    modError("Error Occurred Adding Chests")
                 }
             }
 
         }
+        devMessage("chests: ${chests.size}, chestEntries: ${chestEntries.size}")
+
     }
 
     override fun onGuiClosed() {

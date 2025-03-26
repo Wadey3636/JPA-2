@@ -4,8 +4,10 @@ package com.github.wadey3636.jpa.utils
 
 import net.minecraft.client.renderer.RenderHelper
 import me.modcore.Core.mc
+import me.modcore.utils.Vec2
 import me.modcore.utils.render.Color
 import me.modcore.utils.render.RenderUtils.bind
+import me.modcore.utils.render.scale
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.WorldRenderer
@@ -16,6 +18,7 @@ import net.minecraft.util.MathHelper
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
 import kotlin.math.cos
+import kotlin.math.roundToInt
 import kotlin.math.sin
 
 object RenderHelper {
@@ -101,13 +104,36 @@ object RenderHelper {
      *
      * @author SteveKunG
      */
-    @JvmStatic
-    fun renderItem(itemStack: ItemStack?, x: Int, y: Int) {
+    fun renderItem(itemStack: ItemStack?, x: Int, y: Int, scale: Float = 1f) {
+        GlStateManager.pushMatrix()
+        scale(scale, scale, scale)
         RenderHelper.enableGUIStandardItemLighting()
         GlStateManager.enableDepth()
-        mc.renderItem.renderItemAndEffectIntoGUI(itemStack, x, y)
+        mc.renderItem.renderItemAndEffectIntoGUI(itemStack, (x / scale).roundToInt(), (y / scale).roundToInt())
+        scale(1/scale, 1/ scale, 1/ scale)
+        GlStateManager.popMatrix()
     }
 
+
+    fun renderItem(itemStack: ItemStack?, x: Int, y: Int, scaleX: Float = 1f, scaleY: Float = 1f, scaleZ: Float = 1f) {
+        GlStateManager.pushMatrix()
+        scale(scaleX, scaleY, scaleZ)
+        RenderHelper.enableGUIStandardItemLighting()
+        GlStateManager.enableDepth()
+        mc.renderItem.renderItemAndEffectIntoGUI(itemStack, (x / scaleX).roundToInt(), (y / scaleY).roundToInt())
+        scale(1/scaleX, 1/ scaleY, 1/ scaleZ)
+        GlStateManager.popMatrix()
+    }
+
+
+    fun getSlotXY(index: Double): Vec2 {
+        val slot = (index / 9).toString()
+        return Vec2(slot[0].toString().toInt() + 1, slot[2].toString().toInt() + 1)
+    }
+
+    fun getSlotXY(index: Int): Vec2 {
+        return getSlotXY(index.toDouble())
+    }
 
 
 

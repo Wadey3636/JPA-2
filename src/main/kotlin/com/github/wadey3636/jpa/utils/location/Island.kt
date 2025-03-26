@@ -1,5 +1,7 @@
 package com.github.wadey3636.jpa.utils.location
 
+import me.modcore.features.impl.render.ClickGUIModule
+
 enum class Island(val displayName: String) {
     SinglePlayer("Singleplayer"),
     PrivateIsland("Private Island"),
@@ -24,7 +26,7 @@ enum class Island(val displayName: String) {
     Unknown("(Unknown)");
 
     fun isArea(area: Island): Boolean {
-        if (this == SinglePlayer) return true
+        if (this == SinglePlayer && ClickGUIModule.devMode) return true
         return this == area
     }
 

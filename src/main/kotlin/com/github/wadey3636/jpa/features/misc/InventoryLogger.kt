@@ -32,6 +32,8 @@ object InventoryLogger : Module(
     description = "Logs all chests and gui's opened, allowing you to run /search to find an item in any logged chest. It is also dependent on what skyblock profile you are on",
     category = Category.MISC
 ) {
+
+
     val gson: Gson = GsonBuilder().registerTypeAdapter(InventoryInfo::class.java, ChestEntryTypeAdapter()).setPrettyPrinting()
         .create()
 
@@ -80,6 +82,7 @@ object InventoryLogger : Module(
         lastClickedChest = listOf()
         load()
     }
+
 
 
     @SubscribeEvent

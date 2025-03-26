@@ -12,7 +12,7 @@ class SearchGuiCommand : CommandBase() {
     }
 
     override fun getCommandUsage(sender: ICommandSender?): String {
-        return "Opens Search"
+        return "Opens Search Gui"
     }
 
     override fun processCommand(sender: ICommandSender?, args: Array<out String>?) {
@@ -25,7 +25,7 @@ class SearchGuiCommand : CommandBase() {
     }
 
     override fun getCommandAliases(): List<String> {
-        return listOf("jp", "jpp", "jpenis")
+        return listOf("s", "find")
     }
 
 }

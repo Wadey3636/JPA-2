@@ -2,7 +2,9 @@ package me.modcore.font
 
 import me.modcore.Core.mc
 import me.modcore.utils.noControlCodes
-import me.modcore.utils.render.*
+import me.modcore.utils.render.Color
+import me.modcore.utils.render.TextAlign
+import me.modcore.utils.render.TextPos
 import net.minecraft.client.renderer.GlStateManager
 import kotlin.math.max
 
@@ -17,17 +19,27 @@ object FontRenderer {
         fontRenderer = mc.fontRendererObj
     }
 
-    fun text(text: String, x: Float, y: Float, color: Color, scale: Float, align: TextAlign = TextAlign.Left, verticalAlign: TextPos = TextPos.Middle, shadow: Boolean = false, type: Int = REGULAR) {
+    fun text(
+        text: String,
+        x: Float,
+        y: Float,
+        color: Color,
+        scale: Float,
+        align: TextAlign = TextAlign.Left,
+        verticalAlign: TextPos = TextPos.Middle,
+        shadow: Boolean = false,
+        type: Int = REGULAR
+    ) {
         if (color.isTransparent) return
-        val reducedScale = scale/8
+        val reducedScale = scale / 8
         val drawX = when (align) {
-            TextAlign.Left   -> x
-            TextAlign.Right  -> x - getTextWidth(text, reducedScale)
+            TextAlign.Left -> x
+            TextAlign.Right -> x - getTextWidth(text, reducedScale)
             TextAlign.Middle -> x - getTextWidth(text, reducedScale) / 2f
         }
 
         val drawY = when (verticalAlign) {
-            TextPos.Top    -> y
+            TextPos.Top -> y
             TextPos.Middle -> y - getTextHeight(reducedScale) / 2f
             TextPos.Bottom -> y - getTextHeight(reducedScale)
         }
@@ -51,7 +63,16 @@ object FontRenderer {
         return (fontHeight * size).toInt()
     }
 
-    fun wrappedText(text: String, x: Float, y: Float, w: Float, color: Color, size: Float, type: Int = REGULAR, shadow: Boolean = false) {
+    fun wrappedText(
+        text: String,
+        x: Float,
+        y: Float,
+        w: Float,
+        color: Color,
+        size: Float,
+        type: Int = REGULAR,
+        shadow: Boolean = false
+    ) {
         if (color.isTransparent) return
         val words = text.split(" ")
         var line = ""
@@ -62,14 +83,13 @@ object FontRenderer {
                 text(line, x, currentHeight, color, size, type = type, shadow = shadow)
                 line = "$word "
                 currentHeight += getTextHeight((size + 7) / 8)
-            }
-            else line += "$word "
+            } else line += "$word "
         }
-        text(line, x, currentHeight , color, size, type = type, shadow = shadow)
+        text(line, x, currentHeight, color, size, type = type, shadow = shadow)
     }
 
     fun wrappedTextBounds(text: String, width: Float, size: Float): Pair<Float, Float> {
-        val reducedScale = size/8
+        val reducedScale = size / 8
         val words = text.split(" ")
         var line = ""
         var lines = 1
@@ -80,8 +100,7 @@ object FontRenderer {
                 maxWidth = max(maxWidth, getTextWidth(line, reducedScale).toFloat())
                 line = "$word "
                 lines++
-            }
-            else line += "$word "
+            } else line += "$word "
 
         }
         maxWidth = max(maxWidth, getTextWidth(line, reducedScale).toFloat())

@@ -29,12 +29,15 @@ import java.util.zip.ZipInputStream;
  */
 public class AutoDiscoveryMixinPlugin implements IMixinConfigPlugin {
     private static final List<AutoDiscoveryMixinPlugin> mixinPlugins = new ArrayList<>();
+    private String mixinPackage;
+    /**
+     * A list of all discovered mixins.
+     */
+    private List<String> mixins = null;
 
     public static List<AutoDiscoveryMixinPlugin> getMixinPlugins() {
         return mixinPlugins;
     }
-
-    private String mixinPackage;
 
     @Override
     public void onLoad(String mixinPackage) {
@@ -81,11 +84,6 @@ public class AutoDiscoveryMixinPlugin implements IMixinConfigPlugin {
     public String getMixinBaseDir() {
         return mixinPackage.replace(".", "/");
     }
-
-    /**
-     * A list of all discovered mixins.
-     */
-    private List<String> mixins = null;
 
     /**
      * Try to add mixin class ot the mixins based on the filepath inside of the class root.

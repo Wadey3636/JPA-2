@@ -217,12 +217,12 @@ object TerminalWaypoints : Module(
         }
 
     }
+
     @SubscribeEvent
     fun onP3Start(event: P3StartEvent) {
         terminalSection = 0
         addS1()
     }
-
 
 
     private fun isDev(pos: BlockPos): Boolean {

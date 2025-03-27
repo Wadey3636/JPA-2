@@ -13,22 +13,46 @@ import me.modcore.utils.render.Color
 import org.lwjgl.input.Keyboard
 
 @AlwaysActive
-object  ClickGUIModule: Module(
+object ClickGUIModule : Module(
     name = "Click Gui",
     Keyboard.KEY_NONE,
     category = Category.RENDER,
     description = "Allows you to customize the GUI."
 ) {
-    val blur by BooleanSetting("Blur", true, description = "Toggles the background blur for the gui. Requires the menu to be reopened")
-    val enableNotification by BooleanSetting("Enable notifications", true, description = "Shows you a notification in chat when you toggle an option with a keybind.")
-    val color by ColorSetting("Gui Color", Color(35, 213, 155), allowAlpha = false, description = "Color theme in the gui.")
-    val devMode by BooleanSetting("Dev Mode", default = false, description = "Activates dev mode. Very inconvenient for normal use")
+    val blur by BooleanSetting(
+        "Blur",
+        true,
+        description = "Toggles the background blur for the gui. Requires the menu to be reopened"
+    )
+    val enableNotification by BooleanSetting(
+        "Enable notifications",
+        true,
+        description = "Shows you a notification in chat when you toggle an option with a keybind."
+    )
+    val color by ColorSetting(
+        "Gui Color",
+        Color(35, 213, 155),
+        allowAlpha = false,
+        description = "Color theme in the gui."
+    )
+    val devMode by BooleanSetting(
+        "Dev Mode",
+        default = false,
+        description = "Activates dev mode. Very inconvenient for normal use"
+    )
 
     val switchType by BooleanSetting("Switch Type", true, description = "Switches the type of the settings in the gui.")
-    val forceHypixel by BooleanSetting("Force Hypixel", false, description = "Forces the hypixel check to be on (not recommended).")
+    val forceHypixel by BooleanSetting(
+        "Force Hypixel",
+        false,
+        description = "Forces the hypixel check to be on (not recommended)."
+    )
 
 
-    val action by ActionSetting("Open Example Hud", description = "Opens an example hud to allow configuration of huds.") {
+    val action by ActionSetting(
+        "Open Example Hud",
+        description = "Opens an example hud to allow configuration of huds."
+    ) {
         Core.display = EditHUDGui
     }
 
@@ -52,9 +76,30 @@ object  ClickGUIModule: Module(
     fun resetPositions() {
         Category.entries.forEach {
             val incr = 10f + 260f * it.ordinal
-            panelX.getOrPut(it) { +NumberSetting(it.name + ",x", default = incr, hidden = true, description = "") }.value = incr
-            panelY.getOrPut(it) { +NumberSetting(it.name + ",y", default = 10f, hidden = true, description = "") }.value = 10f
-            panelExtended.getOrPut(it) { +BooleanSetting(it.name + ",extended", default = true, hidden = true, description = "") }.enabled = true
+            panelX.getOrPut(it) {
+                +NumberSetting(
+                    it.name + ",x",
+                    default = incr,
+                    hidden = true,
+                    description = ""
+                )
+            }.value = incr
+            panelY.getOrPut(it) {
+                +NumberSetting(
+                    it.name + ",y",
+                    default = 10f,
+                    hidden = true,
+                    description = ""
+                )
+            }.value = 10f
+            panelExtended.getOrPut(it) {
+                +BooleanSetting(
+                    it.name + ",extended",
+                    default = true,
+                    hidden = true,
+                    description = ""
+                )
+            }.enabled = true
         }
     }
 

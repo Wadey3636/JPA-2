@@ -7,10 +7,10 @@ import me.modcore.features.settings.Setting
  *
  * @author Bonsai
  */
-class DropdownSetting (
+class DropdownSetting(
     name: String,
     override val default: Boolean = false
-): Setting<Boolean>(name, false, "") {
+) : Setting<Boolean>(name, false, "") {
 
     override var value: Boolean = default
 

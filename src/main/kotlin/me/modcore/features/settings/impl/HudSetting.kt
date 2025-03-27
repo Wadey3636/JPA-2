@@ -7,7 +7,8 @@ import me.modcore.ui.hud.Render
 /**
  * @author Stivais, Bonsai
  */
-class HudSetting( // todo redo
+class HudSetting(
+    // todo redo
     name: String,
     hud: HudElement,
     val displayToggle: Boolean = false,

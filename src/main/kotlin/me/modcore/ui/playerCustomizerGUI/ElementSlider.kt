@@ -2,27 +2,21 @@ package me.modcore.ui.playerCustomizerGUI
 
 import com.github.wadey3636.jpa.features.render.PlayerEntry
 import me.modcore.Core.logger
-import me.modcore.features.settings.impl.NumberSetting
 import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.ClickGUI.TEXTOFFSET
 import me.modcore.ui.clickgui.animations.impl.ColorAnimation
 import me.modcore.ui.clickgui.elements.Element
-import me.modcore.ui.clickgui.elements.ElementType
-import me.modcore.ui.clickgui.elements.ModuleButton
 import me.modcore.ui.clickgui.util.ColorUtil.brighter
 import me.modcore.ui.clickgui.util.ColorUtil.buttonColor
 import me.modcore.ui.clickgui.util.ColorUtil.clickGUIColor
 import me.modcore.ui.clickgui.util.ColorUtil.darkerIf
-import me.modcore.ui.clickgui.util.ColorUtil.elementBackground
 import me.modcore.ui.clickgui.util.ColorUtil.textColor
 import me.modcore.ui.clickgui.util.HoverHandler
 import me.modcore.ui.util.MouseUtils.isAreaHovered
 import me.modcore.ui.util.MouseUtils.mouseX
-import me.modcore.utils.floor
 import me.modcore.utils.render.*
 import me.modcore.utils.skyblock.modMessage
 import org.lwjgl.input.Keyboard
-import kotlin.math.roundToInt
 
 /**
  * Renders all the modules.
@@ -33,16 +27,34 @@ import kotlin.math.roundToInt
  * @author Stivais, Aton
  * @see [Element]
  */
-class ElementSlider(val name: String, val min: Double, val max: Double, val unit: String, var entry: PlayerEntry, private val increment: Double, val option: Option, val x: Float, var y: Float, val w: Float, val h: Float) {
+class ElementSlider(
+    val name: String,
+    val min: Double,
+    val max: Double,
+    val unit: String,
+    var entry: PlayerEntry,
+    private val increment: Double,
+    val option: Option,
+    val x: Float,
+    var y: Float,
+    val w: Float,
+    val h: Float
+) {
     private var listeningText = false
     private var listening: Boolean = false
     private val valueDouble: Double get() = if (option == Option.X) entry.entryX else if (option == Option.Y) entry.entryY else entry.entryZ
-//55
+
+    //55
     private val isHovered: Boolean
         get() = isAreaHovered(x, y + 21.5f, w - 15f, 33.5f)
 
     private val isHoveredBox: Boolean
-        get() = isAreaHovered(x + w - TEXTOFFSET - 30 - getTextWidth(getDisplay(), 16f), y  + 5f, 16f + getTextWidth(getDisplay(), 16f), 21.5f)
+        get() = isAreaHovered(
+            x + w - TEXTOFFSET - 30 - getTextWidth(getDisplay(), 16f),
+            y + 5f,
+            16f + getTextWidth(getDisplay(), 16f),
+            21.5f
+        )
 
     private val handler = HoverHandler(0, 150)
     private val colorAnim = ColorAnimation(100)
@@ -53,7 +65,7 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
     private inline val color: Color
         get() = clickGUIColor.brighter(1 + handler.percent() / 200f)
 
-    private fun setValue(value: Double){
+    private fun setValue(value: Double) {
         when (option) {
             Option.Z -> entry.entryZ = value
             Option.X -> entry.entryX = value
@@ -72,8 +84,28 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
         handler.handle(x, y + 21.5f, w - 15f, 33.5f)
         val textWidth = getTextWidth(getDisplay(), 16f)
 
-        roundedRectangle(x + w - TEXTOFFSET - 30 - textWidth, y , 16f + textWidth, 26.5f, buttonColor, 4f, edgeSoftness = 1f)
-        rectangleOutline(x + w - TEXTOFFSET - 30 - textWidth, y , 16f + textWidth, 26.5f, colorAnim.get(buttonColor.darkerIf(isHoveredBox, 0.8f), clickGUIColor.darkerIf(isHoveredBox, 0.8f), !listeningText), 4f, 3f)
+        roundedRectangle(
+            x + w - TEXTOFFSET - 30 - textWidth,
+            y,
+            16f + textWidth,
+            26.5f,
+            buttonColor,
+            4f,
+            edgeSoftness = 1f
+        )
+        rectangleOutline(
+            x + w - TEXTOFFSET - 30 - textWidth,
+            y,
+            16f + textWidth,
+            26.5f,
+            colorAnim.get(
+                buttonColor.darkerIf(isHoveredBox, 0.8f),
+                clickGUIColor.darkerIf(isHoveredBox, 0.8f),
+                !listeningText
+            ),
+            4f,
+            3f
+        )
 
         if (listening) {
             sliderPercentage = ((mouseX - (x + TEXTOFFSET)) / (w - 15f)).coerceIn(0f, 1f)
@@ -84,7 +116,15 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
         //roundedRectangle(x + w - 4, y, 2, h, clickGUIColor.brighter(1.6f), 0f, edgeSoftness = 0)
 
         text(name, x + TEXTOFFSET, y + 17.75f, textColor, 20f, FontRenderer.REGULAR)
-        text(getDisplay(), x + w - TEXTOFFSET - 22, y + 15.75f, textColor.darkerIf(isHoveredBox), 16f, FontRenderer.REGULAR, TextAlign.Right)
+        text(
+            getDisplay(),
+            x + w - TEXTOFFSET - 22,
+            y + 15.75f,
+            textColor.darkerIf(isHoveredBox),
+            16f,
+            FontRenderer.REGULAR,
+            TextAlign.Right
+        )
 
         //draw slider
         roundedRectangle(x + TEXTOFFSET, y + 37f, w - 30f, 7f, sliderBGColor, 3f)
@@ -92,7 +132,7 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
 
     }
 
-    fun mouseClicked(){
+    fun mouseClicked() {
         if (isHoveredBox) {
             if (listeningText) {
                 textUnlisten()
@@ -119,6 +159,7 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
     fun mouseReleased(state: Int) {
         listening = false
     }
+
     fun updateSlider() {
         sliderPercentage = ((valueDouble - min) / (max - min)).toFloat().coerceAtMost(1f)
     }
@@ -152,6 +193,7 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
         }
         return number
     }
+
     private var listeningTextField: String = ""
 
     fun mouseClickedAnywhere(mouseButton: Int): Boolean {
@@ -163,7 +205,6 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
     }
 
 
-
     fun keyTyped(typedChar: Char, keyCode: Int): Boolean {
         if (listeningText) {
             var text = listeningTextField
@@ -172,24 +213,28 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
                     textUnlisten()
                     return true
                 }
+
                 Keyboard.KEY_PERIOD -> {
                     if (listeningTextField.contains('.')) return true
                     listeningTextField += '.'
                     return true
                 }
+
                 Keyboard.KEY_DELETE -> {
                     listeningTextField = handleText(text.dropLast(1))
                     return true
                 }
 
                 Keyboard.KEY_BACK -> {
-                    listeningTextField = if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-                        ""
-                    } else {
-                        handleText(text.dropLast(1))
-                    }
+                    listeningTextField =
+                        if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+                            ""
+                        } else {
+                            handleText(text.dropLast(1))
+                        }
                     return true
                 }
+
                 in keyWhiteList -> {
                     text += typedChar.toString()
                     listeningTextField = handleText(text)
@@ -212,6 +257,7 @@ class ElementSlider(val name: String, val min: Double, val max: Double, val unit
     private companion object {
         val sliderBGColor = Color(-0xefeff0)
     }
+
     private val keyWhiteList = listOf(
         Keyboard.KEY_0,
         Keyboard.KEY_1,

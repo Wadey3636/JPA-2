@@ -148,10 +148,17 @@ fun Event.postAndCatch(): Boolean {
         it.printStackTrace()
         logger.error("An error occurred", it)
         val style = ChatStyle()
-        style.chatClickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/od copy ```${it.stackTraceToString().lineSequence().take(10).joinToString("\n")}```")
-        style.chatHoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, ChatComponentText("§6Click to copy the error to your clipboard."))
-        modMessage("${Core.VERSION} Caught an ${it::class.simpleName ?: "error"} at ${this::class.simpleName}. §cPlease click this message to copy and send it in the Odin discord!",
-            chatStyle = style)}.getOrDefault(isCanceled)
+        style.chatClickEvent = ClickEvent(
+            ClickEvent.Action.RUN_COMMAND,
+            "/od copy ```${it.stackTraceToString().lineSequence().take(10).joinToString("\n")}```"
+        )
+        style.chatHoverEvent =
+            HoverEvent(HoverEvent.Action.SHOW_TEXT, ChatComponentText("§6Click to copy the error to your clipboard."))
+        modMessage(
+            "${Core.VERSION} Caught an ${it::class.simpleName ?: "error"} at ${this::class.simpleName}. §cPlease click this message to copy and send it in the Odin discord!",
+            chatStyle = style
+        )
+    }.getOrDefault(isCanceled)
 }
 
 /**
@@ -199,7 +206,8 @@ fun endProfile() {
  *
  * @return The String with the first letter capitalized
  */
-fun String.capitalizeFirst(): String = replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+fun String.capitalizeFirst(): String =
+    replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
 fun Color.coerceAlpha(min: Float, max: Float): Color {
     return if (this.alpha < min) this.withAlpha(min)
@@ -242,7 +250,7 @@ fun formatTime(time: Long, decimalPlaces: Int = 2): String {
 }
 
 val Char.isHexaDecimal
-    get() = isDigit() || lowercase().equalsOneOf("a","b","c","d","e","f")
+    get() = isDigit() || lowercase().equalsOneOf("a", "b", "c", "d", "e", "f")
 
 fun checkGLError(message: String) {
     var i: Int
@@ -288,7 +296,7 @@ inline fun <T> MutableCollection<T>.removeFirstOrNull(predicate: (T) -> Boolean)
     return first
 }
 
-fun Int.rangeAdd(add: Int): IntRange = this..this+add
+fun Int.rangeAdd(add: Int): IntRange = this..this + add
 
 val Entity.rotation get() = Pair(rotationYaw, rotationPitch)
 

@@ -3,15 +3,19 @@ package me.modcore.utils.skyblock
 import me.modcore.Core.mc
 import me.modcore.utils.equalsOneOf
 import me.modcore.utils.noControlCodes
-import me.modcore.utils.render.*
+import me.modcore.utils.render.Color
 import me.modcore.utils.render.RenderUtils.bind
+import me.modcore.utils.render.scale
+import me.modcore.utils.render.translate
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.entity.Entity
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.item.ItemStack
-import net.minecraft.nbt.*
+import net.minecraft.nbt.NBTTagCompound
+import net.minecraft.nbt.NBTTagList
+import net.minecraft.nbt.NBTTagString
 import net.minecraftforge.common.util.Constants
 
 /**
@@ -21,7 +25,8 @@ val ItemStack?.extraAttributes: NBTTagCompound?
     get() = this?.getSubCompound("ExtraAttributes", false)
 
 fun ItemStack.displayName(): String =
-    this.tagCompound?.getCompoundTag("display")?.takeIf { it.hasKey("Name", 8) }?.getString("Name") ?: this.item.getItemStackDisplayName(this)
+    this.tagCompound?.getCompoundTag("display")?.takeIf { it.hasKey("Name", 8) }?.getString("Name")
+        ?: this.item.getItemStackDisplayName(this)
 
 /**
  * Returns displayName without control codes.
@@ -49,17 +54,17 @@ val ItemStack?.skyblockID: String
 val ItemStack?.uuid: String
     get() = this?.extraAttributes?.getString("uuid") ?: ""
 
- /**
+/**
  * Returns if an item has an ability
  */
 val ItemStack?.hasAbility: Boolean
-     get() = this?.lore?.any { it.contains("Ability:") && it.endsWith("RIGHT CLICK") } == true
+    get() = this?.lore?.any { it.contains("Ability:") && it.endsWith("RIGHT CLICK") } == true
 
- /**
+/**
  * Returns if an item is a shortbow
  */
 val ItemStack?.isShortbow: Boolean
-    get() =this?.lore?.any { it.contains("Shortbow: Instantly shoots!") } == true
+    get() = this?.lore?.any { it.contains("Shortbow: Instantly shoots!") } == true
 
 /**
  * Returns if an item is a fishing rod
@@ -90,19 +95,29 @@ fun isHolding(vararg id: String): Boolean =
  * Returns first slot of an Item
  */
 fun getItemSlot(item: String, ignoreCase: Boolean = true): Int? =
-    mc.thePlayer?.inventory?.mainInventory?.indexOfFirst { it?.unformattedName?.contains(item, ignoreCase) == true }.takeIf { it != -1 }
+    mc.thePlayer?.inventory?.mainInventory?.indexOfFirst { it?.unformattedName?.contains(item, ignoreCase) == true }
+        .takeIf { it != -1 }
 
 /**
  * Gets index of an item in a chest.
  * @return null if not found.
  */
-fun getItemIndexInContainerChest(container: ContainerChest, item: String, subList: IntRange = 0..container.inventory.size - 36): Int? {
+fun getItemIndexInContainerChest(
+    container: ContainerChest,
+    item: String,
+    subList: IntRange = 0..container.inventory.size - 36
+): Int? {
     return container.inventorySlots.subList(subList.first, subList.last + 1).firstOrNull {
         it.stack?.unformattedName?.noControlCodes?.lowercase() == item.noControlCodes.lowercase()
     }?.slotIndex
 }
 
-fun getItemIndexInContainerChest(container: ContainerChest, item: String, subList: IntRange = 0..container.inventory.size - 36, ignoreCase: Boolean = false): Int? {
+fun getItemIndexInContainerChest(
+    container: ContainerChest,
+    item: String,
+    subList: IntRange = 0..container.inventory.size - 36,
+    ignoreCase: Boolean = false
+): Int? {
     return container.inventorySlots.subList(subList.first, subList.last + 1).firstOrNull {
         it.stack?.unformattedName?.contains(item, ignoreCase) == true
     }?.slotIndex
@@ -112,7 +127,12 @@ fun getItemIndexInContainerChest(container: ContainerChest, item: String, subLis
  * Gets index of an item in a chest using its uuid.
  * @return null if not found.
  */
-fun getItemIndexInContainerChestByUUID(container: ContainerChest, uuid: String, subList: IntRange = 0..container.inventory.size - 36, ignoreCase: Boolean = false): Int? {
+fun getItemIndexInContainerChestByUUID(
+    container: ContainerChest,
+    uuid: String,
+    subList: IntRange = 0..container.inventory.size - 36,
+    ignoreCase: Boolean = false
+): Int? {
     return container.inventorySlots.subList(subList.first, subList.last + 1).firstOrNull {
         it.stack?.uuid?.contains(uuid) == true
     }?.slotIndex
@@ -122,7 +142,12 @@ fun getItemIndexInContainerChestByUUID(container: ContainerChest, uuid: String, 
  * Gets index of an item in a chest using its lore.
  * @return null if not found.
  */
-fun getItemIndexInContainerChestByLore(container: ContainerChest, lore: String, subList: IntRange = 0..container.inventory.size - 36, ignoreCase: Boolean = false): Int? {
+fun getItemIndexInContainerChestByLore(
+    container: ContainerChest,
+    lore: String,
+    subList: IntRange = 0..container.inventory.size - 36,
+    ignoreCase: Boolean = false
+): Int? {
     return container.inventorySlots.subList(subList.first, subList.last + 1).firstOrNull {
         it.stack?.lore?.contains(lore) == true
     }?.slotIndex
@@ -144,7 +169,8 @@ enum class ItemRarity(
     VERY_SPECIAL("VERY SPECIAL", "§c", Color.RED);
 }
 
-private val rarityRegex = Regex("§l(?<rarity>${ItemRarity.entries.joinToString("|") { it.loreName }}) ?(?<type>[A-Z ]+)?(?:§[0-9a-f]§l§ka)?$")
+private val rarityRegex =
+    Regex("§l(?<rarity>${ItemRarity.entries.joinToString("|") { it.loreName }}) ?(?<type>[A-Z ]+)?(?:§[0-9a-f]§l§ka)?$")
 
 /**
  * Gets the rarity of an item
@@ -260,4 +286,4 @@ var ItemStack.skullTexture: String?
             }
 
         }
-}
+    }

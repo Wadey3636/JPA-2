@@ -48,7 +48,13 @@ object Renderer {
         lineSmoothing: Boolean = true
     ) {
         if (outlineAlpha == 0f && fillAlpha == 0f) return
-        RenderUtils.drawOutlinedAABB(aabb, color.withAlpha(outlineAlpha.toFloat()), thickness = outlineWidth, depth = depth, lineSmoothing)
+        RenderUtils.drawOutlinedAABB(
+            aabb,
+            color.withAlpha(outlineAlpha.toFloat()),
+            thickness = outlineWidth,
+            depth = depth,
+            lineSmoothing
+        )
 
         RenderUtils.drawFilledAABB(aabb, color.withAlpha(fillAlpha.toFloat()), depth = depth)
     }
@@ -75,7 +81,15 @@ object Renderer {
     ) {
         val block = getBlockAt(pos)
         block.setBlockBoundsBasedOnState(mc.theWorld, pos)
-        drawBox(block.getSelectedBoundingBox(mc.theWorld, pos).outlineBounds().expand(expand, expand, expand), color, outlineWidth, outlineAlpha, fillAlpha, depth, lineSmoothing)
+        drawBox(
+            block.getSelectedBoundingBox(mc.theWorld, pos).outlineBounds().expand(expand, expand, expand),
+            color,
+            outlineWidth,
+            outlineAlpha,
+            fillAlpha,
+            depth,
+            lineSmoothing
+        )
     }
 
     fun drawStyledBlock(
@@ -90,7 +104,16 @@ object Renderer {
         when (style) {
             0 -> drawBlock(pos, color, width, 0, color.alpha, depth, lineSmoothing, expand)
             1 -> drawBlock(pos, color, width, color.alpha, 0, depth, lineSmoothing, expand)
-            2 -> drawBlock(pos, color, width, color.alpha, color.multiplyAlpha(.75f).alpha, depth, lineSmoothing, expand)
+            2 -> drawBlock(
+                pos,
+                color,
+                width,
+                color.alpha,
+                color.multiplyAlpha(.75f).alpha,
+                depth,
+                lineSmoothing,
+                expand
+            )
         }
     }
 
@@ -143,7 +166,16 @@ object Renderer {
      * @param noFade   Indicates whether the beacon should not fade based on distance (default is false).
      * @param distance Indicates whether to display the distance in the title (default is true).
      */
-    fun drawCustomBeacon(title: String, vec3: Vec3, color: Color, beacon: Boolean = true, increase: Boolean = true, noFade: Boolean = false, distance: Boolean = true, style: Int = 1) {
+    fun drawCustomBeacon(
+        title: String,
+        vec3: Vec3,
+        color: Color,
+        beacon: Boolean = true,
+        increase: Boolean = true,
+        noFade: Boolean = false,
+        distance: Boolean = true,
+        style: Int = 1
+    ) {
         val dist = vec3.distanceTo(mc.thePlayer.positionVector)
         drawStyledBox(vec3.toAABB(), color, depth = false, style = style)
 
@@ -204,7 +236,7 @@ object Renderer {
     }
 
     fun draw2DEntity(entity: Entity, color: Color, lineWidth: Float) {
-       RenderUtils2D.draw2DESP(entity.entityBoundingBox, color, lineWidth)
+        RenderUtils2D.draw2DESP(entity.entityBoundingBox, color, lineWidth)
     }
 
     private var displayTitle = ""

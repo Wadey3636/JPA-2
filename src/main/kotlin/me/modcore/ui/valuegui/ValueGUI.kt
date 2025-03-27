@@ -16,6 +16,7 @@ object ValueGUI : Screen() {
 
 
     private var values: MutableMap<String, Float> = mutableMapOf()
+
     init {
         loadValues()
     }
@@ -29,9 +30,11 @@ object ValueGUI : Screen() {
         translate(0f, 0f, -200f)
         GlStateManager.popMatrix()
     }
+
     override fun initGui() {
         loadValues()
     }
+
     private fun loadValues() {
         values.clear()
         val array = DataManager.loadDataFromFile("Values")
@@ -45,7 +48,8 @@ object ValueGUI : Screen() {
         super.onGuiClosed()
         saveValues()
     }
-    private fun saveValues(){
+
+    private fun saveValues() {
         val array = JsonArray()
         for (value in values) {
             array.add(gson.toJsonTree(value))

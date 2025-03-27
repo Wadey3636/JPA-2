@@ -2,11 +2,13 @@ package me.modcore.utils.skyblock
 
 import me.modcore.Core.mc
 import me.modcore.features.impl.render.ClickGUIModule
-
 import me.modcore.utils.noControlCodes
 import me.modcore.utils.runOnMCThread
-import net.minecraft.event.*
-import net.minecraft.util.*
+import net.minecraft.event.ClickEvent
+import net.minecraft.event.HoverEvent
+import net.minecraft.util.ChatComponentText
+import net.minecraft.util.ChatStyle
+import net.minecraft.util.EnumChatFormatting
 import net.minecraftforge.client.ClientCommandHandler
 import kotlin.math.roundToInt
 
@@ -71,7 +73,6 @@ fun modError(message: Any?, prefix: String = "§8§l-<§r§aJPA§r§8§l>-§c ",
 }
 
 
-
 /**
  * Sends a message in all chat on Hypixel.
  *
@@ -133,7 +134,8 @@ fun getCenteredText(text: String): String {
     if (textWidth >= chatWidth) return text
 
     return StringBuilder().apply {
-        repeat((((chatWidth - textWidth) / 2f) / mc.fontRendererObj.getStringWidth(" ")).roundToInt()) { append(' ') } }.append(text).toString()
+        repeat((((chatWidth - textWidth) / 2f) / mc.fontRendererObj.getStringWidth(" ")).roundToInt()) { append(' ') }
+    }.append(text).toString()
 }
 
 /**

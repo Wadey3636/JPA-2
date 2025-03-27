@@ -4,7 +4,9 @@ import me.modcore.features.settings.impl.StringSetting
 import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.ClickGUI.TEXTOFFSET
 import me.modcore.ui.clickgui.animations.impl.ColorAnimation
-import me.modcore.ui.clickgui.elements.*
+import me.modcore.ui.clickgui.elements.Element
+import me.modcore.ui.clickgui.elements.ElementType
+import me.modcore.ui.clickgui.elements.ModuleButton
 import me.modcore.ui.clickgui.util.ColorUtil
 import me.modcore.ui.clickgui.util.ColorUtil.brighter
 import me.modcore.ui.clickgui.util.ColorUtil.elementBackground
@@ -44,26 +46,25 @@ class ElementTextField(parent: ModuleButton, setting: StringSetting) :
 
             if (listening || colorAnim.isAnimating()) {
                 val color = colorAnim.get(ColorUtil.clickGUIColor, buttonColor, listening)
-                rectangleOutline(x + w - 16 - width, y + 3, width + 12.5f, 22.5f, color, 4f,1.5f)
+                rectangleOutline(x + w - 16 - width, y + 3, width + 12.5f, 22.5f, color, 4f, 1.5f)
             }
 
             text(display, x + w - 10, y + 16f, textColor, 12f, FontRenderer.REGULAR, TextAlign.Right)
-            text(name,  x + TEXTOFFSET, y + h / 2, textColor, 12f)
+            text(name, x + TEXTOFFSET, y + h / 2, textColor, 12f)
         } else {
             val width = getTextWidth(display, 12f)
             if (isHovered || listening) {
                 hover.handle(x + w - 15 - width, y + 4, width + 12f, 22f)
                 if (listening || colorAnim.isAnimating()) {
                     val color = colorAnim.get(ColorUtil.clickGUIColor, buttonColor, listening)
-                    rectangleOutline(x + w / 2 - width / 2 - 7, y + 3, width + 12.5f, 22.5f, color, 4f,3f)
+                    rectangleOutline(x + w / 2 - width / 2 - 7, y + 3, width + 12.5f, 22.5f, color, 4f, 3f)
                 }
                 if (display == "") roundedRectangle(x + w / 2 - width / 2 - 6, y + 4, width + 12f, 22f, buttonColor, 5f)
             }
 
             if (display == "") {
                 text(name, x + w / 2f, y + h / 2f, textColor, 12f, FontRenderer.REGULAR, TextAlign.Middle)
-            }
-            else {
+            } else {
                 roundedRectangle(x + w / 2 - width / 2 - 6, y + 4, width + 12f, 22f, buttonColor, 5f)
                 text(display, x + w / 2f, y + h / 2f, textColor, 12f, FontRenderer.REGULAR, TextAlign.Middle)
             }
@@ -92,7 +93,9 @@ class ElementTextField(parent: ModuleButton, setting: StringSetting) :
     override fun keyTyped(typedChar: Char, keyCode: Int): Boolean {
         if (listening) {
             when (keyCode) {
-                Keyboard.KEY_ESCAPE, Keyboard.KEY_NUMPADENTER, Keyboard.KEY_RETURN -> if (colorAnim.start()) listening = false
+                Keyboard.KEY_ESCAPE, Keyboard.KEY_NUMPADENTER, Keyboard.KEY_RETURN -> if (colorAnim.start()) listening =
+                    false
+
                 Keyboard.KEY_BACK -> setting.text = setting.text.dropLast(1)
                 !in keyBlackList -> setting.text += typedChar.toString()
             }

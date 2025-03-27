@@ -7,7 +7,9 @@ import me.modcore.ui.clickgui.ClickGUI
 import me.modcore.ui.clickgui.ClickGUI.TEXTOFFSET
 import me.modcore.ui.clickgui.animations.impl.ColorAnimation
 import me.modcore.ui.clickgui.animations.impl.LinearAnimation
-import me.modcore.ui.clickgui.elements.*
+import me.modcore.ui.clickgui.elements.Element
+import me.modcore.ui.clickgui.elements.ElementType
+import me.modcore.ui.clickgui.elements.ModuleButton
 import me.modcore.ui.clickgui.util.ColorUtil
 import me.modcore.ui.clickgui.util.ColorUtil.brighter
 import me.modcore.ui.clickgui.util.ColorUtil.buttonColor
@@ -66,10 +68,18 @@ class ElementHud(parent: ModuleButton, setting: HudSetting) : Element<HudSetting
                 dropShadow(x + w - 43f, y + 4f, 34f, 20f, 10f, 0.75f)
 
                 roundedRectangle(x + w - 43f, y + 4f, 34f, 20f, buttonColor, 9f)
-                if (setting.enabled || linearAnimation.isAnimating()) roundedRectangle(x + w - 43f, y + 4f, linearAnimation.get(34f, 9f, setting.enabled), 20f, color, 9f)
+                if (setting.enabled || linearAnimation.isAnimating()) roundedRectangle(
+                    x + w - 43f,
+                    y + 4f,
+                    linearAnimation.get(34f, 9f, setting.enabled),
+                    20f,
+                    color,
+                    9f
+                )
 
                 if (isHovered) rectangleOutline(x + w - 43f, y + 4f, 34f, 20f, color.darker(.85f), 9f, 3f)
-                circle(x + w - linearAnimation.get(33f, 17f, !setting.enabled), y + 14f, 6f,
+                circle(
+                    x + w - linearAnimation.get(33f, 17f, !setting.enabled), y + 14f, 6f,
                     Color(220, 220, 220).darkerIf(isHovered, 0.9f)
                 )
                 offset = 70f
@@ -87,6 +97,7 @@ class ElementHud(parent: ModuleButton, setting: HudSetting) : Element<HudSetting
                     setting.enabled = !setting.enabled
                     setting.value.enabledSetting.value = setting.enabled
                 }
+
                 isShortcutHovered -> ClickGUI.swapScreens(EditHUDGui)
                 else -> return false
             }

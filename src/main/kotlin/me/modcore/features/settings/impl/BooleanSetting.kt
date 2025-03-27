@@ -10,13 +10,13 @@ import me.modcore.features.settings.Setting
  *
  * @author Aton, Stivais
  */
-class BooleanSetting (
+class BooleanSetting(
     name: String,
     override val default: Boolean = false,
     hidden: Boolean = false,
     description: String,
     forceCheckBox: Boolean = false,
-): Setting<Boolean>(name, hidden, description, forceCheckBox), Saving {
+) : Setting<Boolean>(name, hidden, description, forceCheckBox), Saving {
 
     override var value: Boolean = default
 

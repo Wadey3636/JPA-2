@@ -16,13 +16,22 @@ object HighlightRenderer {
     enum class HighlightType {
         Outline, Boxes, Box2d, Overlay
     }
-    data class HighlightEntity(val entity: Entity, val color: Color, val thickness: Float, val depth: Boolean, val boxStyle: Int = 0)
+
+    data class HighlightEntity(
+        val entity: Entity,
+        val color: Color,
+        val thickness: Float,
+        val depth: Boolean,
+        val boxStyle: Int = 0
+    )
+
     const val HIGHLIGHT_MODE_DEFAULT = "Outline"
 
     val highlightModeList = arrayListOf("Outline", "Boxes", "Box 2D", "Overlay")
     const val HIGHLIGHT_MODE_DESCRIPTION = "The type of highlight to use."
 
-    private val entityGetters: MutableList<Pair<() -> HighlightType, () -> Collection<HighlightEntity>>> = mutableListOf()
+    private val entityGetters: MutableList<Pair<() -> HighlightType, () -> Collection<HighlightEntity>>> =
+        mutableListOf()
     val entities = mapOf<HighlightType, MutableList<HighlightEntity>>(
         HighlightType.Outline to mutableListOf(),
         HighlightType.Boxes to mutableListOf(),
@@ -53,7 +62,11 @@ object HighlightRenderer {
 
     @SubscribeEvent
     fun onRenderModel(event: RenderEntityModelEvent) {
-        entities[HighlightType.Outline]?.find { it.entity.isEntityAlive && it.entity == event.entity && (!it.depth || mc.thePlayer.isEntitySeen(it.entity)) }?.let {
+        entities[HighlightType.Outline]?.find {
+            it.entity.isEntityAlive && it.entity == event.entity && (!it.depth || mc.thePlayer.isEntitySeen(
+                it.entity
+            ))
+        }?.let {
             OutlineUtils.outlineEntity(event, it.color, it.thickness)
         }
     }

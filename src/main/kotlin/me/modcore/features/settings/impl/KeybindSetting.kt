@@ -14,7 +14,12 @@ class KeybindSetting(
     hidden: Boolean = false
 ) : Setting<Keybinding>(name, hidden, description), Saving {
 
-    constructor(name: String, key: Int, description: String, hidden: Boolean = false) : this(name, Keybinding(key), description, hidden)
+    constructor(name: String, key: Int, description: String, hidden: Boolean = false) : this(
+        name,
+        Keybinding(key),
+        description,
+        hidden
+    )
 
     override var value: Keybinding = default
 

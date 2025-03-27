@@ -13,7 +13,10 @@ import me.modcore.utils.render.RenderUtils.loadBufferedImage
 import me.modcore.utils.render.TextAlign.Left
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
+import net.minecraft.client.renderer.Tessellator
+import net.minecraft.client.renderer.WorldRenderer
 import net.minecraft.client.renderer.texture.DynamicTexture
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.Display
 import org.lwjgl.opengl.GL11
@@ -22,10 +25,11 @@ val matrix = UMatrixStack.Compat
 val scaleFactor get() = ScaledResolution(mc).scaleFactor.toFloat()
 private val arrowIcon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/arrow.png"))
 private val arrowGrayIcon = DynamicTexture(loadBufferedImage("/assets/modcore/clickgui/arrowGray.png"))
-
+private val chestTexture = ResourceLocation("textures/gui/container/generic_54.png")
 
 data class Box(var x: Number, var y: Number, var w: Number, var h: Number)
 data class BoxWithClass<T : Number>(var x: T, var y: T, var w: T, var h: T)
+
 fun Box.expand(factor: Number): Box = Box(this.x - factor, this.y - factor, this.w + factor * 2, this.h + factor * 2)
 fun Box.isPointWithin(x: Number, y: Number): Boolean {
     return x.toDouble() >= this.x.toDouble() &&
@@ -63,25 +67,83 @@ fun roundedRectangle(
     }
 }
 
-fun roundedRectangle(x: Number, y: Number, w: Number, h: Number, color: Color, radius: Number = 0f, edgeSoftness: Number = 0.5f) =
-    roundedRectangle(x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat(), color, color, color,
-        0f, radius.toFloat(), radius.toFloat(), radius.toFloat(), radius.toFloat(), edgeSoftness)
+fun roundedRectangle(
+    x: Number,
+    y: Number,
+    w: Number,
+    h: Number,
+    color: Color,
+    radius: Number = 0f,
+    edgeSoftness: Number = 0.5f
+) =
+    roundedRectangle(
+        x.toFloat(), y.toFloat(), w.toFloat(), h.toFloat(), color, color, color,
+        0f, radius.toFloat(), radius.toFloat(), radius.toFloat(), radius.toFloat(), edgeSoftness
+    )
 
 fun roundedRectangle(box: Box, color: Color, radius: Number = 0f, edgeSoftness: Number = .5f) =
     roundedRectangle(box.x, box.y, box.w, box.h, color, radius, edgeSoftness)
 
-fun <T: Number> roundedRectangle(box: BoxWithClass<T>, color: Color, radius: Number = 0f, edgeSoftness: Number = .5f) =
+fun <T : Number> roundedRectangle(box: BoxWithClass<T>, color: Color, radius: Number = 0f, edgeSoftness: Number = .5f) =
     roundedRectangle(box.x, box.y, box.w, box.h, color, radius, edgeSoftness)
 
 
-fun rectangleOutline(x: Number, y: Number, w: Number, h: Number, color: Color, radius: Number = 0f, thickness: Number, edgeSoftness: Number = 1f) {
-    roundedRectangle(x, y, w, h, Color.TRANSPARENT, color, Color.TRANSPARENT, thickness, radius, radius, radius, radius, edgeSoftness)
+fun rectangleOutline(
+    x: Number,
+    y: Number,
+    w: Number,
+    h: Number,
+    color: Color,
+    radius: Number = 0f,
+    thickness: Number,
+    edgeSoftness: Number = 1f
+) {
+    roundedRectangle(
+        x,
+        y,
+        w,
+        h,
+        Color.TRANSPARENT,
+        color,
+        Color.TRANSPARENT,
+        thickness,
+        radius,
+        radius,
+        radius,
+        radius,
+        edgeSoftness
+    )
 }
 
-fun gradientRect(x: Float, y: Float, w: Float, h: Float, color1: Color, color2: Color, radius: Float, direction: GradientDirection = GradientDirection.Right, borderColor: Color = Color.TRANSPARENT, borderThickness: Number = 0f) {
+fun gradientRect(
+    x: Float,
+    y: Float,
+    w: Float,
+    h: Float,
+    color1: Color,
+    color2: Color,
+    radius: Float,
+    direction: GradientDirection = GradientDirection.Right,
+    borderColor: Color = Color.TRANSPARENT,
+    borderThickness: Number = 0f
+) {
     if (color1.isTransparent && color2.isTransparent) return
     roundedRectangle(
-        x, y, w, h, color1.coerceAlpha(.1f, 1f), borderColor, Color.TRANSPARENT, borderThickness, radius, radius, radius, radius, 3, color2.coerceAlpha(.1f, 1f), direction.ordinal
+        x,
+        y,
+        w,
+        h,
+        color1.coerceAlpha(.1f, 1f),
+        borderColor,
+        Color.TRANSPARENT,
+        borderThickness,
+        radius,
+        radius,
+        radius,
+        radius,
+        3,
+        color2.coerceAlpha(.1f, 1f),
+        direction.ordinal
     )
 }
 
@@ -96,10 +158,17 @@ fun drawHSBBox(x: Float, y: Float, w: Float, h: Float, color: Color) {
             color,
         )
     }
-    rectangleOutline(x-1, y-1, w+2, h+2, Color(38, 38, 38), 3f, 2f)
+    rectangleOutline(x - 1, y - 1, w + 2, h + 2, Color(38, 38, 38), 3f, 2f)
 }
 
-fun circle(x: Number, y: Number, radius: Number, color: Color, borderColor: Color = color, borderThickness: Number = 0f) {
+fun circle(
+    x: Number,
+    y: Number,
+    radius: Number,
+    color: Color,
+    borderColor: Color = color,
+    borderThickness: Number = 0f
+) {
     matrix.runLegacyMethod(matrix.get()) {
         RoundedRect.drawCircle(
             matrix.get(),
@@ -113,20 +182,56 @@ fun circle(x: Number, y: Number, radius: Number, color: Color, borderColor: Colo
     }
 }
 
-fun text(text: String, x: Number, y: Number, color: Color, size: Number, type: Int = FontRenderer.REGULAR, align: TextAlign = Left, verticalAlign: TextPos = TextPos.Middle, shadow: Boolean = false) {
+fun text(
+    text: String,
+    x: Number,
+    y: Number,
+    color: Color,
+    size: Number,
+    type: Int = FontRenderer.REGULAR,
+    align: TextAlign = Left,
+    verticalAlign: TextPos = TextPos.Middle,
+    shadow: Boolean = false
+) {
     FontRenderer.text(text, x.toFloat(), y.toFloat(), color, size.toFloat(), align, verticalAlign, shadow, type)
 }
 
-fun mcText(text: String, x: Number, y: Number, scale: Number, color: Color, shadow: Boolean = true, center: Boolean = true) {
+fun mcText(
+    text: String,
+    x: Number,
+    y: Number,
+    scale: Number,
+    color: Color,
+    shadow: Boolean = true,
+    center: Boolean = true
+) {
     RenderUtils.drawText("$text§r", x.toFloat(), y.toFloat(), scale.toDouble(), color, shadow, center)
 }
 
-fun textAndWidth(text: String, x: Float, y: Float, color: Color, size: Float, type: Int = FontRenderer.REGULAR, align: TextAlign = Left, verticalAlign: TextPos = TextPos.Middle, shadow: Boolean = false): Float {
+fun textAndWidth(
+    text: String,
+    x: Float,
+    y: Float,
+    color: Color,
+    size: Float,
+    type: Int = FontRenderer.REGULAR,
+    align: TextAlign = Left,
+    verticalAlign: TextPos = TextPos.Middle,
+    shadow: Boolean = false
+): Float {
     text(text, x, y, color, size, type, align, verticalAlign, shadow)
     return getTextWidth(text, size).toFloat()
 }
 
-fun mcTextAndWidth(text: String, x: Number, y: Number, scale: Number, color: Color, shadow: Boolean = true, center: Boolean = true): Float {
+fun mcTextAndWidth(
+    text: String,
+    x: Number,
+    y: Number,
+    scale: Number,
+    color: Color,
+    shadow: Boolean = true,
+    center: Boolean = true
+): Float {
     mcText(text, x, y, scale, color, shadow, center)
     return getMCTextWidth(text).toFloat()
 }
@@ -149,7 +254,18 @@ fun rotate(degrees: Float, xPos: Float, yPos: Float, zPos: Float, xAxis: Float, 
 
 fun scale(x: Number, y: Number, z: Number = 1f) = GlStateManager.scale(x.toDouble(), y.toDouble(), z.toDouble())
 
-fun dropShadow(x: Number, y: Number, w: Number, h: Number, shadowColor: Color, shadowSoftness: Number, topL: Number, topR: Number, botL: Number, botR: Number) {
+fun dropShadow(
+    x: Number,
+    y: Number,
+    w: Number,
+    h: Number,
+    shadowColor: Color,
+    shadowSoftness: Number,
+    topL: Number,
+    topR: Number,
+    botL: Number,
+    botR: Number
+) {
     return //removed for now
     translate(0f, 0f, -100f)
 
@@ -172,14 +288,28 @@ fun dropShadow(x: Number, y: Number, w: Number, h: Number, shadowColor: Color, s
     translate(0f, 0f, 100f)
 }
 
-fun dropShadow(x: Number, y: Number, w: Number, h: Number,  radius: Number, shadowSoftness: Number = 1f, shadowColor: Color = ColorUtil.moduleButtonColor) {
+fun dropShadow(
+    x: Number,
+    y: Number,
+    w: Number,
+    h: Number,
+    radius: Number,
+    shadowSoftness: Number = 1f,
+    shadowColor: Color = ColorUtil.moduleButtonColor
+) {
     dropShadow(x, y, w, h, shadowColor, shadowSoftness, radius, radius, radius, radius)
 }
 
-fun dropShadow(box: Box, radius: Number, shadowSoftness: Number = 1f, shadowColor: Color = ColorUtil.moduleButtonColor) =
+fun dropShadow(
+    box: Box,
+    radius: Number,
+    shadowSoftness: Number = 1f,
+    shadowColor: Color = ColorUtil.moduleButtonColor
+) =
     dropShadow(box.x, box.y, box.w, box.h, radius, shadowSoftness, shadowColor)
 
 data class Scissor(val x: Number, val y: Number, val w: Number, val h: Number, val context: Int)
+
 private val scissorList = mutableListOf(Scissor(0, 0, 16000, 16000, 0))
 
 fun scissor(x: Number, y: Number, w: Number, h: Number): Scissor {
@@ -206,14 +336,16 @@ fun drawArrow(xpos: Float, ypos: Float, rotation: Float = 90f, scale: Float = 1f
     drawDynamicTexture(
         if (
             isAreaHovered(
-            xpos - 25 / 2 * scale,
-            ypos - 25 / 2 * scale,
-            25 * scale, 25 * scale)
+                xpos - 25 / 2 * scale,
+                ypos - 25 / 2 * scale,
+                25 * scale, 25 * scale
+            )
         ) arrowGrayIcon else arrowIcon,
         xpos - 25 / 2 * scale,
         ypos - 25 / 2 * scale,
         25 * scale,
-        25 * scale)
+        25 * scale
+    )
     GlStateManager.popMatrix()
 
 }
@@ -248,6 +380,61 @@ fun drawDynamicTexture(dynamicTexture: DynamicTexture, x: Number, y: Number, w: 
     GlStateManager.popMatrix()
 }
 
+
+fun drawChest(x: Float, y: Float, scale: Float) {
+    GlStateManager.pushMatrix()
+    translate(x / scale, y / scale, 1f)
+    scale(scale, scale, 1f)
+    drawCustomTexturedRect(
+        chestTexture,
+        0f, 0f, 176f, 130f, 0f, 0f, 176f, 130f, 176f, 122f
+    )
+    GlStateManager.popMatrix()
+}
+
+
+fun drawCustomTexturedRect(
+    texture: ResourceLocation,
+    x: Float,
+    y: Float,
+    width: Float,
+    height: Float,
+    u: Float,
+    v: Float,
+    uWidth: Float,
+    vHeight: Float,
+    textureWidth: Float,
+    textureHeight: Float
+) {
+    mc.textureManager.bindTexture(texture)
+    val tessellator = Tessellator.getInstance()
+    val worldRenderer = tessellator.worldRenderer
+    val minU = u / textureWidth
+    val maxU = (u + uWidth) / textureWidth
+    val minV = v / textureHeight
+    val maxV = (v + vHeight) / textureHeight
+    fun worldRenderer(block: WorldRenderer.() -> Unit) {
+        worldRenderer.block()
+    }
+    worldRenderer {
+        begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
+        pos(x.toDouble(), (y + height).toDouble(), 0.0)
+            .tex(minU.toDouble(), maxV.toDouble())
+            .endVertex()
+        pos((x + width).toDouble(), (y + height).toDouble(), 0.0)
+            .tex(maxU.toDouble(), maxV.toDouble())
+            .endVertex()
+        pos((x + width).toDouble(), y.toDouble(), 0.0)
+            .tex(maxU.toDouble(), minV.toDouble())
+            .endVertex()
+        pos(x.toDouble(), y.toDouble(), 0.0)
+            .tex(minU.toDouble(), minV.toDouble())
+            .endVertex()
+    }
+    tessellator.draw()
+}
+
+
 fun drawTexture(texture: ResourceLocation, x: Number, y: Number, w: Number, h: Number) {
 
     val isBlendEnabled = GL11.glIsEnabled(GL11.GL_BLEND)
@@ -263,7 +450,16 @@ fun drawTexture(texture: ResourceLocation, x: Number, y: Number, w: Number, h: N
     GlStateManager.popMatrix()
 }
 
-fun wrappedText(text: String, x: Float, y: Float, w: Float, color: Color, size: Float, type: Int = FontRenderer.REGULAR, shadow: Boolean = false) {
+fun wrappedText(
+    text: String,
+    x: Float,
+    y: Float,
+    w: Float,
+    color: Color,
+    size: Float,
+    type: Int = FontRenderer.REGULAR,
+    shadow: Boolean = false
+) {
     FontRenderer.wrappedText(text, x, y, w, color, size, type, shadow = shadow)
 }
 
@@ -274,6 +470,7 @@ fun wrappedTextBounds(text: String, width: Float, size: Float): Pair<Float, Floa
 enum class TextAlign {
     Left, Middle, Right
 }
+
 enum class TextPos {
     Top, Bottom, Middle
 }

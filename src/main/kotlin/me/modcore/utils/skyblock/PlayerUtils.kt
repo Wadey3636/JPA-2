@@ -24,7 +24,15 @@ object PlayerUtils {
     fun playLoudSound(sound: String?, volume: Float, pitch: Float, pos: Vec3? = null) {
         mc.addScheduledTask {
             shouldBypassVolume = true
-            mc.theWorld?.playSound(pos?.xCoord ?: mc.thePlayer.posX, pos?.yCoord ?: mc.thePlayer.posY, pos?.zCoord  ?: mc.thePlayer.posZ, sound, volume, pitch, false)
+            mc.theWorld?.playSound(
+                pos?.xCoord ?: mc.thePlayer.posX,
+                pos?.yCoord ?: mc.thePlayer.posY,
+                pos?.zCoord ?: mc.thePlayer.posZ,
+                sound,
+                volume,
+                pitch,
+                false
+            )
             shouldBypassVolume = false
         }
     }
@@ -37,9 +45,15 @@ object PlayerUtils {
      *
      * @author Odtheking, Bonsai
      */
-    fun alert(title: String, time: Int = 20, color: Color = Color.WHITE, playSound: Boolean = true, displayText: Boolean = true) {
+    fun alert(
+        title: String,
+        time: Int = 20,
+        color: Color = Color.WHITE,
+        playSound: Boolean = true,
+        displayText: Boolean = true
+    ) {
         if (playSound) playLoudSound("note.pling", 100f, 1f)
-        if (displayText) Renderer.displayTitle(title , time, color = color)
+        if (displayText) Renderer.displayTitle(title, time, color = color)
     }
 
     inline val posX get() = mc.thePlayer?.posX ?: 0.0
@@ -58,10 +72,19 @@ object PlayerUtils {
 
     fun windowClick(slotId: Int, button: Int, mode: Int) {
         if (lastClickSent + 45 > System.currentTimeMillis())
-        mc.thePlayer?.openContainer?.let {
-            if (it !is ContainerChest || slotId !in 0 until it.inventorySlots.size) return
-            mc.netHandler?.networkManager?.sendPacket(C0EPacketClickWindow(it.windowId, slotId, button, mode, it.inventory[slotId], it.getNextTransactionID(mc.thePlayer?.inventory)))
-        }
+            mc.thePlayer?.openContainer?.let {
+                if (it !is ContainerChest || slotId !in 0 until it.inventorySlots.size) return
+                mc.netHandler?.networkManager?.sendPacket(
+                    C0EPacketClickWindow(
+                        it.windowId,
+                        slotId,
+                        button,
+                        mode,
+                        it.inventory[slotId],
+                        it.getNextTransactionID(mc.thePlayer?.inventory)
+                    )
+                )
+            }
     }
 
     fun windowClick(slotId: Int, clickType: ClickType) {
@@ -75,8 +98,8 @@ object PlayerUtils {
 }
 
 sealed class ClickType {
-    data object Left   : ClickType()
-    data object Right  : ClickType()
+    data object Left : ClickType()
+    data object Right : ClickType()
     data object Middle : ClickType()
-    data object Shift  : ClickType()
+    data object Shift : ClickType()
 }

@@ -4,15 +4,11 @@ import PlayerEntryTypeAdapter
 import com.github.wadey3636.jpa.features.render.PlayerEntry
 import com.github.wadey3636.jpa.features.render.playerEntries
 import com.github.wadey3636.jpa.utils.PlayerDataFetcher.getUUID
-import com.google.common.collect.Multimap
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
-import com.google.gson.reflect.TypeToken
 import com.mojang.authlib.GameProfile
 import gg.essential.universal.UMinecraft
 import kotlinx.coroutines.launch
-import me.modcore.Core.logger
 import me.modcore.Core.scope
 import me.modcore.config.DataManager
 import me.modcore.features.impl.render.ClickGUIModule
@@ -27,9 +23,7 @@ import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.OpenGlHelper
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
-import net.minecraft.world.GameRules.ValueType
 import org.lwjgl.input.Mouse
-import sun.security.rsa.RSAUtil.KeyType
 import java.util.*
 import kotlin.math.sign
 
@@ -39,6 +33,7 @@ var scrollOffset: Float = 0f
 private var steveProfile: GameProfile? = null
 private var stevePlayer: EntityOtherPlayerMP? = null
 private var steveSkin: ResourceLocation? = null
+
 object PlayerCustomizerGUI : Screen() {
     val gson = GsonBuilder()
         .registerTypeAdapter(PlayerEntry::class.java, PlayerEntryTypeAdapter())
@@ -115,8 +110,6 @@ object PlayerCustomizerGUI : Screen() {
     }
 
 
-
-
     private fun loadAccount(name: String, entry: PlayerEntry) {
 
         if (entry.profile == null) {
@@ -133,6 +126,7 @@ object PlayerCustomizerGUI : Screen() {
             refreshUI()
         }
     }
+
     fun refreshUI() {
         customPlayerInstances.clear()
         for (entry in playerEntries.toList()) {
@@ -168,8 +162,12 @@ object PlayerCustomizerGUI : Screen() {
         }
         if (mouseButton != 0) return
         if (isHoveredOverAdd) {
-            playerEntries.add(PlayerEntry("Player", 1.0, 1.0, 1.0,
-                false, null, false, false, false, false, false, true, null))
+            playerEntries.add(
+                PlayerEntry(
+                    "Player", 1.0, 1.0, 1.0,
+                    false, null, false, false, false, false, false, true, null
+                )
+            )
             val i = playerEntries.size - 1
             customPlayerInstances.add(CustomPlayerInstance(playerEntries[i]))
             loadAccount(playerEntries[i].name, playerEntries[i])
@@ -196,6 +194,7 @@ object PlayerCustomizerGUI : Screen() {
         }
         DataManager.saveDataToFile("PlayerEntries", array)
     }
+
     override fun mouseReleased(mouseX: Int, mouseY: Int, state: Int) {
         for (instance in customPlayerInstances.toList()) {
             instance.mouseReleased(state)
@@ -214,7 +213,6 @@ object PlayerCustomizerGUI : Screen() {
         get() = isAreaHovered(1200f, 30f, 180f, 90f)
     private val isHoveredOverOpenTextures
         get() = isAreaHovered(1200f, 140f, 180f, 90f)
-
 
 
 }

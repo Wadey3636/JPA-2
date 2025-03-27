@@ -91,11 +91,12 @@ class Color(hue: Float, saturation: Float, brightness: Float, alpha: Float = 1f)
     inline val alphaFloat get() = this.alpha
 
     @OptIn(ExperimentalStdlibApi::class)
-    val hex: String get() {
-        return with(rgba.toHexString(HexFormat.UpperCase)) {
-            return@with substring(2) + substring(0, 2)
+    val hex: String
+        get() {
+            return with(rgba.toHexString(HexFormat.UpperCase)) {
+                return@with substring(2) + substring(0, 2)
+            }
         }
-    }
 
     /**
      * Checks if color isn't visible.
@@ -160,7 +161,7 @@ class Color(hue: Float, saturation: Float, brightness: Float, alpha: Float = 1f)
         val DARK_GRAY = Color(35, 35, 35)
 
         @JvmField
-        val BLUE = Color(85, 255,255)
+        val BLUE = Color(85, 255, 255)
 
         @JvmField
         val PINK = Color(255, 85, 255)
@@ -173,7 +174,7 @@ class Color(hue: Float, saturation: Float, brightness: Float, alpha: Float = 1f)
 
         @JvmField
         val MAGENTA = Color(135, 0, 200)
-       
+
         inline val Int.red get() = this shr 16 and 0xFF
         inline val Int.green get() = this shr 8 and 0xFF
         inline val Int.blue get() = this and 0xFF

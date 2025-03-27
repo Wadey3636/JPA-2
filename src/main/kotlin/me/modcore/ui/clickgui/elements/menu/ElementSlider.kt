@@ -34,13 +34,14 @@ import kotlin.math.roundToInt
  */
 class ElementSlider(parent: ModuleButton, setting: NumberSetting<*>) :
     Element<NumberSetting<*>>(parent, setting, ElementType.SLIDER) {
-        private var listeningText = false
-//55
+    private var listeningText = false
+
+    //55
     override val isHovered: Boolean
         get() = isAreaHovered(x, y + 21.5f, w - 15f, 33.5f)
 
     private val isHoveredBox: Boolean
-        get() = isAreaHovered(x + w - TEXTOFFSET - 30, y  + 5f, 32f, 21.5f )
+        get() = isAreaHovered(x + w - TEXTOFFSET - 30, y + 5f, 32f, 21.5f)
 
     private val handler = HoverHandler(0, 150)
     private val colorAnim = ColorAnimation(100)
@@ -66,8 +67,20 @@ class ElementSlider(parent: ModuleButton, setting: NumberSetting<*>) :
         handler.handle(x, y + 21.5f, w - 15f, 33.5f)
 
 
-        roundedRectangle(x + w - TEXTOFFSET - 30, y  + 5f, 32f, 21.5f, buttonColor, 4f, edgeSoftness = 1f)
-        rectangleOutline(x + w - TEXTOFFSET - 30, y  + 5f, 32f, 21.5f, colorAnim.get(buttonColor.darkerIf(isHoveredBox, 0.8f), clickGUIColor.darkerIf(isHoveredBox, 0.8f), !listeningText), 4f, 3f)
+        roundedRectangle(x + w - TEXTOFFSET - 30, y + 5f, 32f, 21.5f, buttonColor, 4f, edgeSoftness = 1f)
+        rectangleOutline(
+            x + w - TEXTOFFSET - 30,
+            y + 5f,
+            32f,
+            21.5f,
+            colorAnim.get(
+                buttonColor.darkerIf(isHoveredBox, 0.8f),
+                clickGUIColor.darkerIf(isHoveredBox, 0.8f),
+                !listeningText
+            ),
+            4f,
+            3f
+        )
 
         if (listening) {
             sliderPercentage = ((mouseX - (x + TEXTOFFSET)) / (w - 15f)).coerceIn(0f, 1f)
@@ -80,7 +93,15 @@ class ElementSlider(parent: ModuleButton, setting: NumberSetting<*>) :
         roundedRectangle(x + w - 2, y, 2, h, clickGUIColor, 0f, edgeSoftness = 0)
 
         text(name, x + TEXTOFFSET, y + h / 2f - 10f, textColor, 12f, FontRenderer.REGULAR)
-        text(getDisplay(), x + w - TEXTOFFSET, y + h / 2f - 10f, textColor.darkerIf(isHoveredBox), 12f, FontRenderer.REGULAR, TextAlign.Right)
+        text(
+            getDisplay(),
+            x + w - TEXTOFFSET,
+            y + h / 2f - 10f,
+            textColor.darkerIf(isHoveredBox),
+            12f,
+            FontRenderer.REGULAR,
+            TextAlign.Right
+        )
 
         //draw slider
         roundedRectangle(x + TEXTOFFSET, y + 37f, w - 17f, 7f, sliderBGColor, 3f)
@@ -139,12 +160,13 @@ class ElementSlider(parent: ModuleButton, setting: NumberSetting<*>) :
         listeningText = false
     }
 
-    private fun handleText(number: String):String {
+    private fun handleText(number: String): String {
         if (number.isNotEmpty() && number.last() == '.' && number.count { it == '.' } >= 2) {
             return number.dropLast(1)
         }
         return number
     }
+
     private var listeningTextField: String = ""
 
     override fun mouseClickedAnywhere(mouseButton: Int): Boolean {
@@ -164,19 +186,22 @@ class ElementSlider(parent: ModuleButton, setting: NumberSetting<*>) :
                     textUnlisten()
                     return true
                 }
+
                 Keyboard.KEY_DELETE -> {
                     listeningTextField = handleText(text.dropLast(1))
                     return true
                 }
 
                 Keyboard.KEY_BACK -> {
-                    listeningTextField = if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-                        ""
-                    } else {
-                        handleText(text.dropLast(1))
-                    }
+                    listeningTextField =
+                        if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+                            ""
+                        } else {
+                            handleText(text.dropLast(1))
+                        }
                     return true
                 }
+
                 in keyWhiteList -> {
                     if (listeningTextField.length >= 3) return true
                     text += typedChar.toString()
@@ -200,6 +225,7 @@ class ElementSlider(parent: ModuleButton, setting: NumberSetting<*>) :
     private companion object {
         val sliderBGColor = Color(-0xefeff0)
     }
+
     private val keyWhiteList = listOf(
         Keyboard.KEY_0,
         Keyboard.KEY_1,

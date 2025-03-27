@@ -5,12 +5,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import kotlinx.coroutines.withTimeoutOrNull
 import me.modcore.Core.logger
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
+import java.io.*
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -22,7 +17,10 @@ import java.net.URL
  *
  * @returns The response code from the server (can be used as a bad get request)
  */
-suspend fun sendDataToServer(body: String, url: String = "https://gi2wsqbyse6tnfhqakbnq6f2su0vujgz.lambda-url.eu-north-1.on.aws/"): String = withTimeoutOrNull(5000) {
+suspend fun sendDataToServer(
+    body: String,
+    url: String = "https://gi2wsqbyse6tnfhqakbnq6f2su0vujgz.lambda-url.eu-north-1.on.aws/"
+): String = withTimeoutOrNull(5000) {
     return@withTimeoutOrNull try {
         val connection = withContext(Dispatchers.IO) {
             URL(url).openConnection()
@@ -48,7 +46,9 @@ suspend fun sendDataToServer(body: String, url: String = "https://gi2wsqbyse6tnf
         connection.disconnect()
 
         response
-    } catch (_: Exception) { "" }
+    } catch (_: Exception) {
+        ""
+    }
 } ?: ""
 
 /**
@@ -75,7 +75,9 @@ suspend fun getDataFromServer(url: String): String {
             connection.disconnect()
 
             response
-        } catch (_: Exception) { "" }
+        } catch (_: Exception) {
+            ""
+        }
     } ?: ""
 }
 

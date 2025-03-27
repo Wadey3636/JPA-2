@@ -13,14 +13,14 @@ import kotlin.math.round
  */
 @Suppress("UNCHECKED_CAST")
 class NumberSetting<E>(
-        name: String,
-        override val default: E = 1.0 as E, // hey it works
-        min: Number = -10000,
-        max: Number = 10000,
-        increment: Number = 1,
-        hidden: Boolean = false,
-        description: String,
-        val unit: String = "",
+    name: String,
+    override val default: E = 1.0 as E, // hey it works
+    min: Number = -10000,
+    max: Number = 10000,
+    increment: Number = 1,
+    hidden: Boolean = false,
+    description: String,
+    val unit: String = "",
 ) : Setting<E>(name, hidden, description), Saving where E : Number, E : Comparable<E> {
 
     override var value: E = default

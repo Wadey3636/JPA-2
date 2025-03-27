@@ -10,6 +10,7 @@ import me.modcore.ui.clickgui.animations.impl.EaseInOut
 import me.modcore.ui.clickgui.elements.menu.ElementColor
 import me.modcore.ui.clickgui.util.ColorUtil
 import me.modcore.ui.clickgui.util.ColorUtil.buttonColor
+import me.modcore.ui.clickgui.util.ColorUtil.moduleButtonColorAlpha
 import me.modcore.ui.clickgui.util.ColorUtil.textColor
 import me.modcore.ui.clickgui.util.ColorUtil.withAlpha
 import me.modcore.ui.clickgui.util.HoverHandler
@@ -21,7 +22,6 @@ import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
 import org.lwjgl.input.Mouse
 import kotlin.math.sign
-import me.modcore.ui.clickgui.util.ColorUtil.moduleButtonColorAlpha
 
 /**
  * Renders all the modules.
@@ -45,7 +45,6 @@ object ClickGUI : Screen() {
         for (category in Category.entries) {
             panels.add(Panel(category))
         }
-
 
 
     }
@@ -160,7 +159,7 @@ object ClickGUI : Screen() {
     }
 
     /** Sets the description without creating a new data class which isn't optimal */
-    fun setDescription(text: String, x: Float,  y: Float, hoverHandler: HoverHandler) {
+    fun setDescription(text: String, x: Float, y: Float, hoverHandler: HoverHandler) {
         desc.text = text
         desc.x = x
         desc.y = y

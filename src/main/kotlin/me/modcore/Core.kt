@@ -3,14 +3,12 @@ package me.modcore
 
 import com.github.wadey3636.jpa.MODID
 import kotlinx.coroutines.*
-
 import me.modcore.config.Config
 import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.ClickGUI
 import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI
 import me.modcore.ui.searchui.SearchGui
 import me.modcore.ui.util.shader.RoundedRect
-import me.modcore.utils.skyblock.devMessage
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 import net.minecraftforge.client.event.RenderGameOverlayEvent
@@ -78,7 +76,7 @@ object Core {
             event.type == RenderGameOverlayEvent.ElementType.PORTAL ||
             event.type == RenderGameOverlayEvent.ElementType.HELMET ||
             event.type == RenderGameOverlayEvent.ElementType.PLAYER_LIST
-            ) {
+        ) {
             event.isCanceled = true
         }
     }

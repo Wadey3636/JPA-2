@@ -10,14 +10,14 @@ import me.modcore.features.settings.Setting
  *
  * @author Aton, Bonsai
  */
-class DualSetting (
+class DualSetting(
     name: String,
     val left: String,
     val right: String,
     override val default: Boolean = false,
     hidden: Boolean = false,
     description: String,
-): Setting<Boolean>(name, hidden, description), Saving {
+) : Setting<Boolean>(name, hidden, description), Saving {
 
     override var value: Boolean = default
 

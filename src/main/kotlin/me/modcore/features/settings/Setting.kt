@@ -11,7 +11,7 @@ import kotlin.reflect.KProperty
  * Superclass of Settings.
  * @author Aton
  */
-abstract class Setting<T> (
+abstract class Setting<T>(
     val name: String,
     var hidden: Boolean = false,
     var description: String = "",

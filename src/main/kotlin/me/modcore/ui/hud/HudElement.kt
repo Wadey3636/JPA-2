@@ -11,7 +11,10 @@ import me.modcore.ui.clickgui.util.HoverHandler
 import me.modcore.ui.hud.EditHUDGui.dragging
 import me.modcore.ui.util.MouseUtils.isAreaHovered
 import me.modcore.utils.endProfile
-import me.modcore.utils.render.*
+import me.modcore.utils.render.Color
+import me.modcore.utils.render.rectangleOutline
+import me.modcore.utils.render.scale
+import me.modcore.utils.render.translate
 import me.modcore.utils.startProfile
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraft.client.renderer.GlStateManager
@@ -164,11 +167,14 @@ open class HudElement(
     /** Used for smooth resetting animations */
     internal var resetScale: Float = 0f
 
-    private val xHud = NumberSetting("$settingName x", default = x, hidden = true, min = 0f, max = Float.MAX_VALUE, description = "")
-    private val yHud = NumberSetting("$settingName y", default = y, hidden = true, min = 0f, max = Float.MAX_VALUE, description = "")
+    private val xHud =
+        NumberSetting("$settingName x", default = x, hidden = true, min = 0f, max = Float.MAX_VALUE, description = "")
+    private val yHud =
+        NumberSetting("$settingName y", default = y, hidden = true, min = 0f, max = Float.MAX_VALUE, description = "")
 
     init {
-        val scaleHud = NumberSetting("$settingName scale", defaultScale, 1f, 8.0f, 0.01f, hidden = true, description = "")
+        val scaleHud =
+            NumberSetting("$settingName scale", defaultScale, 1f, 8.0f, 0.01f, hidden = true, description = "")
 
         this.xSetting = xHud
         this.ySetting = yHud

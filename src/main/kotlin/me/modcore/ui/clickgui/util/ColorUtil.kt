@@ -15,7 +15,7 @@ object ColorUtil {
 
     val buttonColor = Color(28, 28, 28, buttonColorAlpha)
     val moduleButtonColor = Color(26, 26, 26, moduleButtonColorAlpha)
-    val elementBackground = Color(0,0,0, elementBackgroundAlpha)
+    val elementBackground = Color(0, 0, 0, elementBackgroundAlpha)
     val titlePanelColor: Color = Color(12, 12, 12, titlePanelColorAlpha)
 
     val textColor = Color(239, 239, 239)
@@ -47,6 +47,7 @@ object ColorUtil {
     fun Color.darker(factor: Float = 0.7f): Color {
         return Color(hue, saturation, brightness * factor, alpha)
     }
+
     fun Color.setBrightness(brightness: Float = 1f): Color {
         return Color(hue, saturation, brightness, alpha)
     }
@@ -54,9 +55,11 @@ object ColorUtil {
     fun Color.darkerIf(condition: Boolean, factor: Float = 0.7f): Color {
         return if (condition) darker(factor) else this
     }
+
     fun Color.saturationIf(condition: Boolean, factor: Float = 1f): Color {
         return if (condition) saturation(factor) else this
     }
+
     fun Color.saturation(factor: Float = 1f): Color {
         return Color(hue, factor, brightness, alpha)
     }

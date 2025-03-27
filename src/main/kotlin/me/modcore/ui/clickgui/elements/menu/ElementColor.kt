@@ -5,7 +5,9 @@ import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.ClickGUI.TEXTOFFSET
 import me.modcore.ui.clickgui.animations.impl.ColorAnimation
 import me.modcore.ui.clickgui.animations.impl.EaseInOut
-import me.modcore.ui.clickgui.elements.*
+import me.modcore.ui.clickgui.elements.Element
+import me.modcore.ui.clickgui.elements.ElementType
+import me.modcore.ui.clickgui.elements.ModuleButton
 import me.modcore.ui.clickgui.util.ColorUtil
 import me.modcore.ui.clickgui.util.ColorUtil.brighter
 import me.modcore.ui.clickgui.util.ColorUtil.buttonColor
@@ -86,7 +88,18 @@ class ElementColor(parent: ModuleButton, setting: ColorSetting) :
         // ALPHA
         if (setting.allowAlpha) {
             dropShadow(x + 10f, y + 235f, w - 20f, 15f, 10f, 0.5f)
-            gradientRect(x + 10f, y + 235f, w - 20f, 15f, Color.TRANSPARENT, color.withAlpha(1f), 5f, GradientDirection.Right, Color.DARK_GRAY, 2.5f)
+            gradientRect(
+                x + 10f,
+                y + 235f,
+                w - 20f,
+                15f,
+                Color.TRANSPARENT,
+                color.withAlpha(1f),
+                5f,
+                GradientDirection.Right,
+                Color.DARK_GRAY,
+                2.5f
+            )
 
             val alpha = Pair((x + 10f + setting.alpha * 220f), y + 243f)
             dropShadow(alpha.first - 8.5f, alpha.second - 8.5f, 17f, 17f, 2.5f, 2.5f)
@@ -98,6 +111,7 @@ class ElementColor(parent: ModuleButton, setting: ColorSetting) :
                 setting.saturation = (mouseX - (x + 10f)) / 220f
                 setting.brightness = -((mouseY - (y + 38f)) - 170f) / 170f
             }
+
             1 -> setting.hue = (mouseX - (x + 10f)) / (w - 20f)
             2 -> setting.alpha = (mouseX - (x + 10f)) / (w - 20f)
         }
@@ -113,7 +127,7 @@ class ElementColor(parent: ModuleButton, setting: ColorSetting) :
 
         if (listeningForString || colorAnim.isAnimating()) {
             val color = colorAnim.get(ColorUtil.clickGUIColor, buttonColor, listeningForString)
-            rectangleOutline(x + w / 2 - stringWidth / 2 - 13 , y + 259, stringWidth + 25f, 23f, color, 5f,2f)
+            rectangleOutline(x + w / 2 - stringWidth / 2 - 13, y + 259, stringWidth + 25f, 23f, color, 5f, 2f)
         }
 
         resetScissor(scissor)

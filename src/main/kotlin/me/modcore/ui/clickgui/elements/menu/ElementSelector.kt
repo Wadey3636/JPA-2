@@ -4,7 +4,9 @@ import me.modcore.features.settings.impl.SelectorSetting
 import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.ClickGUI.TEXTOFFSET
 import me.modcore.ui.clickgui.animations.impl.EaseInOut
-import me.modcore.ui.clickgui.elements.*
+import me.modcore.ui.clickgui.elements.Element
+import me.modcore.ui.clickgui.elements.ElementType
+import me.modcore.ui.clickgui.elements.ModuleButton
 import me.modcore.ui.clickgui.util.ColorUtil.brighter
 import me.modcore.ui.clickgui.util.ColorUtil.buttonColor
 import me.modcore.ui.clickgui.util.ColorUtil.clickGUIColor
@@ -35,7 +37,7 @@ class ElementSelector(parent: ModuleButton, setting: SelectorSetting) :
         inline get() = setting.selected
 
     inline val size: Int
-        get () = setting.options.size
+        get() = setting.options.size
 
     private val settingAnim = EaseInOut(200)
 
@@ -72,7 +74,16 @@ class ElementSelector(parent: ModuleButton, setting: SelectorSetting) :
 
         for (i in 0 until size) {
             val y = y + 38 + 32 * i
-            text(setting.options[i].lowercase().capitalizeFirst(), x + w / 2f, y + 6f, textColor, 12f, FontRenderer.REGULAR, TextAlign.Middle, TextPos.Top)
+            text(
+                setting.options[i].lowercase().capitalizeFirst(),
+                x + w / 2f,
+                y + 6f,
+                textColor,
+                12f,
+                FontRenderer.REGULAR,
+                TextAlign.Middle,
+                TextPos.Top
+            )
             if (isSettingHovered(i)) rectangleOutline(x + 5, y - 1f, w - 11.5f, 32.5f, clickGUIColor.darker(), 4f, 3f)
         }
         resetScissor(scissor)

@@ -59,7 +59,11 @@ object RenderUtils2D {
 
         return success.takeIf { it && coords[2] in 0.0..1.0 }?.run {
             val sr = ScaledResolution(mc)
-            Vec3(coords[0] / sr.scaleFactor.toDouble(), (sr.scaledHeight - (coords[1] / sr.scaleFactor)).toDouble(), coords[2].toDouble())
+            Vec3(
+                coords[0] / sr.scaleFactor.toDouble(),
+                (sr.scaledHeight - (coords[1] / sr.scaleFactor)).toDouble(),
+                coords[2].toDouble()
+            )
         }
     }
 
@@ -98,7 +102,7 @@ object RenderUtils2D {
             scale(scale, scale, scale)
             roundedRectangle(-width / 2, -height / 2, width, height * 0.9, backgroundColor)
             roundedRectangle(-width / 2, -height / 2 + height * 0.9, width, height * 0.1, accentColor)
-            mcText(text, 0, -getMCTextHeight() / 2,  1f, textColor, shadow = shadow)
+            mcText(text, 0, -getMCTextHeight() / 2, 1f, textColor, shadow = shadow)
             GlStateManager.popMatrix()
         }
     }
@@ -106,7 +110,13 @@ object RenderUtils2D {
 
     fun drawNameTag(vec3: Vec3, name: String) {
         worldToScreenPosition(vec3)?.let { pos ->
-            mc.fontRendererObj.drawString(name, pos.xCoord.toFloat(), pos.yCoord.toFloat(), -1, true) // can use nvg in the future
+            mc.fontRendererObj.drawString(
+                name,
+                pos.xCoord.toFloat(),
+                pos.yCoord.toFloat(),
+                -1,
+                true
+            ) // can use nvg in the future
         }
     }
 

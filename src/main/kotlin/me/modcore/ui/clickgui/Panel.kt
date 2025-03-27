@@ -19,7 +19,6 @@ import me.modcore.utils.capitalizeFirst
 import me.modcore.utils.render.*
 import me.modcore.utils.render.RenderUtils.loadBufferedImage
 import me.modcore.utils.round
-import me.modcore.utils.skyblock.devMessage
 import net.minecraft.client.renderer.texture.DynamicTexture
 import kotlin.math.floor
 
@@ -77,27 +76,79 @@ class Panel(
         scrollOffset = scrollAnimation.get(scrollOffset, scrollTarget).round(0).toFloat()
         var startY = scrollOffset + HEIGHT
         scale(1f / scaleFactor, 1f / scaleFactor, 1f)
-        dropShadow(x, y, WIDTH, if (extended) (length + 5f).coerceAtLeast(HEIGHT) else 50f, ColorUtil.moduleButtonColor, 5f, 3f, 3f, 3f, 3f)
+        dropShadow(
+            x,
+            y,
+            WIDTH,
+            if (extended) (length + 5f).coerceAtLeast(HEIGHT) else 50f,
+            ColorUtil.moduleButtonColor,
+            5f,
+            3f,
+            3f,
+            3f,
+            3f
+        )
 
-        roundedRectangle(x, y, WIDTH, HEIGHT, titlePanelColor, titlePanelColor, titlePanelColor, 0f, 10f, 10f, 0f, 0f, 0f)
+        roundedRectangle(
+            x,
+            y,
+            WIDTH,
+            HEIGHT,
+            titlePanelColor,
+            titlePanelColor,
+            titlePanelColor,
+            0f,
+            10f,
+            10f,
+            0f,
+            0f,
+            0f
+        )
         var additionalOffset = 0.0
         val imageSize = 25
-        when(category){
+        when (category) {
             Category.RENDER -> {
                 additionalOffset = 4.0
-                drawDynamicTexture(renderIcon, x + WIDTH * 0.08 - imageSize / 2 + additionalOffset, y + HEIGHT / 2 - imageSize / 2 - 2, imageSize, imageSize)
+                drawDynamicTexture(
+                    renderIcon,
+                    x + WIDTH * 0.08 - imageSize / 2 + additionalOffset,
+                    y + HEIGHT / 2 - imageSize / 2 - 2,
+                    imageSize,
+                    imageSize
+                )
             }
+
             Category.FLOOR7 -> {
                 additionalOffset = 8.0
-                drawDynamicTexture(floor7Icon, x + WIDTH * 0.08  - imageSize / 2 + 4, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
+                drawDynamicTexture(
+                    floor7Icon,
+                    x + WIDTH * 0.08 - imageSize / 2 + 4,
+                    y + HEIGHT / 2 - imageSize / 2,
+                    imageSize,
+                    imageSize
+                )
             }
+
             Category.MISC -> {
                 additionalOffset = -4.0
-                drawDynamicTexture(miscIcon, x + WIDTH * 0.08  - imageSize / 2 + 4, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
+                drawDynamicTexture(
+                    miscIcon,
+                    x + WIDTH * 0.08 - imageSize / 2 + 4,
+                    y + HEIGHT / 2 - imageSize / 2,
+                    imageSize,
+                    imageSize
+                )
             }
+
             Category.DUNGEONS -> {
                 additionalOffset = 8.0
-                drawDynamicTexture(dungeonIcon, x + WIDTH * 0.08  - imageSize / 2, y + HEIGHT / 2  - imageSize / 2, imageSize, imageSize)
+                drawDynamicTexture(
+                    dungeonIcon,
+                    x + WIDTH * 0.08 - imageSize / 2,
+                    y + HEIGHT / 2 - imageSize / 2,
+                    imageSize,
+                    imageSize
+                )
             }
 
             else -> {
@@ -106,14 +157,33 @@ class Panel(
 
         }
 
-        text(if (displayName == "Floor7") "Floor 7" else displayName, x + WIDTH * 0.3 + additionalOffset, y + HEIGHT / 2f, ColorUtil.textColor, 15f, type = FontRenderer.BOLD, TextAlign.Middle)
+        text(
+            if (displayName == "Floor7") "Floor 7" else displayName,
+            x + WIDTH * 0.3 + additionalOffset,
+            y + HEIGHT / 2f,
+            ColorUtil.textColor,
+            15f,
+            type = FontRenderer.BOLD,
+            TextAlign.Middle
+        )
 
         //draw Panel Line
-        if (extended && moduleButtons.isNotEmpty()) roundedRectangle(x, y + HEIGHT - 2, WIDTH, 2, ColorUtil.clickGUIColor.brighter(1.65f))
+        if (extended && moduleButtons.isNotEmpty()) roundedRectangle(
+            x,
+            y + HEIGHT - 2,
+            WIDTH,
+            2,
+            ColorUtil.clickGUIColor.brighter(1.65f)
+        )
         //draw minus sign
-        roundedRectangle(x + WIDTH * 0.85 + 5, y + HEIGHT * 0.4 , 20, 5, Color.WHITE.darkerIf(isHoveredOverExtendToggle, 0.7f), radius = 1.5f)
-
-
+        roundedRectangle(
+            x + WIDTH * 0.85 + 5,
+            y + HEIGHT * 0.4,
+            20,
+            5,
+            Color.WHITE.darkerIf(isHoveredOverExtendToggle, 0.7f),
+            radius = 1.5f
+        )
 
 
         val s = scissor(x, y + HEIGHT, WIDTH, 5000f)

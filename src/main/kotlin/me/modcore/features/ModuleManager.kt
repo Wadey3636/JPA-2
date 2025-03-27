@@ -3,8 +3,8 @@ package me.modcore.features
 import com.github.wadey3636.jpa.features.dungeonfeatures.*
 import com.github.wadey3636.jpa.features.dungeonfeatures.icefillsolver.IceFillSolver
 import com.github.wadey3636.jpa.features.misc.Blink
-import com.github.wadey3636.jpa.features.misc.PestFarmingKeybind
 import com.github.wadey3636.jpa.features.misc.InventoryLogger
+import com.github.wadey3636.jpa.features.misc.PestFarmingKeybind
 import com.github.wadey3636.jpa.features.render.PlayerRenderer
 import me.modcore.Core.mc
 import me.modcore.events.impl.ChatPacketEvent
@@ -18,8 +18,6 @@ import me.modcore.ui.hud.HudElement
 import me.modcore.utils.capitalizeFirst
 import me.modcore.utils.profile
 import me.modcore.utils.render.getTextWidth
-import me.modcore.utils.skyblock.devMessage
-import me.modcore.utils.skyblock.modMessage
 import net.minecraft.network.Packet
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.event.world.WorldEvent
@@ -153,7 +151,7 @@ object ModuleManager {
 
     @SubscribeEvent
     fun onRenderOverlay(event: RenderGameOverlayEvent.Post) {
-        if ((mc.currentScreen != null ) || event.type != RenderGameOverlayEvent.ElementType.ALL || mc.currentScreen == EditHUDGui) return
+        if ((mc.currentScreen != null) || event.type != RenderGameOverlayEvent.ElementType.ALL || mc.currentScreen == EditHUDGui) return
 
         profile("Odin Hud") {
             for (i in 0 until huds.size) {
@@ -166,7 +164,7 @@ object ModuleManager {
 
     fun generateFeatureList(): String {
         val sortedCategories = modules.sortedByDescending { getTextWidth(it.name, 18f) }.groupBy { it.category }.entries
-            .sortedBy{ Category.entries.associateWith { it.ordinal }[it.key] }
+            .sortedBy { Category.entries.associateWith { it.ordinal }[it.key] }
 
         val featureList = StringBuilder()
 

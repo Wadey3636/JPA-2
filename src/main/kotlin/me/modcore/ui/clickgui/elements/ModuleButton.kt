@@ -42,7 +42,8 @@ class ModuleButton(val module: Module, val panel: Panel) {
     private val colorAnim = ColorAnimation(150)
 
     val color: Color
-        get() = colorAnim.get(clickGUIColor, Color.WHITE, module.enabled).darkerIf(isButtonHovered && !isExtendButtonHovered, 0.7f)
+        get() = colorAnim.get(clickGUIColor, Color.WHITE, module.enabled)
+            .darkerIf(isButtonHovered && !isExtendButtonHovered, 0.7f)
 
     val width = Panel.WIDTH
     val height = 32f
@@ -212,7 +213,7 @@ class ModuleButton(val module: Module, val panel: Panel) {
         get() = isAreaHovered(x, y, width, height - 1)
 
     private val isExtendButtonHovered: Boolean
-        get() = isAreaHovered(x + width * 0.9f - 5,  y, width * 0.1f, height - 1)
+        get() = isAreaHovered(x + width * 0.9f - 5, y, width * 0.1f, height - 1)
 
     private val isMouseUnderButton: Boolean
         get() = extended && isAreaHovered(x, y + height, width)

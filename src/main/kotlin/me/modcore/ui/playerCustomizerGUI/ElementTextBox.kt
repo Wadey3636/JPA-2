@@ -2,30 +2,18 @@ package me.modcore.ui.playerCustomizerGUI
 
 import com.github.wadey3636.jpa.features.render.PlayerEntry
 import com.mojang.authlib.GameProfile
-import me.modcore.Core.logger
-import me.modcore.features.settings.impl.NumberSetting
 import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.ClickGUI.TEXTOFFSET
 import me.modcore.ui.clickgui.animations.impl.ColorAnimation
 import me.modcore.ui.clickgui.elements.Element
-import me.modcore.ui.clickgui.elements.ElementType
-import me.modcore.ui.clickgui.elements.ModuleButton
-import me.modcore.ui.clickgui.util.ColorUtil.brighter
 import me.modcore.ui.clickgui.util.ColorUtil.buttonColor
 import me.modcore.ui.clickgui.util.ColorUtil.clickGUIColor
 import me.modcore.ui.clickgui.util.ColorUtil.darkerIf
-import me.modcore.ui.clickgui.util.ColorUtil.elementBackground
 import me.modcore.ui.clickgui.util.ColorUtil.textColor
-import me.modcore.ui.clickgui.util.HoverHandler
-import me.modcore.ui.util.MouseUtils.isAreaHovered
-import me.modcore.ui.util.MouseUtils.mouseX
-import me.modcore.utils.floor
-import me.modcore.utils.render.*
-import me.modcore.utils.skyblock.devMessage
-import me.modcore.utils.skyblock.modMessage
-import org.lwjgl.input.Keyboard
-import kotlin.math.roundToInt
 import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI.refreshUI
+import me.modcore.ui.util.MouseUtils.isAreaHovered
+import me.modcore.utils.render.*
+import org.lwjgl.input.Keyboard
 
 /**
  * Renders all the modules.
@@ -40,7 +28,7 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
     private var listeningText = false
 
     private val isHoveredBox: Boolean
-        get() = isAreaHovered(x + w - TEXTOFFSET - 28, y  + 36f, 16f + getTextWidth(getDisplay(), 16f), 22.5f)
+        get() = isAreaHovered(x + w - TEXTOFFSET - 28, y + 36f, 16f + getTextWidth(getDisplay(), 16f), 22.5f)
 
     private val colorAnim = ColorAnimation(100)
 
@@ -53,13 +41,33 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
 
     fun draw() {
         val textWidth = getTextWidth(getDisplay(), 16f)
-        roundedRectangle(x + w - TEXTOFFSET - 28, y  + 36f, 16f + textWidth, 22.5f, buttonColor, 4f, edgeSoftness = 1f)
-        rectangleOutline(x + w - TEXTOFFSET - 28, y  + 36f, 16f + textWidth, 22.5f, colorAnim.get(buttonColor.darkerIf(isHoveredBox, 0.8f), clickGUIColor.darkerIf(isHoveredBox, 0.8f), !listeningText), 4f, 3f)
+        roundedRectangle(x + w - TEXTOFFSET - 28, y + 36f, 16f + textWidth, 22.5f, buttonColor, 4f, edgeSoftness = 1f)
+        rectangleOutline(
+            x + w - TEXTOFFSET - 28,
+            y + 36f,
+            16f + textWidth,
+            22.5f,
+            colorAnim.get(
+                buttonColor.darkerIf(isHoveredBox, 0.8f),
+                clickGUIColor.darkerIf(isHoveredBox, 0.8f),
+                !listeningText
+            ),
+            4f,
+            3f
+        )
         text(name, x - 22, y + 20, textColor, 20f, FontRenderer.REGULAR)
-        text(getDisplay(), x - 22, y + 17.75f + 22 + 10f , textColor.darkerIf(isHoveredBox), 16f, FontRenderer.REGULAR, TextAlign.Left)
+        text(
+            getDisplay(),
+            x - 22,
+            y + 17.75f + 22 + 10f,
+            textColor.darkerIf(isHoveredBox),
+            16f,
+            FontRenderer.REGULAR,
+            TextAlign.Left
+        )
     }
 
-    fun mouseClicked(){
+    fun mouseClicked() {
         if (isHoveredBox) {
             if (listeningText) {
                 textUnlisten()
@@ -76,7 +84,6 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
         }
 
     }
-
 
 
     private fun textUnlisten() {
@@ -100,9 +107,10 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
         }
         return number
     }
+
     private var listeningTextField: String = ""
 
-    fun mouseClickedAnywhere(mouseButton: Int){
+    fun mouseClickedAnywhere(mouseButton: Int) {
         if (mouseButton == 0 && listeningText && !isHoveredBox) {
             textUnlisten()
             return
@@ -111,8 +119,7 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
     }
 
 
-
-    fun keyTyped(typedChar: Char, keyCode: Int){
+    fun keyTyped(typedChar: Char, keyCode: Int) {
         if (listeningText) {
             var text = listeningTextField
             when (keyCode) {
@@ -120,18 +127,22 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
                     textUnlisten()
                     return
                 }
+
                 Keyboard.KEY_DELETE -> {
                     listeningTextField = handleText(text.dropLast(1))
                     return
                 }
+
                 Keyboard.KEY_BACK -> {
-                    listeningTextField = if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-                        ""
-                    } else {
-                        handleText(text.dropLast(1))
-                    }
+                    listeningTextField =
+                        if (Keyboard.isKeyDown(Keyboard.KEY_RCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+                            ""
+                        } else {
+                            handleText(text.dropLast(1))
+                        }
                     return
                 }
+
                 in keyWhiteList -> {
                     if (listeningTextField.length >= 16) return
                     text += typedChar.toString()
@@ -146,6 +157,7 @@ class ElementTextBox(val name: String, var entry: PlayerEntry, val x: Float, var
     private companion object {
         val sliderBGColor = Color(-0xefeff0)
     }
+
     private val keyWhiteList = listOf(
         Keyboard.KEY_0,
         Keyboard.KEY_1,

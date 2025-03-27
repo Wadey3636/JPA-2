@@ -14,14 +14,15 @@ abstract class GuiEvent : Event() {
     class Loaded(val gui: ContainerChest, val name: String) : GuiEvent()
 
     @Cancelable
-    class DrawGuiBackground(val gui: GuiContainer, val xSize: Int, val ySize: Int, val guiLeft: Int, val guiTop: Int) : GuiEvent()
+    class DrawGuiBackground(val gui: GuiContainer, val xSize: Int, val ySize: Int, val guiLeft: Int, val guiTop: Int) :
+        GuiEvent()
 
     @Cancelable
     class DrawSlot(val gui: GuiContainer, val slot: Slot, val x: Int, val y: Int) : GuiEvent()
 
     @Cancelable
     class DrawSlotOverlay(val stack: ItemStack?, val x: Int?, val y: Int?, val text: String?) : GuiEvent()
-    
+
     @Cancelable
     class MouseClick(val gui: GuiScreen, val button: Int, val x: Int, val y: Int) : GuiEvent()
 

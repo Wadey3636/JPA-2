@@ -28,7 +28,7 @@ object Config {
 
     fun load() {
         try {
-            with (configFile.bufferedReader().use { it.readText() }) {
+            with(configFile.bufferedReader().use { it.readText() }) {
                 if (isEmpty()) return
 
                 val jsonArray = parser.parse(this).asJsonArray ?: return

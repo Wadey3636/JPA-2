@@ -4,7 +4,9 @@ import me.modcore.features.settings.impl.KeybindSetting
 import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.ClickGUI.TEXTOFFSET
 import me.modcore.ui.clickgui.animations.impl.ColorAnimation
-import me.modcore.ui.clickgui.elements.*
+import me.modcore.ui.clickgui.elements.Element
+import me.modcore.ui.clickgui.elements.ElementType
+import me.modcore.ui.clickgui.elements.ModuleButton
 import me.modcore.ui.clickgui.util.ColorUtil
 import me.modcore.ui.clickgui.util.ColorUtil.brighter
 import me.modcore.ui.clickgui.util.ColorUtil.clickGUIColor
@@ -42,18 +44,18 @@ class ElementKeyBind(parent: ModuleButton, setting: KeybindSetting) :
 
         roundedRectangle(x, y, w, h, elementBackground)
 
-            val width = getTextWidth(value, 12f)
-            hover.handle(x + w - 20 - width, y + 4, width + 12f, 22f)
+        val width = getTextWidth(value, 12f)
+        hover.handle(x + w - 20 - width, y + 4, width + 12f, 22f)
 
         roundedRectangle(x + w - 20 - width, y + 4, width + 12f, 22f, buttonColor, 5f)
         dropShadow(x + w - 20 - width, y + 4, width + 12f, 22f, 10f, 0.75f)
 
         if (listening || colorAnim.isAnimating()) {
             val color = colorAnim.get(clickGUIColor, buttonColor, listening)
-            rectangleOutline(x + w - 21 - width, y + 3, width + 12.5f, 22.5f, color, 4f,1.5f)
+            rectangleOutline(x + w - 21 - width, y + 3, width + 12.5f, 22.5f, color, 4f, 1.5f)
         }
 
-        text(name,  x + TEXTOFFSET, y + h / 2, textColor, 12f, FontRenderer.REGULAR)
+        text(name, x + TEXTOFFSET, y + h / 2, textColor, 12f, FontRenderer.REGULAR)
         text(value, x + w - 14, y + 8f, textColor, 12f, FontRenderer.REGULAR, TextAlign.Right, TextPos.Top)
     }
 

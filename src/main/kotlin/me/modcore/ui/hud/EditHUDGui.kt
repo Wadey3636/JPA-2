@@ -55,7 +55,16 @@ object EditHUDGui : Screen() {
         //dropShadow(-100f, -25f, 200f, 50f, 10f, 1f)
         roundedRectangle(Display.getWidth() / 2 - 75, Display.getHeight() * .86f - 30, 150f, 40f, color, 9f)
 
-        text("Reset", Display.getWidth() / 2f, Display.getHeight() * .86f, textColor, 18f, FontRenderer.REGULAR, TextAlign.Middle, TextPos.Bottom)
+        text(
+            "Reset",
+            Display.getWidth() / 2f,
+            Display.getHeight() * .86f,
+            textColor,
+            18f,
+            FontRenderer.REGULAR,
+            TextAlign.Middle,
+            TextPos.Bottom
+        )
 
         if (openAnim.isAnimating()) {
             val animVal = openAnim.get(0f, 1f, !open)
@@ -73,7 +82,7 @@ object EditHUDGui : Screen() {
         mc.mcProfiler.endSection()
     }
 
-    private val color = Color(0f, 0.75f, 0.75f,0.75f)
+    private val color = Color(0f, 0.75f, 0.75f, 0.75f)
         get() {
             field.brightness = (0.75f + hoverHandler.percent() / 500f).coerceAtMost(1f)
             return field

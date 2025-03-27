@@ -4,9 +4,9 @@ import com.google.gson.*
 import me.modcore.Core.logger
 import me.modcore.Core.mc
 import me.modcore.utils.skyblock.modMessage
+import java.awt.Desktop
 import java.io.File
 import java.io.IOException
-import java.awt.Desktop
 
 
 object DataManager {
@@ -54,6 +54,7 @@ object DataManager {
             emptyList()
         }
     }
+
     fun openFolder(path: String) {
         val folder = File(mc.mcDataDir, "config/jpa/$path")
         if (Desktop.isDesktopSupported()) {

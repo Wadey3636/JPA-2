@@ -1,30 +1,20 @@
 package me.modcore.ui.searchui
 
 import com.github.wadey3636.jpa.features.misc.InventoryLogger.chestEntries
-import com.github.wadey3636.jpa.utils.centerX
-import com.github.wadey3636.jpa.utils.centerY
-import com.github.wadey3636.jpa.utils.scaledResolution
 import me.modcore.features.impl.render.ClickGUIModule
 import me.modcore.ui.Screen
-import me.modcore.utils.render.RenderUtils.loadBufferedImage
-import me.modcore.utils.render.drawDynamicTexture
 import me.modcore.utils.render.scale
 import me.modcore.utils.render.scaleFactor
-import me.modcore.utils.skyblock.devMessage
 import me.modcore.utils.skyblock.modError
-import net.minecraft.client.gui.FontRenderer
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.OpenGlHelper
-import net.minecraft.client.renderer.RenderHelper
-import net.minecraft.client.renderer.entity.RenderItem
-import net.minecraft.client.renderer.texture.DynamicTexture
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import kotlin.math.sign
 
 var scrollOffset = 0
-object SearchGui: Screen() {
+
+object SearchGui : Screen() {
     private val chests: MutableList<ChestPage> = mutableListOf()
 
     override fun draw() {
@@ -44,7 +34,6 @@ object SearchGui: Screen() {
             mc.entityRenderer.stopUseShader()
             mc.entityRenderer.loadShader(ResourceLocation("shaders/post/blur.json"))
         }
-
         var y = 0f
         var y1 = 0f
         var y2 = 0f
@@ -54,32 +43,28 @@ object SearchGui: Screen() {
             val gap = if (entry.size.int == 2) 244f / 250f + 0.1f else 138f / 250f + 0.1f
             when (x) {
                 1f -> {
-                    devMessage(y)
                     chests.add(ChestPage(entry, x, y))
                     y += gap
                     x++
                 }
+
                 2f -> {
-                    devMessage(y1)
                     chests.add(ChestPage(entry, x, y1))
                     x++
                     y1 += gap
                 }
+
                 3f -> {
-                    devMessage(y2)
                     chests.add(ChestPage(entry, x, y2))
                     x = 1f
                     y2 += gap
                 }
+
                 else -> {
                     modError("Error Occurred Adding Chests")
                 }
             }
-
-
         }
-        devMessage("chests: ${chests.size}, chestEntries: ${chestEntries.size}")
-
     }
 
     override fun onGuiClosed() {

@@ -27,7 +27,6 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 package com.github.wadey3636.jpa.features.render
 
-import me.modcore.Core.mc
 import com.mojang.authlib.GameProfile
 import me.modcore.Core.display
 import me.modcore.features.Module
@@ -37,7 +36,6 @@ import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.GlStateManager.scale
 import net.minecraft.client.renderer.GlStateManager.translate
 import net.minecraft.client.renderer.texture.DynamicTexture
-import net.minecraft.entity.EntityLivingBase
 import net.minecraft.item.ItemStack
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.client.event.RenderPlayerEvent
@@ -48,6 +46,7 @@ import java.io.File
 import javax.imageio.ImageIO
 
 var playerEntries: MutableList<PlayerEntry> = mutableListOf()
+
 @SideOnly(Side.CLIENT)
 object PlayerRenderer : Module(name = "Player Customizer", description = "The scale, skin, and armor of players") {
     private val openGUI by ActionSetting(
@@ -60,6 +59,7 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
     private var chestplate: ItemStack? = null
     private var leggings: ItemStack? = null
     private var boots: ItemStack? = null
+
     /**
      * Adapted from odin
      */
@@ -95,37 +95,37 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
         }
 
     }
-/*
-    fun renderLayer(entityLivingBaseIn: EntityLivingBase, armorSlot: Int): Boolean {
-        return false
-        if (!enabled) return false
-        val entry = playerEntries.toList().firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() }
-            ?: return false
-        if (entry.toggle) {
-            when (armorSlot) {
-                4 -> {
-                    if (entry.hideHelmet) return true
-                }
+    /*
+        fun renderLayer(entityLivingBaseIn: EntityLivingBase, armorSlot: Int): Boolean {
+            return false
+            if (!enabled) return false
+            val entry = playerEntries.toList().firstOrNull { it.name.lowercase() == entityLivingBaseIn.name.lowercase() }
+                ?: return false
+            if (entry.toggle) {
+                when (armorSlot) {
+                    4 -> {
+                        if (entry.hideHelmet) return true
+                    }
 
-                3 -> {
-                    if (entry.hideChestplate) return true
-                }
+                    3 -> {
+                        if (entry.hideChestplate) return true
+                    }
 
-                2 -> {
-                    if (entry.hideLeggings) return true
-                }
+                    2 -> {
+                        if (entry.hideLeggings) return true
+                    }
 
-                1 -> {
-                    if (entry.hideBoots) return true
+                    1 -> {
+                        if (entry.hideBoots) return true
+                    }
+
                 }
 
             }
 
+            return false
         }
-
-        return false
-    }
- */
+     */
 
 
     @SubscribeEvent
@@ -155,6 +155,7 @@ object PlayerRenderer : Module(name = "Player Customizer", description = "The sc
         }
 
     }
+
     @SubscribeEvent
     fun resetArmor(event: RenderPlayerEvent.Post) {
         if (event.entityPlayer != mc.thePlayer) return

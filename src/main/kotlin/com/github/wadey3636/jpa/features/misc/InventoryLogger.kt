@@ -15,16 +15,12 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonArray
 import me.modcore.Core.logger
 import me.modcore.config.DataManager
-import me.modcore.events.impl.PacketEvent
 import me.modcore.features.Category
 import me.modcore.features.Module
 import me.modcore.utils.skyblock.devMessage
 import net.minecraft.client.gui.inventory.GuiChest
-import net.minecraft.network.play.client.C03PacketPlayer.C06PacketPlayerPosLook
-import net.minecraft.network.play.client.C0DPacketCloseWindow
 import net.minecraft.util.BlockPos
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
-import net.minecraftforge.event.entity.player.PlayerUseItemEvent.Tick
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
@@ -37,8 +33,9 @@ object InventoryLogger : Module(
 ) {
 
 
-    val gson: Gson = GsonBuilder().registerTypeAdapter(InventoryInfo::class.java, ChestEntryTypeAdapter()).setPrettyPrinting()
-        .create()
+    val gson: Gson =
+        GsonBuilder().registerTypeAdapter(InventoryInfo::class.java, ChestEntryTypeAdapter()).setPrettyPrinting()
+            .create()
 
 
     var chestEntries: MutableList<InventoryInfo> = mutableListOf()
@@ -54,7 +51,7 @@ object InventoryLogger : Module(
             val entry = chestEntries[i]
             if (entry.location == location) {
                 for (position in pos) {
-                    if (entry.pos?.firstOrNull { it == position} != null) return i
+                    if (entry.pos?.firstOrNull { it == position } != null) return i
                 }
             }
             i++
@@ -70,7 +67,7 @@ object InventoryLogger : Module(
             event.phase != TickEvent.Phase.END
             || gui !is GuiChest
             || LocationUtils.currentArea.isArea(Island.Dungeon)
-            ) return
+        ) return
         val location = LocationUtils.currentArea
         if (lastClickedChest.isNotEmpty()) {
             val index = entryExists(location, lastClickedChest)
@@ -96,6 +93,7 @@ object InventoryLogger : Module(
             save()
         }
     }
+
     fun determineSize(size: Int): ChestSize {
         return if (size == 1) Single else Double
     }
@@ -105,7 +103,6 @@ object InventoryLogger : Module(
         lastClickedChest = listOf()
         load()
     }
-
 
 
     @SubscribeEvent

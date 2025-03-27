@@ -18,7 +18,7 @@ import me.modcore.ui.util.MouseUtils.isAreaHovered
 open class Element<S : Setting<*>>(val parent: ModuleButton, val setting: S, type: ElementType) {
 
     inline val name: String
-        get () = setting.name
+        get() = setting.name
 
     val w: Float
         inline get() = parent.width

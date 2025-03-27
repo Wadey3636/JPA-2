@@ -4,7 +4,6 @@ import gg.essential.universal.shader.BlendState
 import gg.essential.universal.shader.UShader
 import me.modcore.Core
 import me.modcore.Core.mc
-
 import me.modcore.ui.clickgui.util.ColorUtil.withAlpha
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
@@ -25,7 +24,10 @@ import org.lwjgl.opengl.GL11
 import org.lwjgl.opengl.GL13
 import org.lwjgl.util.glu.Cylinder
 import java.awt.image.BufferedImage
-import kotlin.math.*
+import kotlin.math.cos
+import kotlin.math.floor
+import kotlin.math.roundToInt
+import kotlin.math.sin
 
 object RenderUtils {
 
@@ -41,7 +43,7 @@ object RenderUtils {
      * @return The rendered x-coordinate.
      */
     val Entity.renderX: Double
-        get() = prevPosX + (posX - prevPosX ) * partialTicks
+        get() = prevPosX + (posX - prevPosX) * partialTicks
 
     /**
      * Gets the rendered y-coordinate of an entity based on its last tick and current tick positions.
@@ -158,7 +160,13 @@ object RenderUtils {
      * @param thickness The thickness of the outline.
      * @param depth Whether to enable depth testing.
      */
-    fun drawOutlinedAABB(aabb: AxisAlignedBB, color: Color, thickness: Number = 3f, depth: Boolean = false, smoothLines: Boolean = true) {
+    fun drawOutlinedAABB(
+        aabb: AxisAlignedBB,
+        color: Color,
+        thickness: Number = 3f,
+        depth: Boolean = false,
+        smoothLines: Boolean = true
+    ) {
         if (color.isTransparent) return
         GlStateManager.pushMatrix()
         preDraw()
@@ -231,7 +239,12 @@ object RenderUtils {
         preDraw(false)
         GlStateManager.translate(vec3.xCoord, vec3.yCoord, vec3.zCoord)
         GlStateManager.rotate(-renderManager.playerViewY, 0.0f, 1.0f, 0.0f)
-        GlStateManager.rotate(renderManager.playerViewX * if (mc.gameSettings.thirdPersonView == 2) -1 else 1, 1.0f, 0.0f, 0.0f)
+        GlStateManager.rotate(
+            renderManager.playerViewX * if (mc.gameSettings.thirdPersonView == 2) -1 else 1,
+            1.0f,
+            0.0f,
+            0.0f
+        )
         GlStateManager.scale(-scale, -scale, scale)
 
         depth(depthTest)
@@ -306,9 +319,18 @@ object RenderUtils {
         Color.WHITE.bind()
         worldRenderer {
             begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_TEX)
-            pos(x.toDouble(), (y + height).toDouble(), 0.0).tex((u * f).toDouble(), ((v + vHeight.toFloat()) * g).toDouble()).endVertex()
-            pos((x + width).toDouble(), (y + height).toDouble(), 0.0).tex(((u + uWidth.toFloat()) * f).toDouble(), ((v + vHeight.toFloat()) * g).toDouble()).endVertex()
-            pos((x + width).toDouble(), y.toDouble(), 0.0).tex(((u + uWidth.toFloat()) * f).toDouble(), (v * g).toDouble()).endVertex()
+            pos(x.toDouble(), (y + height).toDouble(), 0.0).tex(
+                (u * f).toDouble(),
+                ((v + vHeight.toFloat()) * g).toDouble()
+            ).endVertex()
+            pos((x + width).toDouble(), (y + height).toDouble(), 0.0).tex(
+                ((u + uWidth.toFloat()) * f).toDouble(),
+                ((v + vHeight.toFloat()) * g).toDouble()
+            ).endVertex()
+            pos((x + width).toDouble(), y.toDouble(), 0.0).tex(
+                ((u + uWidth.toFloat()) * f).toDouble(),
+                (v * g).toDouble()
+            ).endVertex()
             pos(x.toDouble(), y.toDouble(), 0.0).tex((u * f).toDouble(), (v * g).toDouble()).endVertex()
         }
         tessellator.draw()
@@ -328,7 +350,13 @@ object RenderUtils {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0)
         translate(x, y, 0f)
         scale(scale, scale, scale)
-        mc.fontRendererObj.drawString("${text}§r", if (center) mc.fontRendererObj.getStringWidth(text) / -2f else 0f, 0f, color.rgba, shadow)
+        mc.fontRendererObj.drawString(
+            "${text}§r",
+            if (center) mc.fontRendererObj.getStringWidth(text) / -2f else 0f,
+            0f,
+            color.rgba,
+            shadow
+        )
         GlStateManager.resetColor()
         GlStateManager.disableBlend()
         GlStateManager.popMatrix()

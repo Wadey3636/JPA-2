@@ -56,6 +56,7 @@ object ServerUtils {
 
                 prevTime = System.currentTimeMillis()
             }
+
             else -> return
         }
         isPinging = false

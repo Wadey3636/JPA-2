@@ -125,9 +125,11 @@ class ChestEntryTypeAdapter : TypeAdapter<InventoryInfo>() {
                     }
                     reader.endArray()
                 }
+
                 "Size" -> {
                     size = reader.nextInt()
                 }
+
                 else -> {
                     reader.skipValue()
                 }

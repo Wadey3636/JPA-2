@@ -17,8 +17,6 @@ import me.modcore.utils.render.RenderUtils
 import me.modcore.utils.render.RenderUtils2D
 import me.modcore.utils.render.Renderer
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.GlStateManager
-import net.minecraft.init.Blocks
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod

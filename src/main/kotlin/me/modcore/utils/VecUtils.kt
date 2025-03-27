@@ -43,7 +43,8 @@ fun fastEyeHeight(): Float =
  * @param pos The position to get the eyes of
  * @return The position of the player's eyes
  */
-fun getPositionEyes(pos: Vec3 = mc.thePlayer?.positionVector ?: Vec3(0.0, 0.0, 0.0)): Vec3 = Vec3(pos.xCoord, pos.yCoord + fastEyeHeight(), pos.zCoord)
+fun getPositionEyes(pos: Vec3 = mc.thePlayer?.positionVector ?: Vec3(0.0, 0.0, 0.0)): Vec3 =
+    Vec3(pos.xCoord, pos.yCoord + fastEyeHeight(), pos.zCoord)
 
 /**
  * Gets a normalized vector of the player's look
@@ -68,7 +69,12 @@ fun getLook(yaw: Float = mc.thePlayer?.rotationYaw ?: 0f, pitch: Float = mc.theP
  * @param pitch The pitch of the player
  * @return True if the given position is being looked at by the player within the given range
  */
-fun isFacingAABB(aabb: AxisAlignedBB, range: Float, yaw: Float = mc.thePlayer?.rotationYaw ?: 0f, pitch: Float = mc.thePlayer?.rotationPitch ?: 0f): Boolean =
+fun isFacingAABB(
+    aabb: AxisAlignedBB,
+    range: Float,
+    yaw: Float = mc.thePlayer?.rotationYaw ?: 0f,
+    pitch: Float = mc.thePlayer?.rotationPitch ?: 0f
+): Boolean =
     isInterceptable(aabb, range, yaw, pitch)
 
 
@@ -80,12 +86,13 @@ fun isFacingAABB(aabb: AxisAlignedBB, range: Float, yaw: Float = mc.thePlayer?.r
  * @param pitch The pitch of the player
  * @return True if the given position is being looked at by the player within the given range, ignoring the Y value
  */
-fun isXZInterceptable(aabb: AxisAlignedBB, range: Float, pos: Vec3, yaw: Float, pitch: Float): Boolean = with(getPositionEyes(pos)) {
-    return isXZInterceptable(this, this.add(getLook(yaw, pitch).multiply(range)), aabb)
-}
+fun isXZInterceptable(aabb: AxisAlignedBB, range: Float, pos: Vec3, yaw: Float, pitch: Float): Boolean =
+    with(getPositionEyes(pos)) {
+        return isXZInterceptable(this, this.add(getLook(yaw, pitch).multiply(range)), aabb)
+    }
 
 private fun isXZInterceptable(start: Vec3, goal: Vec3?, aabb: AxisAlignedBB): Boolean {
-    return  isVecInZ(start.getIntermediateWithXValue(goal, aabb.minX), aabb) ||
+    return isVecInZ(start.getIntermediateWithXValue(goal, aabb.minX), aabb) ||
             isVecInZ(start.getIntermediateWithXValue(goal, aabb.maxX), aabb) ||
             isVecInX(start.getIntermediateWithZValue(goal, aabb.minZ), aabb) ||
             isVecInX(start.getIntermediateWithZValue(goal, aabb.maxZ), aabb)
@@ -128,9 +135,10 @@ operator fun Vec3.get(index: Int): Double =
  * @param pitch The pitch angle.
  * @return `true` if the AABB is interceptable, `false` otherwise.
  */
-private fun isInterceptable(aabb: AxisAlignedBB, range: Float, yaw: Float, pitch: Float): Boolean = with(getPositionEyes()) {
-    return isInterceptable3(this, this.add(getLook(yaw, pitch).multiply(range)), aabb)
-}
+private fun isInterceptable(aabb: AxisAlignedBB, range: Float, yaw: Float, pitch: Float): Boolean =
+    with(getPositionEyes()) {
+        return isInterceptable3(this, this.add(getLook(yaw, pitch).multiply(range)), aabb)
+    }
 
 /**
  * Checks if an axis-aligned bounding box (AABB) is interceptable between two points.
@@ -143,14 +151,16 @@ private fun isInterceptable(aabb: AxisAlignedBB, range: Float, yaw: Float, pitch
 private fun isInterceptable3(start: Vec3, goal: Vec3, aabb: AxisAlignedBB): Boolean {
     return try {
         (
-            isVecInYZ(start.getIntermediateWithXValue(goal, aabb.minX), aabb) ||
-            isVecInYZ(start.getIntermediateWithXValue(goal, aabb.maxX), aabb) ||
-            isVecInXZ(start.getIntermediateWithYValue(goal, aabb.minY), aabb) ||
-            isVecInXZ(start.getIntermediateWithYValue(goal, aabb.maxY), aabb) ||
-            isVecInXY(start.getIntermediateWithZValue(goal, aabb.minZ), aabb) ||
-            isVecInXY(start.getIntermediateWithZValue(goal, aabb.maxZ), aabb)
-        )
-    } catch (_: Exception) { false }
+                isVecInYZ(start.getIntermediateWithXValue(goal, aabb.minX), aabb) ||
+                        isVecInYZ(start.getIntermediateWithXValue(goal, aabb.maxX), aabb) ||
+                        isVecInXZ(start.getIntermediateWithYValue(goal, aabb.minY), aabb) ||
+                        isVecInXZ(start.getIntermediateWithYValue(goal, aabb.maxY), aabb) ||
+                        isVecInXY(start.getIntermediateWithZValue(goal, aabb.minZ), aabb) ||
+                        isVecInXY(start.getIntermediateWithZValue(goal, aabb.maxZ), aabb)
+                )
+    } catch (_: Exception) {
+        false
+    }
 }
 
 fun isVecInAABB(vec: Vec3, aabb: AxisAlignedBB): Boolean =
@@ -251,13 +261,27 @@ fun Vec3.flooredVec(): Vec3 =
  * @param add Will determine the maximum bounds
  */
 fun BlockPos.toAABB(add: Double = 1.0): AxisAlignedBB =
-    AxisAlignedBB(this.x.toDouble(), this.y.toDouble(), this.z.toDouble(), this.x + add, this.y + add, this.z + add).outlineBounds()
+    AxisAlignedBB(
+        this.x.toDouble(),
+        this.y.toDouble(),
+        this.z.toDouble(),
+        this.x + add,
+        this.y + add,
+        this.z + add
+    ).outlineBounds()
 
 /**
  * @param add Will determine the maximum bounds
  */
 fun Vec3.toAABB(add: Double = 1.0): AxisAlignedBB =
-    AxisAlignedBB(this.xCoord, this.yCoord, this.zCoord, this.xCoord + add, this.yCoord + add, this.zCoord + add).outlineBounds()
+    AxisAlignedBB(
+        this.xCoord,
+        this.yCoord,
+        this.zCoord,
+        this.xCoord + add,
+        this.yCoord + add,
+        this.zCoord + add
+    ).outlineBounds()
 
 /**
  * Turns a Vec3 into a BlockPos.
@@ -296,7 +320,8 @@ fun DoubleArray.toVec3(): Vec3 =
  * @author Soopy
  */
 fun calculateCoefficientsFromVectors(x: Vec3, y: Vec3): Triple<Double, Double, Double> {
-    val a = (-y.xCoord * x.yCoord * x.xCoord - y.yCoord * x.yCoord * x.zCoord + y.yCoord * x.yCoord * x.xCoord + x.yCoord * x.zCoord * y.zCoord + x.xCoord * x.zCoord * y.xCoord - x.xCoord * x.zCoord * y.zCoord) / (x.yCoord * y.xCoord - x.yCoord * y.zCoord + x.xCoord * y.zCoord - y.xCoord * x.zCoord + y.yCoord * x.zCoord - y.yCoord * x.xCoord)
+    val a =
+        (-y.xCoord * x.yCoord * x.xCoord - y.yCoord * x.yCoord * x.zCoord + y.yCoord * x.yCoord * x.xCoord + x.yCoord * x.zCoord * y.zCoord + x.xCoord * x.zCoord * y.xCoord - x.xCoord * x.zCoord * y.zCoord) / (x.yCoord * y.xCoord - x.yCoord * y.zCoord + x.xCoord * y.zCoord - y.xCoord * x.zCoord + y.yCoord * x.zCoord - y.yCoord * x.xCoord)
     val b = (y.xCoord - y.yCoord) * (x.xCoord + a) * (x.yCoord + a) / (x.yCoord - x.xCoord)
     val c = y.xCoord - b / (x.xCoord + a)
     return Triple(a, b, c)
@@ -312,26 +337,41 @@ fun Vec3.coerceYIn(min: Double, max: Double): Vec3 =
  * Gets the Vec3 position of the given S29PacketSoundEffect.
  * @author Bonsai
  */
-val S29PacketSoundEffect.positionVector: Vec3 get() =
-    Vec3(this.x, this.y, this.z)
+val S29PacketSoundEffect.positionVector: Vec3
+    get() =
+        Vec3(this.x, this.y, this.z)
 
-val S2APacketParticles.positionVector: Vec3 get() =
-    Vec3(this.xCoordinate, this.yCoordinate, this.zCoordinate)
+val S2APacketParticles.positionVector: Vec3
+    get() =
+        Vec3(this.xCoordinate, this.yCoordinate, this.zCoordinate)
 
-val AxisAlignedBB.corners: List<Vec3> get() =
-    listOf(
-        Vec3(minX, minY, minZ), Vec3(minX, maxY, minZ), Vec3(maxX, maxY, minZ), Vec3(maxX, minY, minZ),
-        Vec3(minX, minY, maxZ), Vec3(minX, maxY, maxZ), Vec3(maxX, maxY, maxZ), Vec3(maxX, minY, maxZ)
-    )
+val AxisAlignedBB.corners: List<Vec3>
+    get() =
+        listOf(
+            Vec3(minX, minY, minZ), Vec3(minX, maxY, minZ), Vec3(maxX, maxY, minZ), Vec3(maxX, minY, minZ),
+            Vec3(minX, minY, maxZ), Vec3(minX, maxY, maxZ), Vec3(maxX, maxY, maxZ), Vec3(maxX, minY, maxZ)
+        )
 
 operator fun Vec3.unaryMinus(): Vec3 =
     Vec3(-xCoord, -yCoord, -zCoord)
 
 fun AxisAlignedBB.offset(vec: Vec3) =
-    AxisAlignedBB(this.minX + vec.xCoord, this.minY + vec.yCoord, this.minZ + vec.zCoord, this.maxX + vec.xCoord, this.maxY + vec.yCoord, this.maxZ + vec.zCoord)
+    AxisAlignedBB(
+        this.minX + vec.xCoord,
+        this.minY + vec.yCoord,
+        this.minZ + vec.zCoord,
+        this.maxX + vec.xCoord,
+        this.maxY + vec.yCoord,
+        this.maxZ + vec.zCoord
+    )
 
-val AxisAlignedBB.middle: Vec3 get() =
-    Vec3(this.minX + (this.maxX - this.minX) / 2, this.minY + (this.maxY - this.minY) / 2, this.minZ + (this.maxZ - this.minZ) / 2)
+val AxisAlignedBB.middle: Vec3
+    get() =
+        Vec3(
+            this.minX + (this.maxX - this.minX) / 2,
+            this.minY + (this.maxY - this.minY) / 2,
+            this.minZ + (this.maxZ - this.minZ) / 2
+        )
 
 /**
  * Finds the nearest grass block to the given position.
@@ -343,7 +383,8 @@ fun findNearestGrassBlock(pos: Vec3): Vec3 {
     val chunk = mc.theWorld?.getChunkFromBlockCoords(BlockPos(pos)) ?: return pos.coerceYIn(50.0, 110.0)
     if (!chunk.isLoaded) return pos.coerceYIn(50.0, 110.0)
 
-    val blocks = List(70) { i -> BlockPos(pos.xCoord, i + 50.0, pos.zCoord) }.filter { chunk.getBlock(it) == Blocks.grass }
+    val blocks =
+        List(70) { i -> BlockPos(pos.xCoord, i + 50.0, pos.zCoord) }.filter { chunk.getBlock(it) == Blocks.grass }
     if (blocks.isEmpty()) return pos.coerceYIn(50.0, 109.0)
     return Vec3(blocks.minBy { abs(pos.yCoord - it.y) })
 }
@@ -359,9 +400,14 @@ fun findNearestGrassBlock(pos: Vec3): Vec3 {
  * @author Aton
  */
 fun getDirection(vec3: Vec3, vec31: Vec3): Triple<Double, Float, Float> {
-    val dist = sqrt((vec31.xCoord - vec3.xCoord).pow(2) + (vec31.yCoord - vec3.yCoord).pow(2) + (vec31.zCoord - vec3.zCoord).pow(2))
+    val dist = sqrt(
+        (vec31.xCoord - vec3.xCoord).pow(2) + (vec31.yCoord - vec3.yCoord).pow(2) + (vec31.zCoord - vec3.zCoord).pow(2)
+    )
     val yaw = -atan2((vec31.xCoord - vec3.xCoord), (vec31.zCoord - vec3.zCoord)) / Math.PI * 180
-    val pitch = -atan2((vec31.yCoord - vec3.yCoord), sqrt((vec31.xCoord - vec3.xCoord).pow(2) + (vec31.zCoord - vec3.zCoord).pow(2))) / Math.PI * 180
+    val pitch = -atan2(
+        (vec31.yCoord - vec3.yCoord),
+        sqrt((vec31.xCoord - vec3.xCoord).pow(2) + (vec31.zCoord - vec3.zCoord).pow(2))
+    ) / Math.PI * 180
     return Triple(dist, yaw.toFloat() % 360f, pitch.toFloat() % 360f)
 }
 
@@ -374,7 +420,7 @@ fun getDirection(vec3: Vec3, vec31: Vec3): Triple<Double, Float, Float> {
  * @author Bonsai
  */
 fun getDirectionToVec3(pos: Vec3): Triple<Double, Float, Float> =
-     getDirection(getPositionEyes(), pos)
+    getDirection(getPositionEyes(), pos)
 
 /**
  * Returns a triple of distance, yaw, pitch to rotate to the given position with etherwarp physics, or null if etherwarp is not possible.

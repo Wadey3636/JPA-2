@@ -4,6 +4,7 @@ package com.github.wadey3636.jpa.features.misc
 import com.github.wadey3636.jpa.utils.ChestSize
 import com.github.wadey3636.jpa.utils.ChestSize.Double
 import com.github.wadey3636.jpa.utils.ChestSize.Single
+import com.github.wadey3636.jpa.utils.GuiUtils.display
 import com.github.wadey3636.jpa.utils.GuiUtils.getStacks
 import com.github.wadey3636.jpa.utils.InventoryInfo
 import com.github.wadey3636.jpa.utils.WorldUtils
@@ -22,6 +23,7 @@ import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.util.BlockPos
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.event.world.WorldEvent
+import net.minecraftforge.fml.common.event.FMLServerStoppingEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 
@@ -69,7 +71,7 @@ object InventoryLogger : Module(
             || LocationUtils.currentArea.isArea(Island.Dungeon)
         ) return
         val location = LocationUtils.currentArea
-        if (lastClickedChest.isNotEmpty()) {
+        if (lastClickedChest.isNotEmpty() && (gui.display == "Large Chest" || gui.display == "Chest")) {
             val index = entryExists(location, lastClickedChest)
             if (index != null) {
                 chestEntries[index] = InventoryInfo(
@@ -101,8 +103,8 @@ object InventoryLogger : Module(
     @SubscribeEvent
     fun worldLoadEvent(event: WorldEvent.Load) {
         lastClickedChest = listOf()
-        load()
     }
+
 
 
     @SubscribeEvent
@@ -117,6 +119,12 @@ object InventoryLogger : Module(
             lastClickedChest = listOf()
         }
     }
+
+    fun setLocation(){
+
+    }
+
+
 
     private fun save() {
         val array = JsonArray()

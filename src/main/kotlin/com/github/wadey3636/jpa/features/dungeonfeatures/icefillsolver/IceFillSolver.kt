@@ -1,7 +1,7 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures.icefillsolver
 
 
-import com.github.wadey3636.jpa.events.QuarterSecondEvent
+import me.modcore.events.impl.QuarterSecondEvent
 import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.iceFillPosition
 import com.github.wadey3636.jpa.utils.RenderHelper.drawBox
 import com.github.wadey3636.jpa.utils.RenderHelper.drawLines3dAboveBlocks

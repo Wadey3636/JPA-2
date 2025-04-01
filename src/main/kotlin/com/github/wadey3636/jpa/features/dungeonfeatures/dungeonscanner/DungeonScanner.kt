@@ -1,7 +1,7 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner
 
 
-import com.github.wadey3636.jpa.events.SecondEvent
+import me.modcore.events.impl.SecondEvent
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
 import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils.Companion.inDungeons
 import com.github.wadey3636.jpa.utils.dungeon.RoomInfo

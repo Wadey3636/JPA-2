@@ -38,4 +38,9 @@ public class MixinMinecraft {
     private void clickMouse(CallbackInfo ci) {
         if (postAndCatch(new ClickEvent.Left())) ci.cancel();
     }
+
+    @Inject(method = "shutdown", at = @At("HEAD"))
+    private void onShutdown(CallbackInfo ci) {
+
+    }
 }

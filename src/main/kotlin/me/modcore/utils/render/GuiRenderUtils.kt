@@ -1,6 +1,7 @@
 package me.modcore.utils.render
 
 
+import com.github.wadey3636.jpa.utils.ChestSize
 import gg.essential.universal.UMatrixStack
 import me.modcore.Core.mc
 import me.modcore.font.FontRenderer
@@ -381,14 +382,45 @@ fun drawDynamicTexture(dynamicTexture: DynamicTexture, x: Number, y: Number, w: 
 }
 
 
-fun drawChest(x: Float, y: Float, scale: Float) {
+fun drawChest(x: Float, y: Float, scale: Float, chestSize: ChestSize) {
     GlStateManager.pushMatrix()
-    translate(x / scale, y / scale, 1f)
     scale(scale, scale, 1f)
-    drawCustomTexturedRect(
-        chestTexture,
-        0f, 0f, 176f, 130f, 0f, 0f, 176f, 130f, 176f, 122f
-    )
+    translate(x / scale, y / scale, 1f)
+    GlStateManager.color(1f, 1f, 1f, 1f)
+    if (chestSize == ChestSize.Double) {
+        drawCustomTexturedRect(
+            chestTexture,
+            0f, 0f, 176f, 125f, 0f, 0f, 176f, 125f, 256f, 256f
+        )
+
+        drawCustomTexturedRect(
+            chestTexture,
+            0f, 125f, 176f, 7f,
+            0f, 215f,
+            176f, 7f,
+            256f, 256f
+        )
+    } else {
+        drawCustomTexturedRect(
+            chestTexture,
+            0f, 0f, 176f, 71f,
+            0f, 0f,
+            176f, 71f,
+
+
+            256f, 256f
+        )
+
+        drawCustomTexturedRect(
+            chestTexture,
+            0f, 71f, 176f, 7f,
+            0f, 215f,
+            176f, 7f,
+            256f, 256f
+        )
+    }
+
+
     GlStateManager.popMatrix()
 }
 

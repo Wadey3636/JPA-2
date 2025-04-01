@@ -1,6 +1,6 @@
 package com.github.wadey3636.jpa.commands
 
-import com.github.wadey3636.jpa.events.P3StartEvent
+import me.modcore.events.impl.P3StartEvent
 import me.modcore.features.impl.render.ClickGUIModule
 import me.modcore.utils.postAndCatch
 import net.minecraft.command.CommandBase

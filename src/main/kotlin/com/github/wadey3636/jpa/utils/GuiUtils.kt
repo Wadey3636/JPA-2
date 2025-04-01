@@ -117,6 +117,18 @@ object GuiUtils {
         return items
     }
 
+    val GuiChest.display: String
+        get() = getDisplayName(this)
+
+    private fun getDisplayName(gui: GuiChest): String {
+        val container = gui.inventorySlots
+        if (container is ContainerChest) {
+            return container.lowerChestInventory.displayName.unformattedText
+        }
+        return ""
+    }
+
+
     val IInventory.getStacks: MutableList<Slot>
         get() = getInventoryItemStacks(this)
 

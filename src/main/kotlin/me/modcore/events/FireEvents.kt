@@ -27,19 +27,17 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 
-package com.github.wadey3636.jpa.events
+package me.modcore.events
 
 import com.github.wadey3636.jpa.utils.waitUntilLastItem
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import me.modcore.events.impl.ChatPacketEvent
-import me.modcore.events.impl.PacketEvent
+import me.modcore.events.impl.*
 import me.modcore.utils.postAndCatch
 import net.minecraft.client.gui.GuiScreen
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.network.play.server.S32PacketConfirmTransaction
-import net.minecraftforge.client.event.GuiOpenEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import kotlin.coroutines.EmptyCoroutineContext
@@ -83,27 +81,5 @@ class FireEvents {
         }
     }
 
-    /**
-     * Adapted from odin
-     * @author odtheking
-     */
 
-    @SubscribeEvent
-    fun onGUI(event: GuiOpenEvent) = CoroutineScope(EmptyCoroutineContext).launch {
-        if (event.gui !is GuiChest) return@launch
-        val container = (event.gui as GuiChest).inventorySlots
-        if (container !is ContainerChest) return@launch
-        val deferred = waitUntilLastItem(container)
-        try {
-            deferred.await()
-        } catch (_: Exception) {
-            return@launch
-        } // Wait until the last item in the chest isn't null
-
-        OpenGuiEvent(
-            container.lowerChestInventory.displayName.unformattedText,
-            container,
-            container.lowerChestInventory
-        ).postAndCatch()
-    }
 }

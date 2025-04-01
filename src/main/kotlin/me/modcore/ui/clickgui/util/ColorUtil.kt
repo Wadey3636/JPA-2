@@ -52,6 +52,7 @@ object ColorUtil {
         return Color(hue, saturation, brightness, alpha)
     }
 
+
     fun Color.darkerIf(condition: Boolean, factor: Float = 0.7f): Color {
         return if (condition) darker(factor) else this
     }

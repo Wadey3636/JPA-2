@@ -1,7 +1,7 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
-import com.github.wadey3636.jpa.events.P3StartEvent
-import com.github.wadey3636.jpa.events.ServerTickEvent
+import me.modcore.events.impl.P3StartEvent
+import me.modcore.events.impl.ServerTickEvent
 import me.modcore.features.Category
 import me.modcore.features.Module
 import net.minecraftforge.event.world.WorldEvent

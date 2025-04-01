@@ -3,7 +3,7 @@ package com.github.wadey3636.jpa
 import com.github.wadey3636.jpa.commands.ModCommand
 import com.github.wadey3636.jpa.commands.PlayerCustomizerGuiCommand
 import com.github.wadey3636.jpa.commands.SearchGuiCommand
-import com.github.wadey3636.jpa.events.FireEvents
+import me.modcore.events.FireEvents
 import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.DungeonScanner
 import com.github.wadey3636.jpa.utils.TitleRenderer
 import com.github.wadey3636.jpa.utils.location.LocationUtils
@@ -23,6 +23,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import java.io.File
 
 
@@ -35,6 +36,9 @@ class NoobRoutes {
         lateinit var instance: NoobRoutes
             private set
     }
+
+    @SubscribeEvent
+    fun clientStopped() {}
 
 
     @Mod.EventHandler
@@ -60,8 +64,7 @@ class NoobRoutes {
             ClickGUI,
             TitleRenderer,
             LocationUtils,
-            DungeonScanner(),
-            FireEvents()
+            DungeonScanner()
         )
         modules.forEach {
             MinecraftForge.EVENT_BUS.register(it)

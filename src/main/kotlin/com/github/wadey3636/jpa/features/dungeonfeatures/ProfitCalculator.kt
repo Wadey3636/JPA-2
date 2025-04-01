@@ -1,13 +1,13 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-import com.github.wadey3636.jpa.events.ChangeGuiEvent
-import com.github.wadey3636.jpa.events.OpenGuiEvent
+import me.modcore.events.impl.ChangeGuiEvent
 import com.github.wadey3636.jpa.utils.GuiUtils
 import com.github.wadey3636.jpa.utils.GuiUtils.deformat
 import com.github.wadey3636.jpa.utils.RenderHelper
 import com.github.wadey3636.jpa.utils.UniversalUtils.abbreviateNumber
 import me.modcore.Core
+import me.modcore.events.impl.GuiEvent
 import me.modcore.features.Category
 import me.modcore.features.Module
 import me.modcore.features.settings.impl.ActionSetting
@@ -213,7 +213,7 @@ object ProfitTracker : Module(
     }
 
     @SubscribeEvent
-    fun guiChecker(event: OpenGuiEvent) {
+    fun guiChecker(event: GuiEvent.Loaded) {
         if (event.name.contains("The Catacombs")) {
             highlightSlots.clear()
             chests.clear()
@@ -229,7 +229,7 @@ object ProfitTracker : Module(
 
 
 
-            GuiUtils.getGUI(event.inventory).forEach { item ->
+            GuiUtils.getGUI(event.gui.lowerChestInventory).forEach { item ->
 
                 val Chest: String
                 var profit: Float = 0f

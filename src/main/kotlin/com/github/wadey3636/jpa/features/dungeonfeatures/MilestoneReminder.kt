@@ -1,7 +1,7 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-import com.github.wadey3636.jpa.events.SecondEvent
+import me.modcore.events.impl.SecondEvent
 import com.github.wadey3636.jpa.utils.RenderHelper.renderTitle
 import me.modcore.events.impl.ChatPacketEvent
 import me.modcore.features.Category

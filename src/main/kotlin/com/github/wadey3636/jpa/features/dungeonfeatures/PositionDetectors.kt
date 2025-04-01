@@ -1,7 +1,7 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-import com.github.wadey3636.jpa.events.QuarterSecondEvent
+import me.modcore.events.impl.QuarterSecondEvent
 import com.github.wadey3636.jpa.utils.PlayerPosInfo
 import com.github.wadey3636.jpa.utils.RenderHelper.renderTitle
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock

@@ -1,7 +1,7 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-import com.github.wadey3636.jpa.events.ServerTickEvent
+import me.modcore.events.impl.ServerTickEvent
 import com.github.wadey3636.jpa.utils.location.Island
 import com.github.wadey3636.jpa.utils.location.LocationUtils.currentArea
 import me.modcore.events.impl.ChatPacketEvent

@@ -2,11 +2,13 @@ package com.github.wadey3636.jpa.utils
 
 //import net.minecraft.client.renderer.entity.RenderManager
 
+import com.github.wadey3636.jpa.utils.GuiUtils.deformat
 import me.modcore.Core.mc
+import me.modcore.ui.clickgui.util.ColorUtil
+import me.modcore.ui.util.MouseUtils.isAreaHovered
 import me.modcore.utils.Vec2
-import me.modcore.utils.render.Color
+import me.modcore.utils.render.*
 import me.modcore.utils.render.RenderUtils.bind
-import me.modcore.utils.render.scale
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.renderer.Tessellator
@@ -124,11 +126,20 @@ object RenderHelper {
         scaleZ: Float = 1f
     ) {
         GlStateManager.pushMatrix()
+
+        GlStateManager.color(1f, 1f, 1f, 1f)
         RenderHelper.enableGUIStandardItemLighting()
         GlStateManager.enableDepth()
         scale(scaleX, scaleY, 1f)
         GlStateManager.translate(x / scaleX, y / scaleY, 0f)
         mc.renderItem.renderItemAndEffectIntoGUI(itemStack, 0, 0)
+        mc.renderItem.renderItemOverlayIntoGUI(
+            mc.fontRendererObj,
+            itemStack,
+            0,
+            0,
+            null
+        )
         GlStateManager.popMatrix()
     }
 

@@ -10,14 +10,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
  */
 open class Executor(
     val delay: () -> Long,
-    private val profileName: String = "Unspecified odin executor",
+    private val profileName: String = "Unspecified jpa executor",
     val shouldRun: () -> Boolean = { true },
     val func: Executable
 ) {
 
     constructor(
         delay: Long,
-        profileName: String = "Unspecified odin executor",
+        profileName: String = "Unspecified jpa executor",
         shouldRun: () -> Boolean = { true },
         func: Executable
     ) : this({ delay }, profileName, shouldRun, func)
@@ -43,7 +43,7 @@ open class Executor(
     class LimitedExecutor(
         delay: Long,
         repeats: Int,
-        profileName: String = "Unspecified odin executor",
+        profileName: String = "Unspecified jpa executor",
         shouldRun: () -> Boolean = { true },
         func: Executable
     ) : Executor(delay, profileName, shouldRun, func) {

@@ -1,18 +1,13 @@
 package me.modcore.ui.searchui
 
+import com.github.wadey3636.jpa.features.misc.InventoryLogger
 import com.github.wadey3636.jpa.utils.ChestSize
-import com.github.wadey3636.jpa.utils.GuiUtils.deformat
 import com.github.wadey3636.jpa.utils.InventoryInfo
 import com.github.wadey3636.jpa.utils.RenderHelper
 import com.github.wadey3636.jpa.utils.scaledResolution
-import gg.essential.universal.UGraphics
-import me.modcore.Core.mc
-import me.modcore.ui.clickgui.util.ColorUtil
 import me.modcore.ui.util.MouseUtils.isAreaHovered
 import me.modcore.utils.render.*
-import me.modcore.utils.skyblock.devMessage
 import net.minecraft.client.renderer.GlStateManager
-import org.lwjgl.opengl.GL11
 
 class ChestPage(
     val inventory: InventoryInfo,
@@ -64,7 +59,7 @@ class ChestPage(
                 x, y + scrollOffset - 16, 176 * 2f,
                 if (inventory.size == ChestSize.Double) 264f else 156f))
         {
-
+            InventoryLogger.setTracking(inventory.pos, inventory.location)
 
         }
     }

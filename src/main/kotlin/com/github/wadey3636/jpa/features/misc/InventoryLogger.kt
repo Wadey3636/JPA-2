@@ -7,6 +7,7 @@ import com.github.wadey3636.jpa.utils.ChestSize.Single
 import com.github.wadey3636.jpa.utils.GuiUtils.display
 import com.github.wadey3636.jpa.utils.GuiUtils.getStacks
 import com.github.wadey3636.jpa.utils.InventoryInfo
+import com.github.wadey3636.jpa.utils.RenderHelper
 import com.github.wadey3636.jpa.utils.WorldUtils
 import com.github.wadey3636.jpa.utils.adapters.ChestEntryTypeAdapter
 import com.github.wadey3636.jpa.utils.location.Island
@@ -18,12 +19,16 @@ import me.modcore.Core.logger
 import me.modcore.config.DataManager
 import me.modcore.features.Category
 import me.modcore.features.Module
+import me.modcore.features.settings.impl.ColorSetting
+import me.modcore.features.settings.impl.NumberSetting
+import me.modcore.utils.render.Color
 import me.modcore.utils.skyblock.devMessage
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.util.BlockPos
+import net.minecraftforge.client.event.RenderGameOverlayEvent
+import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.event.entity.player.PlayerInteractEvent
 import net.minecraftforge.event.world.WorldEvent
-import net.minecraftforge.fml.common.event.FMLServerStoppingEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 
@@ -34,6 +39,10 @@ object InventoryLogger : Module(
     category = Category.MISC
 ) {
 
+    private val overlayScale by NumberSetting("Overlay Scale", 3f, 1f, 10f, 1f, description = "The scale of the overlay when tracking a chest")
+    private val overlayColor by ColorSetting("Color", Color.MAGENTA, description = "")
+    private var tracking: Island? = null
+    private var blockPosition: List<BlockPos>? = null
 
     val gson: Gson =
         GsonBuilder().registerTypeAdapter(InventoryInfo::class.java, ChestEntryTypeAdapter()).setPrettyPrinting()
@@ -120,8 +129,36 @@ object InventoryLogger : Module(
         }
     }
 
-    fun setLocation(){
+    fun setTracking(blockPos: List<BlockPos>?, location: Island){
+        tracking = location
+        blockPosition = blockPos
 
+
+    }
+
+    @SubscribeEvent
+    fun renderOverlay(event: RenderGameOverlayEvent.Post){
+        if (event.type != RenderGameOverlayEvent.ElementType.ALL || tracking != null) return
+        tracking?.let { RenderHelper.drawCenteredText(it.displayName, overlayScale, overlayColor.rgba, mc.displayWidth / 2f, mc.displayHeight / 2f) }
+    }
+
+    @SubscribeEvent
+    fun renderBlockAndTracer(event: RenderWorldLastEvent) {
+        val trackedLocation = tracking
+        val pos = blockPosition
+        if (
+            pos.isNullOrEmpty() || trackedLocation == null || !LocationUtils.currentArea.isArea(trackedLocation)
+            ) return
+
+        val viewerPos = RenderHelper.getViewerPos(event.partialTicks)
+        RenderHelper.drawBox(
+            pos[0],
+            overlayColor,
+            3f,
+            true,
+            viewerPos
+        )
+        RenderHelper.trace(pos[0], viewerPos, overlayColor, 3f, true)
     }
 
 

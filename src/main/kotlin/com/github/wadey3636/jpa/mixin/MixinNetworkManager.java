@@ -33,6 +33,7 @@ package com.github.wadey3636.jpa.mixin;
 
 import io.netty.channel.ChannelHandlerContext;
 import me.modcore.events.impl.PacketEvent;
+import me.modcore.utils.ServerUtils;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraftforge.common.MinecraftForge;
@@ -41,25 +42,20 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = NetworkManager.class, priority = 1001)
+import static me.modcore.utils.Utils.postAndCatch;
+
+@Mixin(value = NetworkManager.class, priority = 1002)
 public class MixinNetworkManager {
 
-    // Handles incoming packets (S2C - Server to Client)
-    @Inject(method = "channelRead0", at = @At("HEAD"), cancellable = true)
+    @Inject(method = "channelRead0*", at = @At("HEAD"), cancellable = true)
     private void onReceivePacket(ChannelHandlerContext context, Packet<?> packet, CallbackInfo ci) {
-        // Post the PacketEvent.Receive event and cancel if necessary
-        if (MinecraftForge.EVENT_BUS.post(new PacketEvent.Receive(packet))) {
-            ci.cancel();
-        }
+        if (postAndCatch(new PacketEvent.Receive(packet)) && !ci.isCancelled()) ci.cancel();
     }
 
-    // Handles outgoing packets (C2S - Client to Server)
-    @Inject(method = "sendPacket", at = @At("HEAD"), cancellable = true)
+    @Inject(method = {"sendPacket(Lnet/minecraft/network/Packet;)V"}, at = {@At("HEAD")}, cancellable = true)
     private void onSendPacket(Packet<?> packet, CallbackInfo ci) {
-        // Post the PacketEvent.Send event and cancel if necessary
-        if (MinecraftForge.EVENT_BUS.post(new PacketEvent.Send(packet))) {
-            ci.cancel();
-        }
+        if (!ServerUtils.handleSendPacket(packet))
+            if (postAndCatch(new PacketEvent.Send(packet)) && !ci.isCancelled()) ci.cancel();
     }
 }
 

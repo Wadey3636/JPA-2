@@ -3,12 +3,12 @@ package com.github.wadey3636.jpa
 import com.github.wadey3636.jpa.commands.ModCommand
 import com.github.wadey3636.jpa.commands.PlayerCustomizerGuiCommand
 import com.github.wadey3636.jpa.commands.SearchGuiCommand
-import me.modcore.events.FireEvents
 import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.DungeonScanner
 import com.github.wadey3636.jpa.utils.TitleRenderer
 import com.github.wadey3636.jpa.utils.location.LocationUtils
 import me.modcore.Core
 import me.modcore.Core.mc
+import me.modcore.events.EventDispatcher
 import me.modcore.features.ModuleManager
 import me.modcore.font.FontRenderer
 import me.modcore.ui.clickgui.ClickGUI
@@ -64,7 +64,8 @@ class NoobRoutes {
             ClickGUI,
             TitleRenderer,
             LocationUtils,
-            DungeonScanner()
+            DungeonScanner(),
+            EventDispatcher
         )
         modules.forEach {
             MinecraftForge.EVENT_BUS.register(it)

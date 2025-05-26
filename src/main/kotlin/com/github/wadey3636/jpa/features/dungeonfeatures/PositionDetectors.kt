@@ -1,21 +1,21 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-import me.modcore.events.impl.QuarterSecondEvent
+import com.github.wadey3636.jpa.events.impl.QuarterSecondEvent
 import com.github.wadey3636.jpa.utils.PlayerPosInfo
 import com.github.wadey3636.jpa.utils.RenderHelper.renderTitle
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
 import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.features.impl.render.ClickGUIModule.devMode
-import me.modcore.features.settings.Setting.Companion.withDependency
-import me.modcore.features.settings.impl.BooleanSetting
-import me.modcore.features.settings.impl.ColorSetting
-import me.modcore.features.settings.impl.NumberSetting
-import me.modcore.features.settings.impl.StringSetting
-import me.modcore.utils.noControlCodes
-import me.modcore.utils.render.Color
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.features.render.ClickGUIModule.devMode
+import com.github.wadey3636.jpa.features.settings.Setting.Companion.withDependency
+import com.github.wadey3636.jpa.features.settings.impl.BooleanSetting
+import com.github.wadey3636.jpa.features.settings.impl.ColorSetting
+import com.github.wadey3636.jpa.features.settings.impl.NumberSetting
+import com.github.wadey3636.jpa.features.settings.impl.StringSetting
+import com.github.wadey3636.jpa.utils.noControlCodes
+import com.github.wadey3636.jpa.utils.render.Color
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos

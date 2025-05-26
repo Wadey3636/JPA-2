@@ -1,8 +1,8 @@
 /*package com.github.wadey3636.core.mixin;
 
 import io.netty.channel.ChannelHandlerContext;
-import me.modcore.events.impl.PacketEvent;
-import me.modcore.utils.ServerUtils;
+import com.github.wadey3636.jpa.events.impl.PacketEvent;
+import com.github.wadey3636.jpa.utils.ServerUtils;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraftforge.common.MinecraftForge;
@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static me.modcore.utils.Utils.postAndCatch;
+import static com.github.wadey3636.jpa.utils.Utils.postAndCatch;
 
 @Mixin(value = {NetworkManager.class}, priority = 1001)
 public class MixinNetworkManager {
@@ -32,17 +32,16 @@ public class MixinNetworkManager {
 package com.github.wadey3636.jpa.mixin;
 
 import io.netty.channel.ChannelHandlerContext;
-import me.modcore.events.impl.PacketEvent;
-import me.modcore.utils.ServerUtils;
+import com.github.wadey3636.jpa.events.impl.PacketEvent;
+import com.github.wadey3636.jpa.utils.ServerUtils;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
-import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static me.modcore.utils.Utils.postAndCatch;
+import static com.github.wadey3636.jpa.utils.Utils.postAndCatch;
 
 @Mixin(value = NetworkManager.class, priority = 1002)
 public class MixinNetworkManager {

@@ -2,12 +2,12 @@ package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
 import com.github.wadey3636.jpa.utils.RenderHelper
-import me.modcore.events.impl.ChatPacketEvent
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.features.settings.impl.ColorSetting
-import me.modcore.features.settings.impl.NumberSetting
-import me.modcore.utils.render.Color
+import com.github.wadey3636.jpa.events.impl.ChatPacketEvent
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.features.settings.impl.ColorSetting
+import com.github.wadey3636.jpa.features.settings.impl.NumberSetting
+import com.github.wadey3636.jpa.utils.render.Color
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 

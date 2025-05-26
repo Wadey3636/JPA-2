@@ -1,7 +1,7 @@
 package com.github.wadey3636.jpa.utils
 
 import com.google.gson.JsonParser
-import me.modcore.Core.logger
+import com.github.wadey3636.jpa.Core.logger
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL

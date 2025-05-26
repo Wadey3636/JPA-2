@@ -19,7 +19,7 @@
 
 package com.github.wadey3636.jpa.mixin;
 
-import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI;
+import com.github.wadey3636.jpa.ui.playerCustomizerGUI.PlayerCustomizerGUI;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;

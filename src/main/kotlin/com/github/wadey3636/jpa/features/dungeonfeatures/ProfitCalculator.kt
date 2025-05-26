@@ -1,21 +1,21 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-import me.modcore.events.impl.ChangeGuiEvent
+import com.github.wadey3636.jpa.events.impl.ChangeGuiEvent
 import com.github.wadey3636.jpa.utils.GuiUtils
 import com.github.wadey3636.jpa.utils.GuiUtils.deformat
 import com.github.wadey3636.jpa.utils.RenderHelper
 import com.github.wadey3636.jpa.utils.UniversalUtils.abbreviateNumber
-import me.modcore.Core
-import me.modcore.events.impl.GuiEvent
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.features.settings.impl.ActionSetting
-import me.modcore.features.settings.impl.BooleanSetting
-import me.modcore.font.FontRenderer
-import me.modcore.ui.valuegui.ValueGUI
-import me.modcore.utils.render.Color
-import me.modcore.utils.skyblock.modMessage
+import com.github.wadey3636.jpa.Core
+import com.github.wadey3636.jpa.events.impl.GuiEvent
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.features.settings.impl.ActionSetting
+import com.github.wadey3636.jpa.features.settings.impl.BooleanSetting
+import com.github.wadey3636.jpa.font.FontRenderer
+import com.github.wadey3636.jpa.ui.valuegui.ValueGUI
+import com.github.wadey3636.jpa.utils.render.Color
+import com.github.wadey3636.jpa.utils.skyblock.modMessage
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraftforge.client.event.GuiScreenEvent
 import net.minecraftforge.event.world.WorldEvent

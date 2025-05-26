@@ -28,7 +28,7 @@
 
 package com.github.wadey3636.jpa.utils
 
-import me.modcore.Core.mc
+import com.github.wadey3636.jpa.Core.mc
 import net.minecraft.client.gui.inventory.GuiChest
 import net.minecraft.inventory.ContainerChest
 import net.minecraft.inventory.IInventory

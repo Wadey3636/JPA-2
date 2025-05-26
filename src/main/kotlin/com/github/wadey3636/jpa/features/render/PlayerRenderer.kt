@@ -28,10 +28,10 @@
 package com.github.wadey3636.jpa.features.render
 
 import com.mojang.authlib.GameProfile
-import me.modcore.Core.display
-import me.modcore.features.Module
-import me.modcore.features.settings.impl.ActionSetting
-import me.modcore.ui.playerCustomizerGUI.PlayerCustomizerGUI
+import com.github.wadey3636.jpa.Core.display
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.features.settings.impl.ActionSetting
+import com.github.wadey3636.jpa.ui.playerCustomizerGUI.PlayerCustomizerGUI
 import net.minecraft.client.entity.AbstractClientPlayer
 import net.minecraft.client.renderer.GlStateManager.scale
 import net.minecraft.client.renderer.GlStateManager.translate

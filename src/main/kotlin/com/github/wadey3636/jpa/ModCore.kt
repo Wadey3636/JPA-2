@@ -6,16 +6,18 @@ import com.github.wadey3636.jpa.commands.SearchGuiCommand
 import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.DungeonScanner
 import com.github.wadey3636.jpa.utils.TitleRenderer
 import com.github.wadey3636.jpa.utils.location.LocationUtils
-import me.modcore.Core
-import me.modcore.Core.mc
-import me.modcore.events.EventDispatcher
-import me.modcore.features.ModuleManager
-import me.modcore.font.FontRenderer
-import me.modcore.ui.clickgui.ClickGUI
-import me.modcore.utils.clock.Executor
-import me.modcore.utils.render.RenderUtils
-import me.modcore.utils.render.RenderUtils2D
-import me.modcore.utils.render.Renderer
+import com.github.wadey3636.jpa.Core
+import com.github.wadey3636.jpa.Core.mc
+import com.github.wadey3636.jpa.events.EventDispatcher
+import com.github.wadey3636.jpa.features.ModuleManager
+import com.github.wadey3636.jpa.font.FontRenderer
+import com.github.wadey3636.jpa.ui.clickgui.ClickGUI
+import com.github.wadey3636.jpa.utils.KeyManager
+import com.github.wadey3636.jpa.utils.Scheduler
+import com.github.wadey3636.jpa.utils.clock.Executor
+import com.github.wadey3636.jpa.utils.render.RenderUtils
+import com.github.wadey3636.jpa.utils.render.RenderUtils2D
+import com.github.wadey3636.jpa.utils.render.Renderer
 import net.minecraft.client.Minecraft
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.common.MinecraftForge
@@ -65,7 +67,9 @@ class NoobRoutes {
             TitleRenderer,
             LocationUtils,
             DungeonScanner(),
-            EventDispatcher
+            EventDispatcher,
+            Scheduler,
+            KeyManager
         )
         modules.forEach {
             MinecraftForge.EVENT_BUS.register(it)

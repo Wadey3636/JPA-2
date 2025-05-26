@@ -3,10 +3,10 @@ package com.github.wadey3636.jpa.features.dungeonfeatures
 
 import com.github.wadey3636.jpa.utils.GuiUtils.getInventory
 import com.github.wadey3636.jpa.utils.GuiUtils.getItemCount
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.features.settings.impl.KeybindSetting
-import me.modcore.features.settings.impl.Keybinding
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.features.settings.impl.KeybindSetting
+import com.github.wadey3636.jpa.features.settings.impl.Keybinding
 import org.lwjgl.input.Keyboard
 
 object GfsKeybinds : Module(

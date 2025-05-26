@@ -1,8 +1,8 @@
 package com.github.wadey3636.jpa.mixin;
 
 import com.mojang.authlib.GameProfile;
-import me.modcore.events.impl.MotionUpdateEvent;
-import me.modcore.utils.Utils;
+import com.github.wadey3636.jpa.events.impl.MotionUpdateEvent;
+import com.github.wadey3636.jpa.utils.Utils;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;

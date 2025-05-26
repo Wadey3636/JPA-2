@@ -2,8 +2,8 @@ package com.github.wadey3636.jpa.utils
 
 
 import com.github.wadey3636.jpa.utils.RenderHelper.drawCenteredText
-import me.modcore.Core.mc
-import me.modcore.utils.render.Color
+import com.github.wadey3636.jpa.Core.mc
+import com.github.wadey3636.jpa.utils.render.Color
 import net.minecraft.client.gui.ScaledResolution
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.event.world.WorldEvent

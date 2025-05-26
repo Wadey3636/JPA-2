@@ -3,7 +3,7 @@ package com.github.wadey3636.jpa.utils
 import com.github.wadey3636.jpa.utils.GuiUtils.deformat
 import com.google.common.collect.Iterables
 import com.google.common.collect.Lists
-import me.modcore.Core.mc
+import com.github.wadey3636.jpa.Core.mc
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.scoreboard.Score

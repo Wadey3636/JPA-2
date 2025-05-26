@@ -2,13 +2,10 @@ package com.github.wadey3636.jpa.utils
 
 //import net.minecraft.client.renderer.entity.RenderManager
 
-import com.github.wadey3636.jpa.utils.GuiUtils.deformat
-import me.modcore.Core.mc
-import me.modcore.ui.clickgui.util.ColorUtil
-import me.modcore.ui.util.MouseUtils.isAreaHovered
-import me.modcore.utils.Vec2
-import me.modcore.utils.render.*
-import me.modcore.utils.render.RenderUtils.bind
+import com.github.wadey3636.jpa.Core.mc
+import com.github.wadey3636.jpa.utils.Vec2
+import com.github.wadey3636.jpa.utils.render.*
+import com.github.wadey3636.jpa.utils.render.RenderUtils.bind
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.RenderHelper
 import net.minecraft.client.renderer.Tessellator

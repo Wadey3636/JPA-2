@@ -1,12 +1,12 @@
 package com.github.wadey3636.jpa.utils.dungeon
 
 
-import me.modcore.events.impl.DungeonStartEvent
+import com.github.wadey3636.jpa.events.impl.DungeonStartEvent
 import com.github.wadey3636.jpa.utils.WorldUtils.getSidebarLines
 import com.github.wadey3636.jpa.utils.location.Island
 import com.github.wadey3636.jpa.utils.location.LocationUtils
-import me.modcore.events.impl.ChatPacketEvent
-import me.modcore.utils.postAndCatch
+import com.github.wadey3636.jpa.events.impl.ChatPacketEvent
+import com.github.wadey3636.jpa.utils.postAndCatch
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 
 

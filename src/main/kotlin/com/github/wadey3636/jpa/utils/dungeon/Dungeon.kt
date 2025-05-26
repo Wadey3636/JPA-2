@@ -1,12 +1,12 @@
 package com.github.wadey3636.jpa.utils.dungeon
 
-import me.modcore.Core.mc
-import me.modcore.events.impl.PacketEvent
-import me.modcore.utils.equalsOneOf
-import me.modcore.utils.noControlCodes
-import me.modcore.utils.romanToInt
-import me.modcore.utils.skyblock.PlayerUtils.posX
-import me.modcore.utils.skyblock.PlayerUtils.posZ
+import com.github.wadey3636.jpa.Core.mc
+import com.github.wadey3636.jpa.events.impl.PacketEvent
+import com.github.wadey3636.jpa.utils.equalsOneOf
+import com.github.wadey3636.jpa.utils.noControlCodes
+import com.github.wadey3636.jpa.utils.romanToInt
+import com.github.wadey3636.jpa.utils.skyblock.PlayerUtils.posX
+import com.github.wadey3636.jpa.utils.skyblock.PlayerUtils.posZ
 import net.minecraft.network.play.server.S38PacketPlayerListItem
 
 // could add some system to look back at previous runs.

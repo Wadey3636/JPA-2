@@ -1,19 +1,19 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures.icefillsolver
 
 
-import me.modcore.events.impl.QuarterSecondEvent
+import com.github.wadey3636.jpa.events.impl.QuarterSecondEvent
 import com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner.iceFillPosition
 import com.github.wadey3636.jpa.utils.RenderHelper.drawBox
 import com.github.wadey3636.jpa.utils.RenderHelper.drawLines3dAboveBlocks
 import com.github.wadey3636.jpa.utils.RenderHelper.getViewerPos
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
 import com.github.wadey3636.jpa.utils.dungeon.*
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.features.settings.impl.BooleanSetting
-import me.modcore.features.settings.impl.ColorSetting
-import me.modcore.utils.render.Color
-import me.modcore.utils.skyblock.devMessage
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.features.settings.impl.BooleanSetting
+import com.github.wadey3636.jpa.features.settings.impl.ColorSetting
+import com.github.wadey3636.jpa.utils.render.Color
+import com.github.wadey3636.jpa.utils.skyblock.devMessage
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 import net.minecraftforge.client.event.RenderWorldLastEvent

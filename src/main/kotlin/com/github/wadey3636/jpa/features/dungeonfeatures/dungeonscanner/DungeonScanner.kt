@@ -1,12 +1,12 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures.dungeonscanner
 
 
-import me.modcore.events.impl.SecondEvent
+import com.github.wadey3636.jpa.events.impl.SecondEvent
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
 import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils.Companion.inDungeons
 import com.github.wadey3636.jpa.utils.dungeon.RoomInfo
-import me.modcore.Core.mc
-import me.modcore.utils.skyblock.devMessage
+import com.github.wadey3636.jpa.Core.mc
+import com.github.wadey3636.jpa.utils.skyblock.devMessage
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 import net.minecraftforge.event.world.WorldEvent

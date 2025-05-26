@@ -1,22 +1,22 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-import me.modcore.events.impl.P3StartEvent
-import me.modcore.events.impl.QuarterSecondEvent
+import com.github.wadey3636.jpa.events.impl.P3StartEvent
+import com.github.wadey3636.jpa.events.impl.QuarterSecondEvent
 import com.github.wadey3636.jpa.utils.GuiUtils.containsOneOf
 import com.github.wadey3636.jpa.utils.GuiUtils.deformat
 import com.github.wadey3636.jpa.utils.RenderHelper
 import com.github.wadey3636.jpa.utils.RenderHelper.getViewerPos
 import com.github.wadey3636.jpa.utils.WorldUtils
-import me.modcore.events.impl.ChatPacketEvent
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.features.settings.Setting.Companion.withDependency
-import me.modcore.features.settings.impl.BooleanSetting
-import me.modcore.features.settings.impl.ColorSetting
-import me.modcore.features.settings.impl.SelectorSetting
-import me.modcore.features.settings.impl.StringSetting
-import me.modcore.utils.render.Color
+import com.github.wadey3636.jpa.events.impl.ChatPacketEvent
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.features.settings.Setting.Companion.withDependency
+import com.github.wadey3636.jpa.features.settings.impl.BooleanSetting
+import com.github.wadey3636.jpa.features.settings.impl.ColorSetting
+import com.github.wadey3636.jpa.features.settings.impl.SelectorSetting
+import com.github.wadey3636.jpa.features.settings.impl.StringSetting
+import com.github.wadey3636.jpa.utils.render.Color
 import net.minecraft.entity.item.EntityArmorStand
 import net.minecraft.util.AxisAlignedBB
 import net.minecraft.util.BlockPos

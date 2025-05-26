@@ -1,6 +1,6 @@
 package com.github.wadey3636.jpa.utils.location
 
-import me.modcore.features.impl.render.ClickGUIModule
+import com.github.wadey3636.jpa.features.render.ClickGUIModule
 
 enum class Island(val displayName: String) {
     SinglePlayer("Singleplayer"),

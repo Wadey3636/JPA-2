@@ -1,8 +1,8 @@
 package com.github.wadey3636.jpa.commands
 
-import me.modcore.Core
-import me.modcore.Core.display
-import me.modcore.ui.clickgui.ClickGUI
+import com.github.wadey3636.jpa.Core
+import com.github.wadey3636.jpa.Core.display
+import com.github.wadey3636.jpa.ui.clickgui.ClickGUI
 import net.minecraft.command.CommandBase
 import net.minecraft.command.ICommandSender
 

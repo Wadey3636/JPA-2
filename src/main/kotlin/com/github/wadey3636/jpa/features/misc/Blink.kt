@@ -1,12 +1,12 @@
 package com.github.wadey3636.jpa.features.misc
 
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.utils.render.Color
-import me.modcore.utils.render.roundedRectangle
-import me.modcore.utils.render.scale
-import me.modcore.utils.render.scaleFactor
-import me.modcore.utils.skyblock.devMessage
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.utils.render.Color
+import com.github.wadey3636.jpa.utils.render.roundedRectangle
+import com.github.wadey3636.jpa.utils.render.scale
+import com.github.wadey3636.jpa.utils.render.scaleFactor
+import com.github.wadey3636.jpa.utils.skyblock.devMessage
 import net.minecraftforge.client.event.RenderGameOverlayEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 

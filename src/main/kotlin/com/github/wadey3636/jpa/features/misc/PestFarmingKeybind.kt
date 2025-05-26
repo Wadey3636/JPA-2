@@ -4,10 +4,10 @@ package com.github.wadey3636.jpa.features.misc
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
 import com.github.wadey3636.jpa.utils.location.Island
 import com.github.wadey3636.jpa.utils.location.LocationUtils
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.ui.clickgui.ClickGUI
-import me.modcore.utils.skyblock.modMessage
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.ui.clickgui.ClickGUI
+import com.github.wadey3636.jpa.utils.skyblock.modMessage
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos
 

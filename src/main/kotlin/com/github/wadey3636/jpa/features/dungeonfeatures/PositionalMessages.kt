@@ -1,12 +1,12 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-import me.modcore.events.impl.QuarterSecondEvent
+import com.github.wadey3636.jpa.events.impl.QuarterSecondEvent
 import com.github.wadey3636.jpa.utils.WorldUtils.isBlock
 import com.github.wadey3636.jpa.utils.dungeon.DungeonUtils
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.features.settings.impl.BooleanSetting
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.features.settings.impl.BooleanSetting
 import net.minecraft.block.Block
 import net.minecraft.init.Blocks
 import net.minecraft.util.BlockPos

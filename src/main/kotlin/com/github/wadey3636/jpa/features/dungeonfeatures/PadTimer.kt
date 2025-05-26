@@ -1,19 +1,19 @@
 package com.github.wadey3636.jpa.features.dungeonfeatures
 
 
-import me.modcore.events.impl.ServerTickEvent
+import com.github.wadey3636.jpa.events.impl.ServerTickEvent
 import com.github.wadey3636.jpa.utils.location.Island
 import com.github.wadey3636.jpa.utils.location.LocationUtils.currentArea
-import me.modcore.events.impl.ChatPacketEvent
-import me.modcore.features.Category
-import me.modcore.features.Module
-import me.modcore.features.settings.Setting.Companion.withDependency
-import me.modcore.features.settings.impl.BooleanSetting
-import me.modcore.features.settings.impl.HudSetting
-import me.modcore.ui.hud.HudElement
-import me.modcore.utils.render.Color
-import me.modcore.utils.render.mcTextAndWidth
-import me.modcore.utils.render.text
+import com.github.wadey3636.jpa.events.impl.ChatPacketEvent
+import com.github.wadey3636.jpa.features.Category
+import com.github.wadey3636.jpa.features.Module
+import com.github.wadey3636.jpa.features.settings.Setting.Companion.withDependency
+import com.github.wadey3636.jpa.features.settings.impl.BooleanSetting
+import com.github.wadey3636.jpa.features.settings.impl.HudSetting
+import com.github.wadey3636.jpa.ui.hud.HudElement
+import com.github.wadey3636.jpa.utils.render.Color
+import com.github.wadey3636.jpa.utils.render.mcTextAndWidth
+import com.github.wadey3636.jpa.utils.render.text
 import net.minecraftforge.event.world.WorldEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 

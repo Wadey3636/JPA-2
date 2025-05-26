@@ -1,6 +1,6 @@
 package com.github.wadey3636.jpa.utils.dungeon
 
-import me.modcore.utils.render.Color
+import com.github.wadey3636.jpa.utils.render.Color
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.util.ResourceLocation
 
